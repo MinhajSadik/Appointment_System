@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
-import connectDB from "./database/mdb.js";
+import connectDB from "./configs/mdb.js";
 
 dotenv.config({ path: "./backend/configs/config.env" });
 const app = express();
@@ -23,6 +23,11 @@ app.all("/", (req, res) => {
     message: `Welcome to the ${process.env.APP_NAME} App 👨🏻‍💻 Viewer`,
   });
 });
+
+import appointmentRoute from "./routes/appointmentRoute.js";
+import userRoute from "./routes/userRoute.js";
+app.use("/api/user", userRoute);
+app.use("/api/appointment", appointmentRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
