@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const userRequestSchema = new mongoose.Schema({
-  //there will be store user requests
+  //there will store user requests
   name: {
     type: String,
     required: true,
@@ -9,12 +9,10 @@ const userRequestSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
+    unique: false,
   },
   password: {
     type: String,
-    required: true,
     minlength: 6,
   },
   studentId: {
@@ -26,9 +24,23 @@ const userRequestSchema = new mongoose.Schema({
   department: {
     type: String,
   },
+  agenda: {
+    type: String,
+  },
+  date: {
+    type: Date,
+    default: new Date(),
+  },
+  time: {
+    type: String,
+    default: new Date(),
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+  },
   role: {
     type: String,
-    required: true,
     enum: ["student", "teacher", "systemAdmin"],
   },
   status: {
@@ -38,7 +50,8 @@ const userRequestSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: new Date(), //default value is current date
+    //default value is current date
+    default: new Date(),
   },
 });
 

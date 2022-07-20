@@ -1,10 +1,12 @@
 import express from "express";
 import {
   addAppointment,
+  approveStudentAppointmentRequest,
   deleteAppointment,
   getAppointment,
   getAppointments,
   getAppointmentsByTeacher,
+  getStudentAppointmentsRequests,
   searchByNameOrDepartment,
   studentAppointmentRequest,
   updateAppointment,
@@ -49,10 +51,26 @@ router.get("/teacher/:id", isAuthenticatedUser, getAppointmentsByTeacher);
 
 //student appointment request route
 router.post(
-  "/addRequest",
+  "/student/addRequest",
   isAuthenticatedUser,
   authorizeUserRoles(["student"]),
   studentAppointmentRequest
+);
+
+//get student appointment request route
+router.get(
+  "/student/all",
+  isAuthenticatedUser,
+  authorizeUserRoles(["student", "systemAdmin"]),
+  getStudentAppointmentsRequests
+);
+
+//aprove student appointment request route
+router.put(
+  "/student/approve/:id",
+  isAuthenticatedUser,
+  authorizeUserRoles(["systemAdmin"]),
+  approveStudentAppointmentRequest
 );
 
 //search by name or department route

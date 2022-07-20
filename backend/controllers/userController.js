@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import RequestModel from "../models/requestedModel.js";
 import UserModel from "../models/userModel.js";
-import RequestModel from "../models/userRequestModel.js";
 
 //dotenv config
 dotenv.config({ path: "./backend/configs/config.env" });
@@ -234,7 +234,7 @@ export const logoutUser = async (req, res) => {
   }
 };
 
-//write a function send new user registration request to admin
+//send registration request to admin[systemAdmin]
 export const sendRegistrationRequest = async (req, res) => {
   const { name, email, password, status, studentId, course, department, role } =
     req.body;
@@ -298,6 +298,11 @@ export const sendRegistrationRequest = async (req, res) => {
 export const getAllUserRegistrationRequests = async (req, res) => {
   try {
     const requests = await RequestModel.find({}).sort({ createdAt: -1 });
+    if (requests.length === 0) {
+      return res.status(404).json({
+        message: `No requests found`,
+      });
+    }
     res.status(200).json({
       message: `All user registration requests has been fetched successfully`,
       result: requests,

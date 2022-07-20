@@ -1,4 +1,5 @@
 import AppointmentModel from "../models/appointmentModel.js";
+import RequestModel from "../models/requestedModel.js";
 
 //add new appointment
 export const addAppointment = async (req, res) => {
@@ -30,7 +31,7 @@ export const getAppointments = async (req, res) => {
   try {
     const appointments = await AppointmentModel.find({})
       .populate("userId")
-      .sort({ createdAt: -1 });
+      .sort({ date: -1, time: -1 });
 
     res.status(200).json({
       message: `All appointments has been retrieved successfully`,
@@ -164,20 +165,111 @@ export const searchByNameOrDepartment = async (req, res) => {
 };
 
 //The admin will allow students to make an appointment request by providing teachers, departments etc.
-//write a function to admin will allow students to make an appointment request by providing teachers, departments etc
 export const studentAppointmentRequest = async (req, res) => {
-  const { teacher, department } = req.body;
+  //make an temporary appointment for student to make an appointment request
+  const { name, course, department, agenda, date, time, userId } = req.body;
   try {
-    const appointment = await AppointmentModel.find({ teacher, department });
-    if (appointment.length > 0) {
-      return res.status(400).json({
-        message: `Appointment already exists`,
+    //check teacher by role from user model
+    const teacher = await RequestModel.find({
+      $and: [{ role: "teacher" }, { department: department }],
+    });
+    if (teacher)
+      return res
+        .status(404)
+        .json({ message: `No teacher available for ${department}` });
+
+    //send appointment to temporary appointment collection
+    const requestAppointment = await RequestModel.create({
+      name,
+      course,
+      department,
+      agenda,
+      date,
+      time,
+      userId,
+    });
+
+    //check already requested appointment
+    const requestedAppointment = await RequestModel.find({
+      $and: [{ userId: userId }, { date: date }, { time: time }],
+    });
+
+    return res.status(200).json({
+      message: `Appointment request has been sent successfully`,
+      result: requestAppointment,
+    });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+//get all student appointments requests
+export const getStudentAppointmentsRequests = async (req, res) => {
+  try {
+    const appointments = await RequestModel.find({})
+      .populate("userId")
+      .sort({ date: -1, time: -1 });
+
+    if (appointments.length === 0) {
+      return res.status(404).json({
+        message: `No appointments requests found`,
       });
     }
-    const newAppointment = new AppointmentModel(req.body);
-    await newAppointment.save();
-    res.status(200).json({
-      message: `Appointment request has been made successfully`,
+
+    return res.status(200).json({
+      message: `All appointments has been retrieved successfully`,
+      result: appointments,
+    });
+  } catch (error) {
+    console.error(error.message);
+
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+//approve student appointment request
+export const approveStudentAppointmentRequest = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const appointment = await RequestModel.findById(id);
+    if (!appointment)
+      return res
+        .status(404)
+        .json({ message: `Appointment with id ${id} does not exist` });
+
+    //get all appointments from request
+    const {
+      name: requestName,
+      course: requestCourse,
+      department: requestDepartment,
+      agenda: requestAgenda,
+      date: requestDate,
+      time: requestTime,
+      userId: requestUserId,
+    } = appointment;
+
+    //create appointment from request
+    const newAppointment = await AppointmentModel.create({
+      name: requestName,
+      course: requestCourse,
+      department: requestDepartment,
+      agenda: requestAgenda,
+      date: requestDate,
+      time: requestTime,
+      teacher: requestUserId,
+    });
+
+    //delete request
+    await RequestModel.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      message: `Appointment request has been approved successfully`,
+      result: newAppointment,
     });
   } catch (error) {
     console.error(error.message);
