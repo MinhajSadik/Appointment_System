@@ -31,11 +31,6 @@ const usersSchema = new mongoose.Schema(
       required: true,
       enum: ["student", "teacher", "systemAdmin"],
     },
-    // status: {
-    //   type: String,
-    //   default: "pending",
-    //   enum: ["pending", "approved", "rejected"],
-    // },
     createdAt: {
       type: Date,
       default: new Date(),

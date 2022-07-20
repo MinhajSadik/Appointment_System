@@ -2,7 +2,7 @@ import AppointmentModel from "../models/appointmentModel.js";
 
 //add new appointment
 export const addAppointment = async (req, res) => {
-  const { name, course, department, agenda, date, time } = req.body;
+  const { name, course, department, agenda, date, time, userId } = req.body;
   try {
     const appointment = await AppointmentModel.create({
       name,
@@ -11,6 +11,7 @@ export const addAppointment = async (req, res) => {
       agenda,
       date,
       time,
+      userId,
     });
     res.status(200).json({
       message: `Appointment has been added successfully`,
@@ -27,10 +28,10 @@ export const addAppointment = async (req, res) => {
 //get all appointments
 export const getAppointments = async (req, res) => {
   try {
-    const appointments = await AppointmentModel.find({}).sort({
-      date: -1,
-      time: -1,
-    });
+    const appointments = await AppointmentModel.find({})
+      .populate("userId")
+      .sort({ createdAt: -1 });
+
     res.status(200).json({
       message: `All appointments has been retrieved successfully`,
       result: appointments,
@@ -137,6 +138,55 @@ export const getAppointmentsByTeacher = async (req, res) => {
   }
 };
 
+//search appointments by name or department
+export const searchByNameOrDepartment = async (req, res) => {
+  const searchName = req.params.searchValue
+    .toLowerCase()
+    .replace(/\s/g, " ")
+    .trim();
+  try {
+    const searchedAppointment = await AppointmentModel.find({
+      $or: [
+        { name: { $regex: searchName, $options: "i" } },
+        { department: { $regex: searchName, $options: "i" } },
+      ],
+    });
+    res.status(200).json({
+      message: `${searchedAppointment.length} appointments has been retrieved successfully`,
+      result: searchedAppointment,
+    });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+//The admin will allow students to make an appointment request by providing teachers, departments etc.
+//write a function to admin will allow students to make an appointment request by providing teachers, departments etc
+export const studentAppointmentRequest = async (req, res) => {
+  const { teacher, department } = req.body;
+  try {
+    const appointment = await AppointmentModel.find({ teacher, department });
+    if (appointment.length > 0) {
+      return res.status(400).json({
+        message: `Appointment already exists`,
+      });
+    }
+    const newAppointment = new AppointmentModel(req.body);
+    await newAppointment.save();
+    res.status(200).json({
+      message: `Appointment request has been made successfully`,
+    });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
 //get appointments by course
 export const getAppointmentsByCourse = async (req, res) => {
   const { course } = req.params;
@@ -230,31 +280,6 @@ export const getAppointmentsByDateAndTime = async (req, res) => {
     res.status(200).json({
       message: `All appointments has been retrieved successfully`,
       result: appointments,
-    });
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).json({
-      message: `Server Error: ${error.message}`,
-    });
-  }
-};
-
-//search appointments by name or department
-export const searchByNameOrDepartment = async (req, res) => {
-  const searchName = req.params.searchValue
-    .toLowerCase()
-    .replace(/\s/g, " ")
-    .trim();
-  try {
-    const searchedAppointment = await AppointmentModel.find({
-      $or: [
-        { name: { $regex: searchName, $options: "i" } },
-        { department: { $regex: searchName, $options: "i" } },
-      ],
-    });
-    res.status(200).json({
-      message: `${searchedAppointment.length} appointments has been retrieved successfully`,
-      result: searchedAppointment,
     });
   } catch (error) {
     console.error(error.message);

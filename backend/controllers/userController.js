@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import UserModel from "../models/userModel.js";
+import RequestModel from "../models/userRequestModel.js";
 
 //dotenv config
 dotenv.config({ path: "./backend/configs/config.env" });
@@ -74,7 +75,9 @@ export const loginUser = async (req, res) => {
     );
 
     const options = {
-      expires: new Date(Date.now() + 10 * 1000),
+      expires: new Date(
+        Date.now() + process.env.COOKIE_EXPIRATION_TIME * 24 * 60 * 60 * 1000
+      ),
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -209,22 +212,79 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-//write a function send a new user registration request after the user has been registered
-export const sendUserRegistrationRequest = async (req, res) => {
+//logout user
+export const logoutUser = async (req, res) => {
+  const { id } = req.params;
   try {
-    const user = await UserModel.findById(req.params.id);
+    const user = await UserModel.findById(id);
     if (!user) {
       return res
         .status(404)
-        .json({ message: `User with id ${req.params.id} does not exist` });
+        .json({ message: `User with id ${id} does not exist` });
     }
-    const userRegistrationRequest = await UserModel.create({
-      user: user._id,
-      status: "pending",
-    });
+    res.clearCookie("token");
     res.status(200).json({
-      message: `User registration request has been sent successfully`,
-      result: userRegistrationRequest,
+      message: `User ${user.name} has been logged out successfully`,
+    });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+//write a function send new user registration request to admin
+export const sendRegistrationRequest = async (req, res) => {
+  const { name, email, password, status, studentId, course, department, role } =
+    req.body;
+  try {
+    //check if user already exists
+    const user = await UserModel.findOne({ email });
+    if (user) {
+      return res.status(400).json({
+        message: `User with email ${email} already exists in the user list`,
+      });
+    }
+
+    //password encryption
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    //create new user and send registration request to admin
+    const requestUser = new RequestModel({
+      name,
+      email,
+      password: hashedPassword,
+      studentId,
+      course,
+      department,
+      role,
+      status,
+    });
+
+    //create token
+    const token = jwt.sign(
+      { id: requestUser._id, email: requestUser.email, role: requestUser.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    //check if user already requested for registration
+    const request = await RequestModel.findOne({ email });
+    if (request) {
+      return res.status(400).json({
+        message: `User with email ${email} already requested`,
+      });
+    }
+    const savedUser = await requestUser.save();
+
+    return res.status(200).json({
+      message: `User ${name} has been requested for registration`,
+      result: savedUser,
+      token,
     });
   } catch (error) {
     console.error(error.message);
@@ -237,10 +297,10 @@ export const sendUserRegistrationRequest = async (req, res) => {
 //get all user registration requests
 export const getAllUserRegistrationRequests = async (req, res) => {
   try {
-    const userRegistrationRequests = await UserModel.find({});
+    const requests = await RequestModel.find({}).sort({ createdAt: -1 });
     res.status(200).json({
       message: `All user registration requests has been fetched successfully`,
-      result: userRegistrationRequests,
+      result: requests,
     });
   } catch (error) {
     console.error(error.message);
@@ -252,26 +312,55 @@ export const getAllUserRegistrationRequests = async (req, res) => {
 
 //approve user registration request
 export const approveUserRegistrationRequest = async (req, res) => {
+  const { id } = req.params;
   try {
-    const userRegistrationRequest = await UserModel.findById(req.params.id);
-    if (!userRegistrationRequest) {
+    const request = await RequestModel.findById(id);
+    if (!request) {
       return res.status(404).json({
-        message: `User registration request with id ${req.params.id} does not exist`,
+        message: `User registration request with id ${id} does not exist`,
       });
     }
-    const user = await UserModel.findById(userRegistrationRequest.user);
-    if (!user) {
-      return res.status(404).json({
-        message: `User with id ${userRegistrationRequest.user} does not exist`,
-      });
-    }
-    user.role = req.body.role;
-    await user.save();
-    userRegistrationRequest.status = "approved";
-    await userRegistrationRequest.save();
-    res.status(200).json({
-      message: `User registration request has been approved successfully`,
-      result: userRegistrationRequest,
+
+    //get all information from request
+    const {
+      name: requestName,
+      email: requestEmail,
+      password: requestPassword,
+      studentId: requestStudentId,
+      course: requestCourse,
+      department: requestDepartment,
+      role: requestRole,
+    } = request;
+
+    //create new user
+    const user = new UserModel({
+      name: requestName,
+      email: requestEmail,
+      password: requestPassword,
+      studentId: requestStudentId,
+      course: requestCourse,
+      department: requestDepartment,
+      role: requestRole,
+    });
+
+    //create token
+    const token = jwt.sign(
+      { id: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    const newUser = await user.save();
+
+    //delete request
+    await RequestModel.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      message: `User ${requestName} has been approved successfully`,
+      result: newUser,
+      token,
     });
   } catch (error) {
     console.error(error.message);
@@ -283,18 +372,24 @@ export const approveUserRegistrationRequest = async (req, res) => {
 
 //reject user registration request
 export const rejectUserRegistrationRequest = async (req, res) => {
+  const { id } = req.params;
   try {
-    const userRegistrationRequest = await UserModel.findById(req.params.id);
-    if (!userRegistrationRequest) {
+    const request = await RequestModel.findById(id);
+    if (!request) {
       return res.status(404).json({
-        message: `User registration request with id ${req.params.id} does not exist`,
+        message: `User registration request with id ${id} does not exist`,
       });
     }
-    userRegistrationRequest.status = "rejected";
-    await userRegistrationRequest.save();
+    const user = await UserModel.findById(request.user);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `User with id ${id} does not exist` });
+    }
+
+    await RequestModel.findByIdAndDelete(id);
     res.status(200).json({
-      message: `User registration request has been rejected successfully`,
-      result: userRegistrationRequest,
+      message: `User ${user.name} has been rejected successfully`,
     });
   } catch (error) {
     console.error(error.message);
@@ -303,6 +398,3 @@ export const rejectUserRegistrationRequest = async (req, res) => {
     });
   }
 };
-
-//sent user registration request to system admin
-export const sendUserRegistrationRequestToSystemAdmin = async (req, res) => {};
