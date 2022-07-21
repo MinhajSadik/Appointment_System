@@ -7,6 +7,7 @@ import {
   getAppointments,
   getAppointmentsByTeacher,
   getStudentAppointmentsRequests,
+  rejectStudentAppointmentRequest,
   searchByNameOrDepartment,
   studentAppointmentRequest,
   updateAppointment,
@@ -18,7 +19,7 @@ const router = express.Router();
 
 //add new appointment route
 router.post(
-  "/add",
+  "/addNew",
   isAuthenticatedUser,
   authorizeUserRoles(["teacher", "systemAdmin"]),
   addAppointment
@@ -51,7 +52,7 @@ router.get("/teacher/:id", isAuthenticatedUser, getAppointmentsByTeacher);
 
 //student appointment request route
 router.post(
-  "/student/addRequest",
+  "/student/request",
   isAuthenticatedUser,
   authorizeUserRoles(["student"]),
   studentAppointmentRequest
@@ -59,7 +60,7 @@ router.post(
 
 //get student appointment request route
 router.get(
-  "/student/all",
+  "/student/requests",
   isAuthenticatedUser,
   authorizeUserRoles(["student", "systemAdmin"]),
   getStudentAppointmentsRequests
@@ -71,6 +72,14 @@ router.put(
   isAuthenticatedUser,
   authorizeUserRoles(["systemAdmin"]),
   approveStudentAppointmentRequest
+);
+
+//reject student appointment request route
+router.put(
+  "/student/reject/:id",
+  isAuthenticatedUser,
+  authorizeUserRoles(["systemAdmin"]),
+  rejectStudentAppointmentRequest
 );
 
 //search by name or department route

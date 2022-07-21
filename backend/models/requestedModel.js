@@ -29,11 +29,9 @@ const userRequestSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: new Date(),
   },
   time: {
     type: String,
-    default: new Date(),
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,

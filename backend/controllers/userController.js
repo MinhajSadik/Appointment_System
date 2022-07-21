@@ -7,50 +7,6 @@ import UserModel from "../models/userModel.js";
 //dotenv config
 dotenv.config({ path: "./backend/configs/config.env" });
 
-export const registerUser = async (req, res) => {
-  const { name, email, password, studentId, course, department, role } =
-    req.body;
-  try {
-    const isExisted = await UserModel.findOne({ email });
-    if (isExisted) {
-      return res
-        .status(400)
-        .json({ message: `User with email ${email} already exists` });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    const newUser = await UserModel.create({
-      name,
-      email,
-      password: hashedPassword,
-      studentId,
-      course,
-      department,
-      role,
-    });
-
-    const token = jwt.sign(
-      { id: newUser._id, email: newUser.email, role: newUser.role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1d",
-      }
-    );
-
-    res.status(201).json({
-      message: `User ${newUser.name} has been registered successfully`,
-      result: newUser,
-      token,
-    });
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).json({
-      message: `Server Error: ${error.message}`,
-    });
-  }
-};
-
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -297,7 +253,10 @@ export const sendRegistrationRequest = async (req, res) => {
 //get all user registration requests
 export const getAllUserRegistrationRequests = async (req, res) => {
   try {
-    const requests = await RequestModel.find({}).sort({ createdAt: -1 });
+    const requests = await RequestModel.find({})
+      .populate("userId", "name email")
+      .select("-password -__v");
+
     if (requests.length === 0) {
       return res.status(404).json({
         message: `No requests found`,
@@ -385,16 +344,18 @@ export const rejectUserRegistrationRequest = async (req, res) => {
         message: `User registration request with id ${id} does not exist`,
       });
     }
-    const user = await UserModel.findById(request.user);
-    if (!user) {
-      return res
-        .status(404)
-        .json({ message: `User with id ${id} does not exist` });
+
+    //check if user already exists
+    const user = await UserModel.findOne({ email: request.email });
+    if (user) {
+      return res.status(400).json({
+        message: `User with email ${request.email} already exists in the user list`,
+      });
     }
 
     await RequestModel.findByIdAndDelete(id);
     res.status(200).json({
-      message: `User ${user.name} has been rejected successfully`,
+      message: `User ${id} has been rejected successfully`,
     });
   } catch (error) {
     console.error(error.message);

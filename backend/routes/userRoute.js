@@ -17,28 +17,28 @@ const router = express.Router();
 
 //registration request route
 router.post(
-  "/register",
+  "/register/request",
   authorizeUserRoles(["student", "teacher"]),
   sendRegistrationRequest
 );
 
 //get all requests
 router.get(
-  "/requests",
+  "/register/requests",
   authorizeUserRoles(["systemAdmin"]),
   getAllUserRegistrationRequests
 );
 
 //regitration approve route
 router.put(
-  "/approve/:id",
+  "/register/approve/:id",
   authorizeUserRoles(["systemAdmin"]),
   approveUserRegistrationRequest
 );
 
 //reject registration request route
 router.put(
-  "/reject/:id",
+  "/register/reject/:id",
   authorizeUserRoles(["systemAdmin"]),
   rejectUserRegistrationRequest
 );

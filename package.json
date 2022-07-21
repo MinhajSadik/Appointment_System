@@ -4,7 +4,7 @@
   "description": "appointment booking between student and teacher also there will be available to system admin",
   "main": "app.js",
   "type": "module",
-  "repository": "https://github.com/MinhajSadik/Appointment_Booking.git",
+  "repository": "https://github.com/MinhajSadik/Appointment_System/tree/main/backend",
   "author": "MinhajSadik",
   "license": "MIT",
   "scripts": {
