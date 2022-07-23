@@ -21,7 +21,9 @@ export const userRegisterRequest = createAsyncThunk(
   async ({ registerInfo, navigate, toast }, { rejectWithValue }) => {
     try {
       const response = await api.userRegisterRequest(registerInfo);
-      toast.success("Successfully registered");
+      toast.success(
+        `Successfully sent request. Please wait for admin approval`
+      );
       navigate("/login");
       return response.data;
     } catch (error) {
