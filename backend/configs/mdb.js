@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-dotenv.config({ path: "./backend/configs/config.env" });
+dotenv.config({ path: "./configs/config.env" });
 const Remote_Url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.pu4qt.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const Local_Url = `mongodb://127.0.0.1:27017/${process.env.DB_NAME}`;
 const DB_URL = process.env.NODE_ENV === "production" ? Remote_Url : Local_Url;

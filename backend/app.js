@@ -5,7 +5,7 @@ import express from "express";
 import morgan from "morgan";
 import connectDB from "./configs/mdb.js";
 
-dotenv.config({ path: "./backend/configs/config.env" });
+dotenv.config({ path: "./configs/config.env" });
 const app = express();
 const PORT = process.env.PORT || 5000;
 
