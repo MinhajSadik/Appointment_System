@@ -1,27 +1,7 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import UserModel from "../../models/userModel.js";
 dotenv.config({ path: "../../configs/config.env" });
-
-// // every authorize role checker
-// export const authorizeUserRoles = (roles = []) => {
-//   if (typeof roles === "string") {
-//     roles = [roles];
-//   }
-
-//   return [
-//     // authorize user roles
-//     (req, res, next) => {
-//       if (roles.length && !roles.includes(req.user.role)) {
-//         // user's role is not authorized
-//         return res.status(401).json({
-//           message: `${req.user.role} is not authorized to access this resource`,
-//         });
-//       }
-//       // authentication and authorization succeeded
-//       return next();
-//     },
-//   ];
-// };
 
 export const authorizeUserRoles = (roles = []) => {
   if (typeof roles === "string") {
@@ -29,18 +9,25 @@ export const authorizeUserRoles = (roles = []) => {
   }
   return async (req, res, next) => {
     try {
-      const token = req.headers.token;
-      if (token) {
+      // authenticate JWT token and attach user to request object (req.user)
+      const token = req.headers.authorization.split(" ")[1];
+      const isCustomAuth = token.length < 500;
+      // const token = req.cookies.token;
+
+      if (token && isCustomAuth) {
+        // if (token) {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+        const user = await UserModel.findById(decoded.id);
+        req.user = user;
       }
+
+      // check if user's role is authorized
       if (roles.length && !roles.includes(req.user.role)) {
-        // user's role is not authorized
         return res.status(401).json({
-          message: `${req.user.role} is not authorized to access this resource`,
+          message: `${user.role} is not authorized to access this resource`,
         });
       }
-      // authentication and authorization succeeded
+
       return next();
     } catch (error) {
       return res.status(401).json({
