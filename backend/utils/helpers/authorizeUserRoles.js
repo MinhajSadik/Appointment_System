@@ -1,7 +1,7 @@
+import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-// import dotenv from "dotenv";
 
-// dotenv.config({ path: "../../configs/config.env" });
+dotenv.config({ path: "../../configs/config.env" });
 
 // every authorize role checker
 export const authorizeUserRoles = (roles = []) => {
@@ -12,7 +12,7 @@ export const authorizeUserRoles = (roles = []) => {
   return [
     async (req, res, next) => {
       try {
-        const token = req.headers.token;
+        const token = req.headers.authorization;
         if (token) {
           const decoded = jwt.verify(token, process.env.JWT_SECRET);
           req.user = decoded;
