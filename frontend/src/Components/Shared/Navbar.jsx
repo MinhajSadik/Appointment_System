@@ -1,11 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const Navbar = () => {
+  const { isLoggedIn, user } = useSelector((state) => state.user);
   const navLink =
     "text-center md:px-4 w-full py-3 inline-block text-gray-700 text-lg uppercase";
   const handleSearch = (e) => {};
   const handleLogout = (e) => {};
-  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <nav style={{ backgroundColor: "#f9f7f9" }} className="sticky top-0 z-50">
       <div className="conainer mx-auto px-4 flex flex-col md:flex-row  justify-start md:justify-between md:items-center">
@@ -29,7 +30,7 @@ const Navbar = () => {
               Teacher
             </Link>
           </li>
-          {user?.result._id && (
+          {isLoggedIn && (
             <>
               <li className="w-full">
                 <Link to="/dashboard" className={navLink}>
@@ -55,8 +56,8 @@ const Navbar = () => {
           <form className="d-flex input-group w-auto" onSubmit={handleSearch}>
             <input
               type="text"
-              className="form-control bg-gray-700 transition-all rounded px-2 py-1 w-40 focus:outline-none text-gray-600"
-              placeholder="Enter Search Features"
+              className="form-control bg-gray-700 transition-all rounded px-2 py-1 w-48 focus:outline-none text-gray-100"
+              placeholder="Search "
 
               //   value={search}
               //   onChange={(e) => setSearch(e.target.value)}

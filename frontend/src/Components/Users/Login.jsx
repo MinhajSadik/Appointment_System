@@ -13,21 +13,21 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => ({ ...state.user }));
-  const [userData, setUserData] = useState(initialState);
-  const { email, password } = userData;
+  const [loginInfo, setLoginInfo] = useState(initialState);
+  const { email, password } = loginInfo;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && password) {
-      dispatch(loginUser({ userData, navigate, toast }));
+      dispatch(loginUser({ loginInfo, navigate, toast }));
     }
   };
 
-  console.log(userData);
+  console.log(loginInfo);
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
+    setLoginInfo({ ...loginInfo, [name]: value });
   };
 
   useEffect(() => {

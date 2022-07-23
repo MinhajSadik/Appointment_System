@@ -20,7 +20,7 @@ connectDB();
 app.all("/", (req, res) => {
   console.log(`Welcome to the ${process.env.APP_NAME} Console 🚀 Viewer`);
   return res.status(200).send({
-    message: `Welcome to the ${process.env.APP_NAME} App 👨🏻‍💻 Viewer`,
+    message: `Welcome to the ${process.env.APP_NAME} API 👨🏻‍💻 Viewer`,
   });
 });
 
