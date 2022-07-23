@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Navbar from "./Components/Shared/Navbar";
 import Login from "./Components/Users/Login";
+import Register from "./Components/Users/Register";
 import Home from "./pages/Home";
 import { setUser } from "./redux/features/userSlice";
 
@@ -25,6 +26,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register/request" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );

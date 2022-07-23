@@ -24,5 +24,9 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-//authentication
+//login user [any type of user can login]
 export const loginUser = (loginInfo) => API.post("/api/user/login", loginInfo);
+
+//register request [student and teacher can request to register]
+export const userRegisterRequest = (registerInfo) =>
+  API.post("/api/user/register/request", registerInfo);

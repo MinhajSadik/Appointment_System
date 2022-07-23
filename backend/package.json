@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "backend": "nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

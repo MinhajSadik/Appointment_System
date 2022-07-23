@@ -16,6 +16,21 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const userRegisterRequest = createAsyncThunk(
+  "user/register/request",
+  async ({ registerInfo, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.userRegisterRequest(registerInfo);
+      toast.success("Successfully registered");
+      navigate("/login");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -29,6 +44,11 @@ const userSlice = createSlice({
       state.user = action.payload;
       state.isLoggedIn = true;
     },
+    logoutUser: (state) => {
+      state.user = null;
+      state.isLoggedIn = false;
+      localStorage.removeItem("token");
+    },
   },
   extraReducers: {
     [loginUser.pending]: (state) => {
@@ -41,6 +61,18 @@ const userSlice = createSlice({
       localStorage.setItem("token", JSON.stringify({ ...payload }));
     },
     [loginUser.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [userRegisterRequest.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [userRegisterRequest.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.user = payload;
+      localStorage.setItem("token", JSON.stringify({ ...payload }));
+    },
+    [userRegisterRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },
