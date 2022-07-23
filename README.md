@@ -1,2 +1,2 @@
-# Appointment_Booking
+# Appointment_System
 NodeJS, ReactJS, MongoDB, Redux-Toolkit, etc
