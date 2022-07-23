@@ -8,7 +8,7 @@
   "author": "MinhajSadik",
   "license": "MIT",
   "scripts": {
-    "start": "node backend/app.js",
+    "start": "node app.js",
     "backend": "nodemon app.js"
   },
   "dependencies": {
