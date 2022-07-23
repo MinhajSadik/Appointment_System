@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-
+import UserModel from "../models/userModel.js";
 dotenv.config({ path: "./configs/config.env" });
 
 // every authorize role checker
