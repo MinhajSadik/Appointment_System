@@ -23,8 +23,6 @@ const Login = () => {
     }
   };
 
-  console.log(loginInfo);
-
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setLoginInfo({ ...loginInfo, [name]: value });

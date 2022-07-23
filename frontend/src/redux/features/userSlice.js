@@ -28,6 +28,7 @@ export const userRegisterRequest = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.error(error.message);
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response.data);
     }
   }
@@ -72,7 +73,7 @@ const userSlice = createSlice({
     [userRegisterRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user = payload;
-      localStorage.setItem("token", JSON.stringify({ ...payload }));
+      // localStorage.setItem("token", JSON.stringify({ ...payload }));
     },
     [userRegisterRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -81,6 +82,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

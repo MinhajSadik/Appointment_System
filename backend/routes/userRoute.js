@@ -15,15 +15,6 @@ import {
 import { authorizeUserRoles } from "../utils/helpers/authorizeUserRoles.js";
 const router = express.Router();
 
-//
-router.post("/login", loginUser);
-router.get("/:id", getUserById);
-router.get("/logout/:id", logoutUser);
-router.get("/teachers", getAllTeachers);
-router.get("/students", getAllStudents);
-router.put("/update/:id", updateUser);
-router.delete("/delete/:id", authorizeUserRoles(["systemAdmin"]), deleteUser);
-
 //registration request route
 router.post(
   "/register/request",
@@ -51,5 +42,13 @@ router.put(
   authorizeUserRoles(["systemAdmin"]),
   rejectUserRegistrationRequest
 );
+
+router.post("/login", loginUser);
+router.get("/:id", getUserById);
+router.get("/logout/:id", logoutUser);
+router.get("/teachers", getAllTeachers);
+router.get("/students", getAllStudents);
+router.put("/update/:id", updateUser);
+router.delete("/delete/:id", authorizeUserRoles(["systemAdmin"]), deleteUser);
 
 export default router;

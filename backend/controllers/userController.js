@@ -200,11 +200,11 @@ export const sendRegistrationRequest = async (req, res) => {
     }
 
     //system admin can't send registration request
-    // if (role === "systemAdmin") {
-    //   return res.status(400).json({
-    //     message: `System admin can't send registration request`,
-    //   });
-    // }
+    if (role === "systemAdmin") {
+      return res.status(400).json({
+        message: `${req.role} can't send registration request`,
+      });
+    }
 
     //password encryption
     const salt = await bcrypt.genSalt(12);

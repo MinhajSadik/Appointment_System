@@ -23,11 +23,9 @@ const Register = () => {
     setRegisterInfo({ ...registerInfo, [name]: value });
   };
 
-  console.log(registerInfo);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name && email && password) {
+    if (name && email && password && role) {
       dispatch(userRegisterRequest({ registerInfo, navigate, toast }));
     }
   };
@@ -156,10 +154,15 @@ const Register = () => {
                     placeholder="Password"
                   />
                 </div>
-                <select name="role" onChange={onInputChange} className="mb-6">
+                <select
+                  required={true}
+                  name="role"
+                  onChange={onInputChange}
+                  className="mb-6"
+                >
+                  <option value="">Select a Role</option>
                   <option value="teacher">Teacher</option>
                   <option value="student">Student</option>
-                  
                 </select>
 
                 <div className="text-center lg:text-left">
