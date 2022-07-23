@@ -9,7 +9,7 @@ const { REACT_APP_DEV_API, REACT_APP_PROD_API } = process.env;
 // });
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_PROD_API,
+  baseURL: process.env.REACT_APP_DEV_API,
 });
 
 console.log(REACT_APP_DEV_API, REACT_APP_PROD_API, devEnv);
@@ -20,13 +20,9 @@ API.interceptors.request.use((req) => {
       JSON.parse(localStorage.getItem("token")).token
     }`;
   }
-  console.log(
-    (req.cookies.token = `Bearer ${
-      JSON.parse(sessionStorage.getItem("token")).token
-    }`)
-  );
+
   return req;
 });
 
 //authentication
-export const userLogin = (loginInfo) => API.post("/api/user/login", loginInfo);
+export const loginUser = (loginInfo) => API.post("/api/user/login", loginInfo);
