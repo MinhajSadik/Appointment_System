@@ -9,6 +9,7 @@ import Navbar from "./Components/Shared/Navbar";
 import Profile from "./Components/Shared/Profile";
 import Login from "./Components/Users/Login";
 import Register from "./Components/Users/Register";
+import Requests from "./Components/Users/Requests";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import { setUser } from "./redux/features/userSlice";
@@ -33,6 +34,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/requests" element={<Requests />} />
       </Routes>
     </BrowserRouter>
   );
