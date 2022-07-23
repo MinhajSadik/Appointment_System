@@ -8,8 +8,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isLoggedIn, user } = useSelector((state) => state.user);
-  const admin = user?.result?.role === "systemAdmin";
+  const { user } = useSelector((state) => state.user);
+  // const admin = user?.result?.role === "systemAdmin";
   const teacher = user?.result?.role === "teacher";
   const student = user?.result?.role === "student";
   const navLink =
@@ -20,6 +20,7 @@ const Navbar = () => {
     navigate("/login");
     localStorage.removeItem("token");
   };
+
   return (
     <nav style={{ backgroundColor: "#f9f7f9" }} className="sticky top-0 z-50">
       <div className="conainer mx-auto px-4 flex flex-col md:flex-row  justify-start md:justify-between md:items-center">
@@ -34,20 +35,44 @@ const Navbar = () => {
 
         <ul className="md:flex flex-col md:flex-row items-center justify-center transition">
           {student && (
-            <li className="w-full">
-              <Link to="/student" className={navLink}>
-                Students
-              </Link>
-            </li>
+            <>
+              <li className="w-full">
+                <Link to="/profile" className={navLink}>
+                  Profile
+                </Link>
+              </li>
+              <li className="w-full">
+                <Link to="/appointments" className={navLink}>
+                  Appointments
+                </Link>
+              </li>
+              <li className="w-full">
+                <Link to="/dashboard" className={navLink}>
+                  Dashboard
+                </Link>
+              </li>
+            </>
           )}
           {teacher && (
-            <li className="w-full">
-              <Link to="/teacher" className={navLink}>
-                Teacher
-              </Link>
-            </li>
+            <>
+              <li className="w-full">
+                <Link to="/profile" className={navLink}>
+                  Profile
+                </Link>
+              </li>
+              <li className="w-full">
+                <Link to="/appointments" className={navLink}>
+                  Appointments
+                </Link>
+              </li>
+              <li className="w-full">
+                <Link to="/dashboard" className={navLink}>
+                  Dashboard
+                </Link>
+              </li>
+            </>
           )}
-          {admin && (
+          {/* {admin && (
             <>
               <li className="w-full">
                 <Link to="/students" className={navLink}>
@@ -65,7 +90,7 @@ const Navbar = () => {
                 </Link>
               </li>
             </>
-          )}
+          )} */}
           {user?.result._id ? (
             <li className="w-full">
               <button className={navLink} onClick={() => handleLogout()}>

@@ -4,9 +4,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import Appointments from "./Components/Appointments";
 import Navbar from "./Components/Shared/Navbar";
+import Profile from "./Components/Shared/Profile";
 import Login from "./Components/Users/Login";
 import Register from "./Components/Users/Register";
+import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import { setUser } from "./redux/features/userSlice";
 
@@ -27,6 +30,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register/request" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/appointments" element={<Appointments />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

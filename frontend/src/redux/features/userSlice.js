@@ -7,7 +7,15 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await api.loginUser(loginInfo);
       toast.success("Successfully logged in");
-      navigate("/");
+      if (
+        response.data?.result?.role === "student" &&
+        response.data?.result?.role === "teacher"
+      ) {
+        navigate("/profile");
+      } else {
+        navigate("/dashboard");
+      }
+
       return response.data;
     } catch (error) {
       console.error(error.message);
