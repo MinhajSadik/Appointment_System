@@ -1,7 +1,7 @@
-import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+// import dotenv from "dotenv";
 
-dotenv.config({ path: "../../configs/config.env" });
+// dotenv.config({ path: "../../configs/config.env" });
 
 // every authorize role checker
 export const authorizeUserRoles = (roles = []) => {
