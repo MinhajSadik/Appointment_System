@@ -189,8 +189,7 @@ export const logoutUser = async (req, res) => {
 
 //send registration request to admin[systemAdmin]
 export const sendRegistrationRequest = async (req, res) => {
-  const { name, email, password, status, studentId, course, department, role } =
-    req.body;
+  const { name, email, password, status, role } = req.body;
   try {
     //check if user already exists
     const user = await UserModel.findOne({ email });
@@ -216,9 +215,6 @@ export const sendRegistrationRequest = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      studentId,
-      course,
-      department,
       role,
       status,
     });

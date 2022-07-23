@@ -8,6 +8,7 @@ const initialState = {
   name: "",
   email: "",
   password: "",
+  role: "",
 };
 
 const Register = () => {
@@ -15,12 +16,14 @@ const Register = () => {
   const navigate = useNavigate();
   const [registerInfo, setRegisterInfo] = useState(initialState);
   const { loading, error } = useSelector((state) => ({ ...state.user }));
-  const { name, email, password } = registerInfo;
+  const { name, email, password, role } = registerInfo;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setRegisterInfo({ ...registerInfo, [name]: value });
   };
+
+  console.log(registerInfo);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +37,9 @@ const Register = () => {
       error && toast.error(error);
     }
   }, [error, loading]);
+
+  //user roles name
+  //   const roleName = ["teacher", "student"];
 
   return (
     <div action="">
@@ -150,6 +156,11 @@ const Register = () => {
                     placeholder="Password"
                   />
                 </div>
+                <select name="role" onChange={onInputChange} className="mb-6">
+                  <option value="teacher">Teacher</option>
+                  <option value="student">Student</option>
+                  
+                </select>
 
                 <div className="text-center lg:text-left">
                   <button
