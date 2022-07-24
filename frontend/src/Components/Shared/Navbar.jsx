@@ -35,7 +35,7 @@ const Navbar = () => {
           {!systemAdmin && (
             <>
               <li className="w-full">
-                <Link to="/profile/:_id" className={navLink}>
+                <Link className={navLink} to={`/profile/${user?.result?._id}`}>
                   Profile
                 </Link>
               </li>
