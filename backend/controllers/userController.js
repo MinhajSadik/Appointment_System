@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import RequestModel from "../models/requestedModel.js";
 import UserModel from "../models/userModel.js";
 
@@ -57,6 +58,8 @@ export const updateUser = async (req, res) => {
   const { id } = req.params;
   const { name, email, course, department, role } = req.body;
   try {
+    if (!mongoose.Types.ObjectId.isValid(id)) return false;
+
     const user = await UserModel.findById(id).select("-password -__v");
     if (!user) {
       return res
