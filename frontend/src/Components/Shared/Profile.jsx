@@ -1,7 +1,9 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserInfo } from "../../redux/features/userSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { updatedUserInfo } from "../../redux/features/userSlice";
 
 const initialState = {
   name: "",
@@ -15,12 +17,17 @@ const initialState = {
 };
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state.user }));
+  const id = useParams().id;
+  // const userId = user?.result?._id;
+
   const [edit, setEdit] = useState(false);
-  const [userInfo, setUserInfo] = useState(initialState);
+  const [updateInfo, setUpdateInfo] = useState(initialState);
   const { name, email, course, department, agenda, date, time, role } =
-    userInfo;
+    updateInfo;
 
   const systemAdmin = user?.result?.role === "systemAdmin";
 
@@ -28,7 +35,7 @@ const Profile = () => {
   const handleEdit = () => {
     //change the profile student and teacher check
     if (!systemAdmin) {
-      setUserInfo({
+      setUpdateInfo({
         name: user?.result?.name,
         email: user?.result?.email,
         course: user?.result?.course,
@@ -43,14 +50,13 @@ const Profile = () => {
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    setUserInfo({ ...userInfo, [name]: value });
+    setUpdateInfo({ ...updateInfo, [name]: value });
   };
 
   const handleProfileUpdate = (e) => {
-    //update the profile
-    e.preventDefault();
-    dispatch(updateUserInfo(userInfo, user?.result?._id));
-    setEdit(false);
+    console.log(updateInfo, id);
+    dispatch(updatedUserInfo(updateInfo, id, navigate, toast));
+    setEdit(!edit);
   };
 
   return (

@@ -17,7 +17,6 @@ const usersSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    
     course: {
       type: String,
     },
@@ -32,12 +31,12 @@ const usersSchema = new mongoose.Schema(
       required: true,
       enum: ["student", "teacher", "systemAdmin"],
     },
-    createdAt: {
+    date: {
       type: Date,
       default: new Date(),
     },
-    updatedAt: {
-      type: Date,
+    time: {
+      type: String,
       default: new Date(),
     },
   },

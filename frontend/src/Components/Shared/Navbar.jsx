@@ -55,7 +55,7 @@ const Navbar = () => {
             </li>
           ) : (
             <li className="w-full">
-              <button className={navLink} onClick={() => {}}>
+              <button className={navLink}>
                 <Link to="/login">Login</Link>
               </button>
             </li>

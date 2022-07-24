@@ -15,7 +15,6 @@ const userRequestSchema = new mongoose.Schema({
     type: String,
     minlength: 6,
   },
-
   course: {
     type: String,
   },

@@ -39,11 +39,11 @@ export const userRegisterRequest = createAsyncThunk(
   }
 );
 
-export const updateUserInfo = createAsyncThunk(
+export const updatedUserInfo = createAsyncThunk(
   "user/update",
-  async ({ id, userInfo, navigate, toast }, { rejectWithValue }) => {
+  async ({ updateInfo, id, navigate, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.updateUser(id, userInfo);
+      const response = await api.updateUser(updateInfo, id);
       toast.success("Successfully updated profile");
       navigate("/");
       return response.data;
@@ -97,6 +97,18 @@ const userSlice = createSlice({
       // localStorage.setItem("token", JSON.stringify({ ...payload }));
     },
     [userRegisterRequest.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [updatedUserInfo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updatedUserInfo.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.user = payload;
+      localStorage.setItem("token", JSON.stringify({ ...payload }));
+    },
+    [updatedUserInfo.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },
