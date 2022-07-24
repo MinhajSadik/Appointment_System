@@ -221,7 +221,7 @@ export const studentAppointmentRequest = async (req, res) => {
 
     if (!teacher)
       return res.status(404).json({
-        message: `Teacher with name ${name} does not exist`,
+        message: `Teacher with name ${userId} does not exist`,
       });
 
     //check teacher is in the same department

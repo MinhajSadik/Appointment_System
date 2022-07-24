@@ -13,7 +13,6 @@ export const isAuthenticatedUser = async (req, res, next) => {
       const user = await UserModel.findById(decoded.id);
       req.user = user;
     }
-
     return next();
   } catch (error) {
     console.error(error.message);

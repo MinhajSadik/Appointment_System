@@ -1,43 +1,64 @@
 import { useState } from "react";
 import { BiCalendarPlus } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { addNewAppointmentRequest } from "../redux/api";
+import { addNewAppointment } from "../redux/features/appointmentSlice";
 
-const AddAppointment = ({ onSendAppointment, lastId }) => {
-  const clearData = {
-    ownerName: "",
-    petName: "",
-    aptDate: "",
-    aptTime: "",
-    aptNotes: "",
+const initialState = {
+  name: "",
+  course: "",
+  department: "",
+  agenda: "",
+  date: "",
+  time: "",
+};
+
+const AddAppointment = () => {
+  const [appointmentInfo, setAppointmentInfo] = useState(initialState);
+  const [toggleForm, setToggleForm] = useState(false);
+  const { name, course, department, agenda, date, time } = appointmentInfo;
+  const { user } = useSelector((state) => ({ ...state.user }));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const teacher = user?.result?.role === "teacher";
+  const student = user?.result?.role === "student";
+  const systemAdmin = user?.result?.role === "systemAdmin";
+
+  //get teacher userId
+  const userId = user?.result?.role === teacher ? user?.result?._id : null;
+
+  const onInputChange = (e) => {
+    const { name, value } = e.target;
+    setAppointmentInfo({ ...appointmentInfo, [name]: value });
+    console.log(appointmentInfo);
   };
 
-  let [toggleForm, setToggleForm] = useState(false);
-  let [formData, setFormData] = useState(clearData);
-
-  function formDataPublish() {
-    const appointmentInfo = {
-      id: lastId + 1,
-      ownerName: formData.ownerName,
-      petName: formData.petName,
-      aptDate: formData.aptDate + " " + formData.aptTime,
-      aptNotes: formData.aptNotes,
-    };
-    onSendAppointment(appointmentInfo);
-    setFormData(clearData);
-    setToggleForm(!toggleForm);
-  }
-
+  const handleAppointment = () => {
+    if (teacher || systemAdmin) {
+      dispatch(addNewAppointment({ appointmentInfo, navigate, toast }));
+    } else if (student) {
+      dispatch(
+        addNewAppointmentRequest({ appointmentInfo, userId, navigate, toast })
+      );
+    } else {
+      toast.error(`${user?.result?.role} check your role and try again`);
+    }
+  };
+  console.log(user?.result?.role);
   return (
     <div>
       <button
         onClick={() => {
           setToggleForm(!toggleForm);
         }}
-        className={`bg-blue-400 text-white px-2 py-3 w-full text-left rounded-t-md
+        className={`bg-blue-400 text-white px-2 py-2 w-full text-left rounded-t-md
                     ${toggleForm ? "rounded-t-md" : "rounded-md"}`}
       >
         <div>
-          <BiCalendarPlus className="inline-block align-text-top" /> Add
-          Appointment
+          <BiCalendarPlus className="inline-block align-text-top mr-2" />
+          Add Appointment
         </div>
       </button>
       {toggleForm && (
@@ -47,17 +68,17 @@ const AddAppointment = ({ onSendAppointment, lastId }) => {
               htmlFor="ownerName"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Owner Name
+              Name
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
                 type="text"
-                name="ownerName"
-                id="ownerName"
-                onChange={(event) => {
-                  setFormData({ ...formData, ownerName: event.target.value });
-                }}
-                value={formData.ownerName}
+                name="name"
+                id="name"
+                required
+                value={name}
+                onChange={onInputChange}
+                placeholder="write an appointment name"
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
@@ -68,17 +89,60 @@ const AddAppointment = ({ onSendAppointment, lastId }) => {
               htmlFor="petName"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Pet Name
+              Course
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
                 type="text"
-                name="petName"
-                id="petName"
-                onChange={(event) => {
-                  setFormData({ ...formData, petName: event.target.value });
-                }}
-                value={formData.petName}
+                name="course"
+                id="course"
+                required
+                value={course}
+                onChange={onInputChange}
+                placeholder="which course you wanna take?"
+                title="which course you wanna take? e.g. CS"
+                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
+          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+            <label
+              htmlFor="petName"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Department
+            </label>
+            <div className="mt-1 sm:mt-0 sm:col-span-2">
+              <input
+                type="text"
+                name="department"
+                id="department"
+                required
+                value={department}
+                onChange={onInputChange}
+                placeholder="which department you wanna choose? e.g. CS"
+                title="choose a department"
+                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+              />
+            </div>
+          </div>
+          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+            <label
+              htmlFor="petName"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Agenda
+            </label>
+            <div className="mt-1 sm:mt-0 sm:col-span-2">
+              <input
+                type="text"
+                name="agenda"
+                id="agenda"
+                required
+                value={agenda}
+                onChange={onInputChange}
+                placeholder="what's the agenda?"
+                title="write an course agenda!"
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
@@ -89,17 +153,18 @@ const AddAppointment = ({ onSendAppointment, lastId }) => {
               htmlFor="aptDate"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Apt Date
+              Date
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
                 type="date"
-                name="aptDate"
-                id="aptDate"
-                onChange={(event) => {
-                  setFormData({ ...formData, aptDate: event.target.value });
-                }}
-                value={formData.aptDate}
+                name="date"
+                id="date"
+                required
+                value={date}
+                onChange={onInputChange}
+                placeholder="when you are free?"
+                title="when you are free? e.g. 12-12-2022"
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
@@ -110,41 +175,20 @@ const AddAppointment = ({ onSendAppointment, lastId }) => {
               htmlFor="aptTime"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Apt Time
+              Time
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
                 type="time"
-                name="aptTime"
-                id="aptTime"
-                onChange={(event) => {
-                  setFormData({ ...formData, aptTime: event.target.value });
-                }}
-                value={formData.aptTime}
+                name="time"
+                id="time"
+                required
+                value={time}
+                onChange={onInputChange}
+                placeholder="what time would be best?"
+                title="what time would be best? e.g. 12:00"
                 className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
-            </div>
-          </div>
-
-          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
-            <label
-              htmlFor="aptNotes"
-              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Appointment Notes
-            </label>
-            <div className="mt-1 sm:mt-0 sm:col-span-2">
-              <textarea
-                id="aptNotes"
-                name="aptNotes"
-                rows="3"
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
-                placeholder="Detailed comments about the condition"
-                onChange={(event) => {
-                  setFormData({ ...formData, aptNotes: event.target.value });
-                }}
-                value={formData.aptNotes}
-              ></textarea>
             </div>
           </div>
 
@@ -152,7 +196,7 @@ const AddAppointment = ({ onSendAppointment, lastId }) => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                onClick={formDataPublish}
+                onClick={handleAppointment}
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
               >
                 Submit

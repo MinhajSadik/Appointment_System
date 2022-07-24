@@ -49,13 +49,13 @@ const Profile = () => {
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setUpdateInfo({ ...updateInfo, [name]: value });
-    console.log(updateInfo);
   };
 
   const handleProfileUpdate = (e) => {
-    console.log(updateInfo, id);
-    dispatch(updatedUserInfo({ ...updateInfo, id, navigate, toast }));
-    setEdit(!edit);
+    e.preventDefault();
+    if (name && email && course && department) {
+      dispatch(updatedUserInfo({ updateInfo, id, navigate, toast }));
+    }
   };
 
   return (

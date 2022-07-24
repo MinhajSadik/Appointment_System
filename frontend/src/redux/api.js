@@ -36,6 +36,16 @@ export const userRegisterRequest = (registerInfo) =>
 export const updateUser = (updateInfo, id) =>
   API.put(`/api/user/update/${id}`, updateInfo);
 
+//@POST: appointment for [teacher and admin]
+export const addNewAppointment = (appointmentInfo) =>
+  API.post("/api/appointment/addNew", appointmentInfo);
+
+
+
+//@POST request: appointment for [student]
+export const addNewAppointmentRequest = (appointmentInfo) =>
+  API.post("/api/appointment/student/request", appointmentInfo);
+
 //@GET: get all requests [system admin can get all requests]
 export const getAllUserRegistrationRequests = () =>
   API.get("/api/user/register/requests");
