@@ -34,7 +34,7 @@ const DropDown = ({
           className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer"
           role="menuitem"
         >
-          Department {sortBy === "department" && <BiCheck />}
+          Department Name {sortBy === "department" && <BiCheck />}
         </div>
         <div
           onClick={() => onSortByChange("course")}
@@ -81,6 +81,7 @@ const SearchAppointment = ({
         <input
           type="text"
           name="query"
+          id="query"
           value={query}
           onChange={(e) => {
             onQueryChange(e.target.value);

@@ -13,28 +13,27 @@ const Home = () => {
   const [sortBy, setSortBy] = useState("name");
   const [orderBy, setOrderBy] = useState("department");
 
-  const filteredAppointment = appointments.result
-    .filter((item) => {
-      return (
-        item.name.toLowerCase().includes(query.toLowerCase()) ||
-        item.course.toLowerCase().includes(query.toLowerCase()) ||
-        item.department.toLowerCase().includes(query.toLowerCase()) ||
-        item.agenda.toLowerCase().includes(query.toLowerCase()) ||
-        item.date.toLowerCase().includes(query.toLowerCase()) ||
-        item.time.toLowerCase().includes(query.toLowerCase())
-      );
-    })
-    .sort((a, b) => {
-      let order = orderBy === "time" ? 1 : -1;
-      return (
-        a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
+  const filteredAppointment =
+    appointments &&
+    appointments
+      ?.filter((item) => {
+        return (
+          item.name.toLowerCase().includes(query.toLowerCase()) ||
+          item.course.toLowerCase().includes(query.toLowerCase()) ||
+          item.department.toLowerCase().includes(query.toLowerCase()) ||
+          item.agenda.toLowerCase().includes(query.toLowerCase()) ||
+          item.date.toLowerCase().includes(query.toLowerCase()) ||
+          item.time.toLowerCase().includes(query.toLowerCase())
+        );
+      })
+      .sort((a, b) => {
+        let order = orderBy === "time" ? 1 : -1;
+        return a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
           ? -1 * order
-          : 1 * order,
-        a[sortBy].toLowerCase() > b[sortBy].toLowerCase()
-      );
-    });
+          : 1 * order;
+      });
 
-  // console.log(appointments);
+  console.log(filteredAppointment);
 
   useEffect(() => {
     dispatch(getAllAppointments());
