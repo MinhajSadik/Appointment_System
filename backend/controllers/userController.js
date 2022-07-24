@@ -56,7 +56,7 @@ export const loginUser = async (req, res) => {
 //update user by id
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, email, course, department, role } = req.body;
+  const { name, email, course, department, date, time, role } = req.body;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) return false;
 
@@ -74,6 +74,8 @@ export const updateUser = async (req, res) => {
         email,
         course,
         department,
+        date,
+        time,
         role,
       },
       { new: true }

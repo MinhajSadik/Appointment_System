@@ -7,12 +7,12 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await api.loginUser(loginInfo);
       toast.success("Successfully logged in");
+
       if (response?.data?.user?.role === "systemAdmin") {
         navigate("/dashboard");
       } else {
-        navigate("/profile");
+        navigate("/");
       }
-
       return response.data;
     } catch (error) {
       console.error(error.message);

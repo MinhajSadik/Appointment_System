@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { BiCalendar } from "react-icons/bi";
 import AddAppointment from "../Components/AddAppointment";
 import AppointmentInfo from "../Components/AppointmentInfo";
@@ -25,18 +25,18 @@ const Home = () => {
         : 1 * order;
     });
 
-  const fetchData = useCallback(() => {
-    fetch("./data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setAppointmentList(data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // const fetchData = useCallback(() => {
+  //   fetch("./data.json")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setAppointmentList(data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
 
   return (
     <div className="App container mx-auto mt-3 font-thin">

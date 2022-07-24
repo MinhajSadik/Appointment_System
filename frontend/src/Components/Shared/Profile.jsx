@@ -31,9 +31,7 @@ const Profile = () => {
 
   const systemAdmin = user?.result?.role === "systemAdmin";
 
-  //when click on edit button fill the form with the user info
   const handleEdit = () => {
-    //change the profile student and teacher check
     if (!systemAdmin) {
       setUpdateInfo({
         name: user?.result?.name,
@@ -51,11 +49,12 @@ const Profile = () => {
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setUpdateInfo({ ...updateInfo, [name]: value });
+    console.log(updateInfo);
   };
 
   const handleProfileUpdate = (e) => {
     console.log(updateInfo, id);
-    dispatch(updatedUserInfo(updateInfo, id, navigate, toast));
+    dispatch(updatedUserInfo({ ...updateInfo, id, navigate, toast }));
     setEdit(!edit);
   };
 
@@ -87,10 +86,13 @@ const Profile = () => {
                 </p>
                 <p className="mt-2 text-gray-500">{user?.result?.agenda}</p>
                 <p className="mt-2 text-gray-500">
-                  {moment(user?.result?.createdAt).format("MMMM Do YYYY")}
+                  Date:{" "}
+                  {moment(new Date(user?.result?.date)).format(
+                    "dddd, DD, MMMM YYYY"
+                  )}
                 </p>
                 <p className="mt-2 text-gray-500">
-                  {moment(user?.result?.updatedAt).format("MMMM Do YYYY")}
+                  Time: {moment(new Date(user?.result?.time)).format("hh:mm A")}
                 </p>
               </>
             )}
@@ -120,10 +122,10 @@ const Profile = () => {
                 <div className="md:grid grid-cols-12 flex flex-col md:items-center gap-4 p-4">
                   <div className="col-span-6 relative">
                     <span className="absolute bg-white left-3 -top-[12px] px-2">
-                      Name similar to your email address
+                      Name alike to your email address
                     </span>
                     <input
-                      type="name"
+                      type="text"
                       name="name"
                       id="name"
                       value={name}
@@ -138,7 +140,7 @@ const Profile = () => {
                       Do you have another email?
                     </span>
                     <input
-                      type="email"
+                      type="text"
                       name="email"
                       id="email"
                       value={email}
@@ -238,9 +240,11 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-
                 <div className="px-4 text-right py-2">
-                  <button className="h-10 w-32 rounded-sm shadow-md text-white text-[16px] hover:bg-green-700 bg-green-600">
+                  <button
+                    type="submit"
+                    className="h-10 w-32 rounded-sm shadow-md text-white text-[16px] hover:bg-green-700 bg-green-600"
+                  >
                     Save
                   </button>
                 </div>
