@@ -9,9 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.user);
-  // const admin = user?.result?.role === "systemAdmin";
-  const teacher = user?.result?.role === "teacher";
-  const student = user?.result?.role === "student";
+  const systemAdmin = user?.result?.role === "systemAdmin";
   const navLink =
     "text-center md:px-4 w-full py-3 inline-block text-gray-700 text-lg uppercase";
   const handleSearch = (e) => {};
@@ -34,7 +32,7 @@ const Navbar = () => {
         </div>
 
         <ul className="md:flex flex-col md:flex-row items-center justify-center transition">
-          {student && (
+          {!systemAdmin && (
             <>
               <li className="w-full">
                 <Link to="/profile" className={navLink}>
@@ -46,51 +44,9 @@ const Navbar = () => {
                   Appointments
                 </Link>
               </li>
-              <li className="w-full">
-                <Link to="/dashboard" className={navLink}>
-                  Dashboard
-                </Link>
-              </li>
             </>
           )}
-          {teacher && (
-            <>
-              <li className="w-full">
-                <Link to="/profile" className={navLink}>
-                  Profile
-                </Link>
-              </li>
-              <li className="w-full">
-                <Link to="/appointments" className={navLink}>
-                  Appointments
-                </Link>
-              </li>
-              <li className="w-full">
-                <Link to="/dashboard" className={navLink}>
-                  Dashboard
-                </Link>
-              </li>
-            </>
-          )}
-          {/* {admin && (
-            <>
-              <li className="w-full">
-                <Link to="/students" className={navLink}>
-                  students
-                </Link>
-              </li>
-              <li className="w-full">
-                <Link to="/teachers" className={navLink}>
-                  teachers
-                </Link>
-              </li>
-              <li className="w-full">
-                <Link to="/dashboard" className={navLink}>
-                  dashboard
-                </Link>
-              </li>
-            </>
-          )} */}
+
           {user?.result._id ? (
             <li className="w-full">
               <button className={navLink} onClick={() => handleLogout()}>

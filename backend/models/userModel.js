@@ -17,10 +17,11 @@ const usersSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    studentId: {
+    
+    course: {
       type: String,
     },
-    course: {
+    agenda: {
       type: String,
     },
     department: {
@@ -32,6 +33,10 @@ const usersSchema = new mongoose.Schema(
       enum: ["student", "teacher", "systemAdmin"],
     },
     createdAt: {
+      type: Date,
+      default: new Date(),
+    },
+    updatedAt: {
       type: Date,
       default: new Date(),
     },

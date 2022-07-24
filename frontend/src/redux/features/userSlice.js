@@ -7,13 +7,10 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await api.loginUser(loginInfo);
       toast.success("Successfully logged in");
-      if (
-        response.data?.result?.role === "student" &&
-        response.data?.result?.role === "teacher"
-      ) {
-        navigate("/profile");
-      } else {
+      if (response?.data?.user?.role === "systemAdmin") {
         navigate("/dashboard");
+      } else {
+        navigate("/profile");
       }
 
       return response.data;
@@ -33,6 +30,22 @@ export const userRegisterRequest = createAsyncThunk(
         `Successfully sent request. Please wait for admin approval`
       );
       navigate("/login");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateUserInfo = createAsyncThunk(
+  "user/update",
+  async ({ id, userInfo, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.updateUser(id, userInfo);
+      toast.success("Successfully updated profile");
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);

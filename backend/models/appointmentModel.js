@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const appointmentSchema = new mongoose.Schema({
-  //there will save appointment and student appointment request
+  //there will be save appointment and student appointment request
   name: {
     type: String,
     required: true,

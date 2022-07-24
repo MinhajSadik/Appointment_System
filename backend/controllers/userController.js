@@ -55,8 +55,11 @@ export const loginUser = async (req, res) => {
 //update user by id
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, email, studentId, course, department, role } = req.body;
+  const { name, email, course, department, role } = req.body;
   try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ message: `No User exist with id: ${id}` });
+    }
     const user = await UserModel.findById(id).select("-password -__v");
     if (!user) {
       return res
@@ -69,7 +72,6 @@ export const updateUser = async (req, res) => {
       {
         name,
         email,
-        studentId,
         course,
         department,
         role,
@@ -290,7 +292,6 @@ export const approveUserRegistrationRequest = async (req, res) => {
       name: requestName,
       email: requestEmail,
       password: requestPassword,
-      studentId: requestStudentId,
       course: requestCourse,
       department: requestDepartment,
       role: requestRole,
@@ -301,7 +302,6 @@ export const approveUserRegistrationRequest = async (req, res) => {
       name: requestName,
       email: requestEmail,
       password: requestPassword,
-      studentId: requestStudentId,
       course: requestCourse,
       department: requestDepartment,
       role: requestRole,

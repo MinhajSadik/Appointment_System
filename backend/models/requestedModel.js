@@ -15,9 +15,7 @@ const userRequestSchema = new mongoose.Schema({
     type: String,
     minlength: 6,
   },
-  studentId: {
-    type: String,
-  },
+
   course: {
     type: String,
   },

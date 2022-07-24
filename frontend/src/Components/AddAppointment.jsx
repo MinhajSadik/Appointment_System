@@ -9,6 +9,7 @@ const AddAppointment = ({ onSendAppointment, lastId }) => {
     aptTime: "",
     aptNotes: "",
   };
+
   let [toggleForm, setToggleForm] = useState(false);
   let [formData, setFormData] = useState(clearData);
 

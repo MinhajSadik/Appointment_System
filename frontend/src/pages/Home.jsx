@@ -7,8 +7,8 @@ import SearchAppointment from "../Components/SearchAppointment";
 const Home = () => {
   let [appointmentList, setAppointmentList] = useState([]);
   let [query, setQuery] = useState("");
-  let [sortBy, setSortBy] = useState("petName");
-  let [orderBy, setOrderBy] = useState("asc");
+  let [sortBy, setSortBy] = useState("name");
+  let [orderBy, setOrderBy] = useState("department");
 
   const filteredAppointment = appointmentList
     .filter((item) => {
@@ -37,6 +37,7 @@ const Home = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
   return (
     <div className="App container mx-auto mt-3 font-thin">
       <h1 className="text-5xl mb-3">

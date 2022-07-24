@@ -24,9 +24,28 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+/* USRER [student and teacher related work] */
 //login user [any type of user can login]
 export const loginUser = (loginInfo) => API.post("/api/user/login", loginInfo);
 
 //register request [student and teacher can request to register]
 export const userRegisterRequest = (registerInfo) =>
   API.post("/api/user/register/request", registerInfo);
+
+//get all requests [system admin can get all requests]
+export const getAllUserRegistrationRequests = () =>
+  API.get("/api/user/register/requests");
+
+//regitration approve route [system admin can approve registration request]
+export const approveUserRegistrationRequest = (id) =>
+  API.put(`/api/user/register/approve/${id}`);
+
+//reject registration request route [system admin can reject registration request]
+export const rejectUserRegistrationRequest = (id) =>
+  API.put(`/api/user/register/reject/${id}`);
+
+//update user [student and teacher can update their profile]
+export const updateUser = (id, userInfo) =>
+  API.put(`/api/user/update/${id}`, userInfo);
+
+/* Appointment [appointment related work] */
