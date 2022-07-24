@@ -23,39 +23,39 @@ const DropDown = ({
         aria-labelledby="options-menu"
       >
         <div
-          onClick={() => onSortByChange("petName")}
+          onClick={() => onSortByChange("name")}
           className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer"
           role="menuitem"
         >
-          Pet Name {sortBy === "petName" && <BiCheck />}
+          Name {sortBy === "name" && <BiCheck />}
         </div>
         <div
-          onClick={() => onSortByChange("ownerName")}
+          onClick={() => onSortByChange("department")}
           className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer"
           role="menuitem"
         >
-          Owner Name {sortBy === "ownerName" && <BiCheck />}
+          Department {sortBy === "department" && <BiCheck />}
         </div>
         <div
-          onClick={() => onSortByChange("aptDate")}
+          onClick={() => onSortByChange("course")}
           className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer"
           role="menuitem"
         >
-          Date {sortBy === "aptDate" && <BiCheck />}
+          Course {sortBy === "course" && <BiCheck />}
         </div>
         <div
-          onClick={() => onOrderByChange("asc")}
+          onClick={() => onOrderByChange("date")}
           className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer border-gray-1 border-t-2"
           role="menuitem"
         >
-          Asc {orderBy === "asc" && <BiCheck />}
+          Date {orderBy === "date" && <BiCheck />}
         </div>
         <div
-          onClick={() => onOrderByChange("desc")}
+          onClick={() => onOrderByChange("time")}
           className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer"
           role="menuitem"
         >
-          Desc {orderBy === "desc" && <BiCheck />}
+          Time {orderBy === "time" && <BiCheck />}
         </div>
       </div>
     </div>
@@ -81,10 +81,9 @@ const SearchAppointment = ({
         <input
           type="text"
           name="query"
-          id="query"
           value={query}
-          onChange={(event) => {
-            onQueryChange(event.target.value);
+          onChange={(e) => {
+            onQueryChange(e.target.value);
           }}
           className="pl-8 w-full rounded-md focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300"
           placeholder="Search"

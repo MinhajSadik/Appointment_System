@@ -28,12 +28,11 @@ const AddAppointment = () => {
 
   //get teacher userId
   const userId = user?.result?.role === "teacher" ? user.result._id : null;
-  console.log(userId);
+  // console.log(userId);
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setAppointmentInfo({ ...appointmentInfo, [name]: value });
-    console.log(appointmentInfo);
   };
 
   const handleAppointment = () => {
@@ -47,7 +46,6 @@ const AddAppointment = () => {
       toast.error(`${user?.result?.role} check your role and try again`);
     }
   };
-  console.log(user?.result?.role);
   return (
     <div>
       <button

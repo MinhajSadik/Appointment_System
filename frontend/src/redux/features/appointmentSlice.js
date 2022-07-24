@@ -33,6 +33,19 @@ export const addNewAppointmentRequest = createAsyncThunk(
   }
 );
 
+export const getAllAppointments = createAsyncThunk(
+  "appointment/all",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.getAllAppointments();
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const appointmentSlice = createSlice({
   name: "appointment",
   initialState: {
@@ -69,6 +82,18 @@ const appointmentSlice = createSlice({
       localStorage.setItem("appointments", JSON.stringify(payload));
     },
     [addNewAppointmentRequest.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [getAllAppointments.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllAppointments.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appointments = payload;
+      localStorage.setItem("appointments", JSON.stringify(payload));
+    },
+    [getAllAppointments.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

@@ -1,42 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiCalendar } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
 import AddAppointment from "../Components/AddAppointment";
 import AppointmentInfo from "../Components/AppointmentInfo";
 import SearchAppointment from "../Components/SearchAppointment";
+import { getAllAppointments } from "../redux/features/appointmentSlice";
 
 const Home = () => {
-  let [appointmentList, setAppointmentList] = useState([]);
-  let [query, setQuery] = useState("");
-  let [sortBy, setSortBy] = useState("name");
-  let [orderBy, setOrderBy] = useState("department");
+  const dispatch = useDispatch();
+  const { appointments } = useSelector((state) => ({ ...state.appointment }));
+  const [query, setQuery] = useState("");
+  const [sortBy, setSortBy] = useState("name");
+  const [orderBy, setOrderBy] = useState("department");
 
-  const filteredAppointment = appointmentList
+  const filteredAppointment = appointments.result
     .filter((item) => {
       return (
-        item.petName.toLowerCase().includes(query.toLowerCase()) ||
-        item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
-        item.aptNotes.toLowerCase().includes(query.toLowerCase())
+        item.name.toLowerCase().includes(query.toLowerCase()) ||
+        item.course.toLowerCase().includes(query.toLowerCase()) ||
+        item.department.toLowerCase().includes(query.toLowerCase()) ||
+        item.agenda.toLowerCase().includes(query.toLowerCase()) ||
+        item.date.toLowerCase().includes(query.toLowerCase()) ||
+        item.time.toLowerCase().includes(query.toLowerCase())
       );
     })
     .sort((a, b) => {
-      let order = orderBy === "asc" ? 1 : -1;
-      return a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
-        ? -1 * order
-        : 1 * order;
+      let order = orderBy === "time" ? 1 : -1;
+      return (
+        a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
+          ? -1 * order
+          : 1 * order,
+        a[sortBy].toLowerCase() > b[sortBy].toLowerCase()
+      );
     });
 
-  // const fetchData = useCallback(() => {
-  //   fetch("./data.json")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setAppointmentList(data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  // console.log(appointments);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [fetchData]);
+  useEffect(() => {
+    dispatch(getAllAppointments());
+  }, [dispatch]);
 
   return (
     <div className="App container mx-auto mt-3 font-thin">
@@ -44,15 +46,7 @@ const Home = () => {
         <BiCalendar className="inline-block text-red-400" />
         Your Appointments
       </h1>
-      <AddAppointment
-        onSendAppointment={(myAppointment) =>
-          setAppointmentList([...appointmentList, myAppointment])
-        }
-        lastId={appointmentList.reduce(
-          (max, item) => (Number(item.id) > max ? Number(item.id) : max),
-          0
-        )}
-      />
+      <AddAppointment />
       <SearchAppointment
         query={query}
         onQueryChange={(myQuery) => setQuery(myQuery)}
@@ -63,18 +57,8 @@ const Home = () => {
       />
 
       <ul className="divide-y divide-gray-200">
-        {filteredAppointment.map((appointment) => (
-          <AppointmentInfo
-            key={appointment.id}
-            appointment={appointment}
-            onDeleteAppointment={(appointmentId) =>
-              setAppointmentList(
-                appointmentList.filter(
-                  (appointment) => appointment.id !== appointmentId
-                )
-              )
-            }
-          />
+        {filteredAppointment?.map((appointment) => (
+          <AppointmentInfo key={appointment._id} appointment={appointment} />
         ))}
       </ul>
     </div>

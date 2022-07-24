@@ -37,10 +37,7 @@ export const getAppointments = async (req, res) => {
       .populate("userId")
       .sort({ date: -1, time: -1 });
 
-    res.status(200).json({
-      message: `All appointments has been retrieved successfully`,
-      result: appointments,
-    });
+    res.status(200).json(appointments);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

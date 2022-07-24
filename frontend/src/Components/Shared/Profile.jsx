@@ -40,6 +40,7 @@ const Profile = () => {
         department: user?.result?.department,
         agenda: user?.result?.agenda,
         date: user?.result?.date,
+        time: user?.result?.time,
         role: user?.result?.role,
       });
     }
@@ -55,6 +56,7 @@ const Profile = () => {
     e.preventDefault();
     if (name && email && course && department) {
       dispatch(updatedUserInfo({ updateInfo, id, navigate, toast }));
+      setUpdateInfo(initialState);
     }
   };
 
@@ -84,16 +86,16 @@ const Profile = () => {
                 <p className="mt-2 text-gray-500">
                   Department: {user?.result?.department}
                 </p>
-                <p className="mt-2 text-gray-500">{user?.result?.agenda}</p>
+                <p className="mt-2 text-gray-500">
+                  Agenda: {user?.result?.agenda}
+                </p>
                 <p className="mt-2 text-gray-500">
                   Date:{" "}
                   {moment(new Date(user?.result?.date)).format(
                     "dddd, DD, MMMM YYYY"
                   )}
                 </p>
-                <p className="mt-2 text-gray-500">
-                  Time: {moment(new Date(user?.result?.time)).format("hh:mm A")}
-                </p>
+                <p className="mt-2 text-gray-500">Time: {user?.result?.time}</p>
               </>
             )}
           </div>
@@ -113,143 +115,138 @@ const Profile = () => {
       {
         //edit profile form
         edit && (
-          <div className="h-screen py-5 px-3 bg-white items-center">
-            <div className="bg-white">
-              <h4 className="flex justify-center p-3 text-[22px]">
-                Edit Your Profile
-              </h4>
-              <div className="md:grid grid-cols-12 flex flex-col md:items-center gap-4 p-4">
-                <div className="col-span-6 relative">
-                  <span className="absolute bg-white left-3 -top-[12px] px-2">
-                    Name alike to your email address
-                  </span>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={name}
-                    onChange={onInputChange}
-                    placeholder="what's your first part of email name"
-                    className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
-                  />
-                </div>
+          <form onSubmit={handleProfileUpdate}>
+            <div className="h-screen py-5 px-3 bg-white items-center">
+              <div className="bg-white">
+                <h4 className="flex justify-center p-3 text-[22px]">
+                  Edit Your Profile
+                </h4>
+                <div className="md:grid grid-cols-12 flex flex-col md:items-center gap-4 p-4">
+                  <div className="col-span-6 relative">
+                    <span className="absolute bg-white left-3 -top-[12px] px-2">
+                      Name alike to your email address
+                    </span>
+                    <input
+                      type="text"
+                      name="name"
+                      value={name || ""}
+                      onChange={onInputChange}
+                      placeholder="what's your first part of email name"
+                      className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                    />
+                  </div>
 
-                <div className="col-span-6 relative">
-                  <span className="absolute bg-white left-3 -top-[12px] px-2">
-                    Do you have another email?
-                  </span>
-                  <input
-                    type="text"
-                    name="email"
-                    id="email"
-                    value={email}
-                    onChange={onInputChange}
-                    placeholder="do you wanna change your email?"
-                    className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
-                  />
-                </div>
+                  <div className="col-span-6 relative">
+                    <span className="absolute bg-white left-3 -top-[12px] px-2">
+                      Do you have another email?
+                    </span>
+                    <input
+                      type="text"
+                      name="email"
+                      value={email || ""}
+                      onChange={onInputChange}
+                      placeholder="do you wanna change your email?"
+                      className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                    />
+                  </div>
 
-                <div className="col-span-6 relative">
-                  <span className="absolute bg-white left-3 -top-[12px] px-2">
-                    What course you are in?
-                  </span>
-                  <input
-                    type="text"
-                    name="course"
-                    id="course"
-                    value={course}
-                    onChange={onInputChange}
-                    placeholder="what course are you in"
-                    className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
-                  />
-                </div>
+                  <div className="col-span-6 relative">
+                    <span className="absolute bg-white left-3 -top-[12px] px-2">
+                      What course you are in?
+                    </span>
+                    <input
+                      type="text"
+                      name="course"
+                      value={course || ""}
+                      onChange={onInputChange}
+                      placeholder="what course are you in"
+                      className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                    />
+                  </div>
 
-                <div className="col-span-6 relative">
-                  <span className="absolute bg-white left-3 -top-[12px] px-2">
-                    Which department are you in?
-                  </span>
-                  <input
-                    type="text"
-                    name="department"
-                    id="department"
-                    value={department}
-                    onChange={onInputChange}
-                    placeholder="which department you are in"
-                    className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
-                  />
-                </div>
+                  <div className="col-span-6 relative">
+                    <span className="absolute bg-white left-3 -top-[12px] px-2">
+                      Which department are you in?
+                    </span>
+                    <input
+                      type="text"
+                      name="department"
+                      value={department || ""}
+                      onChange={onInputChange}
+                      placeholder="which department you are in"
+                      className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                    />
+                  </div>
 
-                <div className="col-span-6 relative">
-                  <span className="absolute bg-white left-3 -top-[12px] px-2">
-                    what's your agenda?
-                  </span>
-                  <input
-                    type="text"
-                    name="agenda"
-                    id="agenda"
-                    value={agenda}
-                    onChange={onInputChange}
-                    placeholder="what's your agenda"
-                    className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
-                  />
-                </div>
+                  <div className="col-span-6 relative">
+                    <span className="absolute bg-white left-3 -top-[12px] px-2">
+                      what's your agenda?
+                    </span>
+                    <input
+                      type="text"
+                      name="agenda"
+                      value={agenda || ""}
+                      onChange={onInputChange}
+                      placeholder="what's your agenda"
+                      className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                    />
+                  </div>
 
-                <div className="col-span-6 relative">
-                  <span className="absolute bg-white left-3 -top-[12px] px-2">
-                    Available Date
-                  </span>
-                  <input
-                    type="date"
-                    name="date"
-                    id="date"
-                    value={date}
-                    onChange={onInputChange}
-                    placeholder="available date"
-                    className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
-                  />
-                </div>
+                  <div className="col-span-6 relative">
+                    <span className="absolute bg-white left-3 -top-[12px] px-2">
+                      Available Date
+                    </span>
+                    <input
+                      type="date"
+                      name="date"
+                      id="date"
+                      value={date}
+                      onChange={onInputChange}
+                      placeholder="available date"
+                      className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                    />
+                  </div>
 
-                <div className="col-span-6 relative">
-                  <span className="absolute bg-white left-3 -top-[12px] px-2">
-                    Available Time
-                  </span>
-                  <input
-                    type="time"
-                    name="time"
-                    id="time"
-                    value={time}
-                    onChange={onInputChange}
-                    placeholder="available time"
-                    className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
-                  />
-                </div>
+                  <div className="col-span-6 relative">
+                    <span className="absolute bg-white left-3 -top-[12px] px-2">
+                      Available Time
+                    </span>
+                    <input
+                      type="time"
+                      name="time"
+                      value={time}
+                      onChange={onInputChange}
+                      placeholder="available time"
+                      className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                    />
+                  </div>
 
-                <div className="col-span-6 relative">
-                  <span className="absolute bg-white left-3 -top-[12px] px-2">
-                    Role
-                  </span>
-                  <input
-                    type="role"
-                    name="role"
-                    id="role"
-                    value={role}
-                    onChange={onInputChange}
-                    placeholder="is that change mistakenly?"
-                    className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
-                  />
+                  <div className="col-span-6 relative">
+                    <span className="absolute bg-white left-3 -top-[12px] px-2">
+                      Role
+                    </span>
+                    <input
+                      type="text"
+                      name="role"
+                      value={role}
+                      onChange={onInputChange}
+                      placeholder="is that change mistakenly?"
+                      className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="px-4 text-right py-2">
-                <button
-                  type="submit"
-                  onClick={handleProfileUpdate}
-                  className="h-10 w-32 rounded-sm shadow-md text-white text-[16px] hover:bg-green-700 bg-green-600"
-                >
-                  Save
-                </button>
+                <div className="px-4 text-right py-2">
+                  <button
+                    // type="submit"
+                    // onClick={handleProfileUpdate}
+                    className="h-10 w-32 rounded-sm shadow-md text-white text-[16px] hover:bg-green-700 bg-green-600"
+                  >
+                    Save
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         )
       }
     </>

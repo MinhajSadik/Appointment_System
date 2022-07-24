@@ -40,11 +40,12 @@ export const updateUser = (updateInfo, id) =>
 export const addNewAppointment = (appointmentInfo) =>
   API.post("/api/appointment/addNew", appointmentInfo);
 
-
-
 //@POST request: appointment for [student]
 export const addNewAppointmentRequest = (appointmentInfo) =>
   API.post("/api/appointment/student/request", appointmentInfo);
+
+//@GET: get all appointments [teacher and admin]
+export const getAllAppointments = () => API.get("/api/appointment/all");
 
 //@GET: get all requests [system admin can get all requests]
 export const getAllUserRegistrationRequests = () =>
