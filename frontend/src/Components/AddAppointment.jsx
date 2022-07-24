@@ -27,7 +27,8 @@ const AddAppointment = () => {
   const systemAdmin = user?.result?.role === "systemAdmin";
 
   //get teacher userId
-  const userId = user?.result?.role === teacher ? user?.result?._id : null;
+  const userId = user?.result?.role === "teacher" ? user.result._id : null;
+  console.log(userId);
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -65,7 +66,7 @@ const AddAppointment = () => {
         <div className="border-r-2 border-b-2 border-l-2 border-light-blue-500 rounded-b-md pl-4 pr-4 pb-4">
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
-              htmlFor="ownerName"
+              htmlFor="Name"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
               Name
@@ -86,7 +87,7 @@ const AddAppointment = () => {
 
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
-              htmlFor="petName"
+              htmlFor="Course"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
               Course
@@ -107,7 +108,7 @@ const AddAppointment = () => {
           </div>
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
-              htmlFor="petName"
+              htmlFor="Department"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
               Department
@@ -128,7 +129,7 @@ const AddAppointment = () => {
           </div>
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
-              htmlFor="petName"
+              htmlFor="Agenda"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
               Agenda
@@ -150,7 +151,7 @@ const AddAppointment = () => {
 
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
-              htmlFor="aptDate"
+              htmlFor="Date"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
               Date
@@ -172,7 +173,7 @@ const AddAppointment = () => {
 
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
-              htmlFor="aptTime"
+              htmlFor="Time"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
               Time
