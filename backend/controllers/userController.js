@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import RequestModel from "../models/requestedModel.js";
 import UserModel from "../models/userModel.js";
 
