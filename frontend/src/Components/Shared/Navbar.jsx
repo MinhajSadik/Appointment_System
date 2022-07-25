@@ -7,7 +7,7 @@ import { logoutUser } from "../../redux/features/userSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
+  const { user, isLoggedIn } = useSelector((state) => state.user);
   const systemAdmin = user?.result?.role === "systemAdmin";
   const navLink =
     "text-center md:px-4 w-full py-3 inline-block text-gray-700 text-lg uppercase";
@@ -31,7 +31,7 @@ const Navbar = () => {
         </div>
 
         <ul className="md:flex flex-col md:flex-row items-center justify-center transition">
-          {!systemAdmin && (
+          {!systemAdmin && isLoggedIn && (
             <>
               <li className="w-full">
                 <Link className={navLink} to={`/profile/${user?.result?._id}`}>
