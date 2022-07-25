@@ -13,7 +13,7 @@ const Dashboard = () => {
       ...state.appointment,
     }));
 
-  console.log(registrationRequests, appointmentRequests);
+  // console.log(registrationRequests, appointmentRequests);
 
   useEffect(() => {
     dispatch(studentAppointmentRequests());
@@ -90,10 +90,10 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {appointmentRequests?.result?.map((appointmentRequest) => (
+              {registrationRequests?.map((registrationRequest) => (
                 <Requests
-                  key={appointmentRequest._id}
-                  appointment={appointmentRequest}
+                  key={registrationRequest._id}
+                  registrationRequest={registrationRequest}
                 />
               ))}
             </tbody>

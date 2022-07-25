@@ -68,6 +68,42 @@ export const userRegistrationRequests = createAsyncThunk(
   }
 );
 
+export const approveRegistrationRequest = createAsyncThunk(
+  "user/register/approve",
+  async ({ id, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.approveRegistrationRequest(id);
+      toast.success("Approved registration request");
+      if (response.data.user.role === "student") {
+        navigate("/students");
+      } else if (response.data.user.role === "teacher") {
+        navigate("/teachers");
+      }
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const rejectRegistrationRequest = createAsyncThunk(
+  "user/register/reject",
+  async ({ id, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.rejectRegistrationRequest(id);
+      toast.success("Rejected registration request");
+      navigate("/admin/dashboard");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -108,7 +144,7 @@ const userSlice = createSlice({
     [userRegisterRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user = payload;
-      // localStorage.setItem("token", JSON.stringify({ ...payload }));
+      localStorage.setItem("requestedToken", JSON.stringify({ ...payload }));
     },
     [userRegisterRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -134,6 +170,30 @@ const userSlice = createSlice({
       state.registrationRequests = payload;
     },
     [userRegistrationRequests.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [approveRegistrationRequest.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [approveRegistrationRequest.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.user = payload;
+      localStorage.setItem("token", JSON.stringify({ ...payload }));
+    },
+    [approveRegistrationRequest.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [rejectRegistrationRequest.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [rejectRegistrationRequest.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.user = payload;
+      localStorage.removeItem("requestedToken");
+    },
+    [rejectRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },

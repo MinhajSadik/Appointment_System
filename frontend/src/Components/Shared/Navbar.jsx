@@ -7,7 +7,6 @@ import { logoutUser } from "../../redux/features/userSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { user } = useSelector((state) => state.user);
   const systemAdmin = user?.result?.role === "systemAdmin";
   const navLink =

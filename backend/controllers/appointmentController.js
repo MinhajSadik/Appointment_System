@@ -261,7 +261,7 @@ export const getStudentAppointmentsRequests = async (req, res) => {
 
     if (appointments.length === 0) {
       return res.status(404).json({
-        message: `No appointments requests found`,
+        message: `No appointment requests found`,
       });
     }
 

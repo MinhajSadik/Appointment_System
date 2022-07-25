@@ -259,7 +259,7 @@ export const getAllUserRegistrationRequests = async (req, res) => {
 
     if (requests.length === 0) {
       return res.status(404).json({
-        message: `No requests found`,
+        message: `No registration requests found`,
       });
     }
     res.status(200).json(requests);

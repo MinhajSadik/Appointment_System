@@ -50,7 +50,7 @@ export const studentAppointmentRequests = createAsyncThunk(
   "appointment/student/requests",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.getAllAppointmentsForStudent();
+      const response = await api.studentAppointmentRequests();
       return response.data;
     } catch (error) {
       console.error(error.message);

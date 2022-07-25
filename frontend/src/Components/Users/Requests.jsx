@@ -1,32 +1,50 @@
 import moment from "moment";
 import React from "react";
+import { useDispatch } from "react-redux";
+// import { useParams } from "react-router-dom";
+import {
+  approveRegistrationRequest,
+  rejectRegistrationRequest,
+} from "../../redux/features/userSlice";
 
-const Requests = ({ appointmentRequest }) => {
-  console.log(appointmentRequest);
+const Requests = ({ registrationRequest }) => {
+  const dispatch = useDispatch();
+  // const id = useParams().id;
+  // console.log(id);
+
+  const handleApprove = (id) => {
+    dispatch(approveRegistrationRequest({ id }));
+  };
+
+  const handleReject = (id) => {
+    dispatch(rejectRegistrationRequest({ id }));
+  };
+
   return (
     <tr>
       <td>
         <div className="d-flex align-items-center">
           <div className="">
-            <p className="fw-bold mb-1">{appointmentRequest?.name}</p>
-            <p className="text-muted mb-0">{appointmentRequest?.email}</p>
+            <p className="fw-bold mb-1">{registrationRequest?.name}</p>
+            <p className="text-muted mb-0">{registrationRequest?.email}</p>
           </div>
         </div>
       </td>
       <td>
-        <p className="fw-normal mb-1">{appointmentRequest?.role}</p>
+        <p className="fw-normal mb-1">{registrationRequest?.role}</p>
         {/* <p className="text-muted mb-0">UI/UX</p> */}
       </td>
       <td>
         <span className="badge badge-warning rounded-pill d-inline">
-          {appointmentRequest?.status}
+          {registrationRequest?.status}
         </span>
       </td>
-      <td>{moment(appointmentRequest?.createdAt).format("MMM Do YYYY")}</td>
+      <td>{moment(registrationRequest?.createdAt).format("MMM Do YYYY")}</td>
       <td>
         <button
           type="button"
-          className="btn btn-link btn-rounded btn-sm fw-bold"
+          onClick={() => handleApprove(registrationRequest._id)}
+          className="btn btn-rounded bg-purple-400 text-white btn-sm fw-bold"
           data-mdb-ripple-color="dark"
         >
           Accept
@@ -35,7 +53,8 @@ const Requests = ({ appointmentRequest }) => {
       <td>
         <button
           type="button"
-          className="btn btn-link badge-danger btn-rounded btn-sm fw-bold"
+          onClick={() => handleReject(registrationRequest._id)}
+          className="btn bg-red-500 text-white btn-rounded btn-sm fw-bold"
           data-mdb-ripple-color="dark"
         >
           Reject
