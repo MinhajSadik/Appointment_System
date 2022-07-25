@@ -6,20 +6,26 @@ import { toast } from "react-toastify";
 import { addNewAppointmentRequest } from "../redux/api";
 import { addNewAppointment } from "../redux/features/appointmentSlice";
 
-const initialState = {
-  name: "",
-  course: "",
-  department: "",
-  agenda: "",
-  date: "",
-  time: "",
-};
-
 const AddAppointment = () => {
+  const { user } = useSelector((state) => ({ ...state.user }));
+  const initialState = {
+    name: "",
+    course: "",
+    department: "",
+    agenda: "",
+    date: "",
+    time: "",
+  };
   const [appointmentInfo, setAppointmentInfo] = useState(initialState);
   const [toggleForm, setToggleForm] = useState(false);
-  const { name, course, department, agenda, date, time } = appointmentInfo;
-  const { user } = useSelector((state) => ({ ...state.user }));
+
+  let { name, course, department, agenda, date, time, userId } =
+    appointmentInfo;
+
+  if (userId === undefined) {
+    userId = user?.result?._id;
+  }
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const teacher = user?.result?.role === "teacher";
@@ -27,8 +33,8 @@ const AddAppointment = () => {
   const systemAdmin = user?.result?.role === "systemAdmin";
 
   //get teacher userId
-  const userId = user?.result?.role === "teacher" ? user.result._id : null;
-  // console.log(userId);
+  // const userId = user?.result?.role === "teacher" ? user.result._id : null;
+  // console.log("userId", userId);
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,10 +44,8 @@ const AddAppointment = () => {
   const handleAppointment = () => {
     if (teacher || systemAdmin) {
       dispatch(addNewAppointment({ appointmentInfo, navigate, toast }));
-    } else if (student) {
-      dispatch(
-        addNewAppointmentRequest({ appointmentInfo, userId, navigate, toast })
-      );
+    } else if (student && userId) {
+      dispatch(addNewAppointmentRequest({ appointmentInfo, navigate, toast }));
     } else {
       toast.error(`${user?.result?.role} check your role and try again`);
     }
@@ -62,7 +66,7 @@ const AddAppointment = () => {
       </button>
       {toggleForm && (
         <div className="border-r-2 border-b-2 border-l-2 border-light-blue-500 rounded-b-md pl-4 pr-4 pb-4">
-          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
             <label
               htmlFor="Name"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
@@ -78,7 +82,7 @@ const AddAppointment = () => {
                 value={name}
                 onChange={onInputChange}
                 placeholder="write an appointment name"
-                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
           </div>
@@ -100,7 +104,7 @@ const AddAppointment = () => {
                 onChange={onInputChange}
                 placeholder="which course you wanna take?"
                 title="which course you wanna take? e.g. CS"
-                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
           </div>
@@ -121,7 +125,7 @@ const AddAppointment = () => {
                 onChange={onInputChange}
                 placeholder="which department you wanna choose? e.g. CS"
                 title="choose a department"
-                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
           </div>
@@ -142,7 +146,7 @@ const AddAppointment = () => {
                 onChange={onInputChange}
                 placeholder="what's the agenda?"
                 title="write an course agenda!"
-                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
           </div>
@@ -164,7 +168,7 @@ const AddAppointment = () => {
                 onChange={onInputChange}
                 placeholder="when you are free?"
                 title="when you are free? e.g. 12-12-2022"
-                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
           </div>
@@ -186,7 +190,7 @@ const AddAppointment = () => {
                 onChange={onInputChange}
                 placeholder="what time would be best?"
                 title="what time would be best? e.g. 12:00"
-                className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
           </div>

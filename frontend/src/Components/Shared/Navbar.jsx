@@ -12,7 +12,7 @@ const Navbar = () => {
   const systemAdmin = user?.result?.role === "systemAdmin";
   const navLink =
     "text-center md:px-4 w-full py-3 inline-block text-gray-700 text-lg uppercase";
-  const handleSearch = (e) => {};
+  // const handleSearch = (e) => {};
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate("/login");
@@ -61,7 +61,7 @@ const Navbar = () => {
             </li>
           )}
 
-          <form className="d-flex input-group w-auto" onSubmit={handleSearch}>
+          {/* <form className="d-flex input-group w-auto" onSubmit={handleSearch}>
             <input
               type="text"
               className="form-control bg-gray-700 transition-all rounded px-2 py-1 w-48 focus:outline-none text-gray-100"
@@ -70,7 +70,7 @@ const Navbar = () => {
               //   value={search}
               //   onChange={(e) => setSearch(e.target.value)}
             />
-          </form>
+          </form> */}
         </ul>
       </div>
     </nav>

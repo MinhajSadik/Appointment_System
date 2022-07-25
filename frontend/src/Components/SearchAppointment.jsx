@@ -86,8 +86,8 @@ const SearchAppointment = ({
           onChange={(e) => {
             onQueryChange(e.target.value);
           }}
-          className="pl-8 w-full rounded-md focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300"
-          placeholder="Search"
+          className="pl-8 w-full h-10 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300"
+          placeholder="Search Appointment by name, department, course, date, time"
         />
         <div className="absolute inset-y-0 right-0 flex items-center">
           <div>

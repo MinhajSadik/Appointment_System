@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Requests from "../Components/Users/Requests";
 
 const Dashboard = () => {
   const { user, isLoggedIn } = useSelector((state) => ({ ...state.user }));
   return (
     <div className="flex flex-row">
-      <div className="flex flex-col w-84 h-screen px-4 py-8 bg-white border-r dark:bg-gray-800 dark:border-gray-600">
+      <div className="flex flex-col w-84 h-screen px-4 py-8 bg-dark border-r dark:bg-gray-800 dark:border-gray-600">
         <Link
           to="/dashboard"
           className="mt-10 px-8 text-3xl font-semibold text-gray-800 dark:text-white"
@@ -32,14 +33,14 @@ const Dashboard = () => {
 
             <Link
               className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-              to="/requests"
+              to="/dashboard/appointments"
             >
               <small className="mx-4">Appointments requests</small>
             </Link>
 
             <Link
               className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
-              to="/requests"
+              to="/dashboard/requests"
             >
               <small className="mx-4 ">Register Requests</small>
             </Link>
@@ -63,7 +64,9 @@ const Dashboard = () => {
       <div className="flex flex-col w-full h-screen px-4 py-8 bg-white white:bg-gray-800 dark:border-gray-600">
         <div className="flex flex-col justify-between flex-1 mt-6">
           <div className="flex flex-col justify-between flex-1 mt-6">
-            <div className="flex flex-col justify-between flex-1 mt-6"></div>
+            <div className="flex flex-col justify-between flex-1 mt-6">
+              <Requests />
+            </div>
           </div>
         </div>
       </div>

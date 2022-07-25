@@ -56,9 +56,28 @@ const Home = () => {
       />
 
       <ul className="divide-y divide-gray-200">
-        {filteredAppointment?.map((appointment) => (
-          <AppointmentInfo key={appointment._id} appointment={appointment} />
-        ))}
+        {/* table for appointments */}
+        <table className="table align-center mb-0 bg-white">
+          <thead className="bg-light">
+            <tr>
+              <th>Name</th>
+              <th>Course</th>
+              <th>Department</th>
+              <th>Agenda</th>
+              <th>Date</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredAppointment &&
+              filteredAppointment.map((appointment) => (
+                <AppointmentInfo
+                  appointment={appointment}
+                  key={appointment._id}
+                />
+              ))}
+          </tbody>
+        </table>
       </ul>
     </div>
   );
