@@ -71,7 +71,7 @@ const AddAppointment = () => {
               htmlFor="Name"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Name
+              Write Appointment Name
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
@@ -92,7 +92,7 @@ const AddAppointment = () => {
               htmlFor="Course"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Course
+              Write Course Name
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
@@ -108,55 +108,112 @@ const AddAppointment = () => {
               />
             </div>
           </div>
-          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
-            <label
-              htmlFor="Department"
-              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Department
-            </label>
-            <div className="mt-1 sm:mt-0 sm:col-span-2">
-              <input
-                type="text"
-                name="department"
-                id="department"
-                required
-                value={department}
-                onChange={onInputChange}
-                placeholder="which department you wanna choose? e.g. CS"
-                title="choose a department"
-                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-          </div>
-          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
-            <label
-              htmlFor="Agenda"
-              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Agenda
-            </label>
-            <div className="mt-1 sm:mt-0 sm:col-span-2">
-              <input
-                type="text"
-                name="agenda"
-                id="agenda"
-                required
-                value={agenda}
-                onChange={onInputChange}
-                placeholder="what's the agenda?"
-                title="write an course agenda!"
-                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
-          </div>
+          {student ? (
+            <>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+                <label
+                  htmlFor="Teacher"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Request for Teacher
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <select
+                    name="teacher"
+                    id="teacher"
+                    required
+                    value={teacher}
+                    onChange={onInputChange}
+                    className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                  >
+                    <option value="">Request for Teacher</option>
+                    <option value="teacher1">Teacher 1</option>
+                    <option value="teacher2">Teacher 2</option>
+                    <option value="teacher3">Teacher 3</option>
+                    <option value="teacher4">Teacher 4</option>
+                    <option value="teacher5">Teacher 5</option>
+                  </select>
+                </div>
+              </div>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+                <label
+                  htmlFor="Department"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Request for Department
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <select
+                    name="department"
+                    id="department"
+                    required
+                    value={department}
+                    onChange={onInputChange}
+                    className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                  >
+                    <option value="">Request for Department</option>
+                    <option value="CS">CS</option>
+                    <option value="IS">IS</option>
+                    <option value="IT">IT</option>
+                    <option value="EC">EC</option>
+                    <option value="EE">EE</option>
+                  </select>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+                <label
+                  htmlFor="Department"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Write Department Name
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="department"
+                    id="department"
+                    required
+                    value={department}
+                    onChange={onInputChange}
+                    placeholder="which department you wanna choose? e.g. CS"
+                    title="choose a department"
+                    className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                  />
+                </div>
+              </div>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+                <label
+                  htmlFor="Agenda"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  What is your agenda?
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="agenda"
+                    id="agenda"
+                    required
+                    value={agenda}
+                    onChange={onInputChange}
+                    placeholder="what's the agenda?"
+                    title="write an course agenda!"
+                    className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
               htmlFor="Date"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Date
+              Choose an Unscheduled Date
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input
@@ -178,7 +235,7 @@ const AddAppointment = () => {
               htmlFor="Time"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Time
+              Choose an Unscheduled Time
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <input

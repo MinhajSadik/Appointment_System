@@ -99,10 +99,7 @@ export const updateUser = async (req, res) => {
 export const getAllTeachers = async (req, res) => {
   try {
     const teachers = await UserModel.find({ role: "teacher" });
-    res.status(200).json({
-      message: `All teachers has been fetched successfully`,
-      result: teachers,
-    });
+    res.status(200).json(teachers);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({
@@ -115,10 +112,7 @@ export const getAllTeachers = async (req, res) => {
 export const getAllStudents = async (req, res) => {
   try {
     const students = await UserModel.find({ role: "student" });
-    res.status(200).json({
-      message: `All students has been fetched successfully`,
-      result: students,
-    });
+    res.status(200).json(students);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

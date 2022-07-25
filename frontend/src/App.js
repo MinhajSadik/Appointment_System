@@ -4,10 +4,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import Appointments from "./Components/Appointments";
 import Navbar from "./Components/Shared/Navbar";
-import Profile from "./Components/Shared/Profile";
 import Login from "./Components/Users/Login";
+import Profile from "./Components/Users/Profile";
 import Register from "./Components/Users/Register";
 import Requests from "./Components/Users/Requests";
 import Dashboard from "./pages/Dashboard";
@@ -32,7 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register/request" element={<Register />} />
         <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/appointments" element={<Appointments />} />
+        {/* <Route path="/appointments" element={<Appointments />} /> */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/requests" element={<Requests />} />
       </Routes>

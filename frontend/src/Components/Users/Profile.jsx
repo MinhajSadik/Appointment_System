@@ -95,15 +95,18 @@ const Profile = () => {
                     "dddd, DD, MMMM YYYY"
                   )}
                 </p>
-                <p className="mt-2 text-gray-500">Time: {user?.result?.time}</p>
+                <p className="mt-2 text-gray-500">
+                  Time: {moment(user?.result?.time).format("h:mm")}
+                </p>
               </>
             )}
           </div>
+
           {/* edit profile button */}
           {!systemAdmin && (
             <div className="text-center">
               <button
-                className="bg-blue-500 text-white px-4 m-5 py-2 rounded-full hover:bg-blue-700"
+                className="bg-blue-500 text-white px-4 m-2 py-2 rounded-full hover:bg-blue-700"
                 onClick={() => handleEdit()}
               >
                 Edit Profile

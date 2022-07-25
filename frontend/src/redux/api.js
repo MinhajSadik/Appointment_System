@@ -46,6 +46,7 @@ export const addNewAppointmentRequest = (appointmentInfo) =>
 
 //@GET: get all appointments [teacher and admin]
 export const getAllAppointments = () => API.get("/api/appointment/all");
+export const getAllTeachers = () => API.get("/api/user/teachers");
 
 //@GET: get all requests [system admin can get all requests]
 export const getAllUserRegistrationRequests = () =>

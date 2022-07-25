@@ -7,7 +7,7 @@ export const addNewAppointment = createAsyncThunk(
     try {
       const response = await api.addNewAppointment(appointmentInfo);
       toast.success("Successfully added appointment");
-      navigate("/appointments");
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -23,7 +23,7 @@ export const addNewAppointmentRequest = createAsyncThunk(
     try {
       const response = await api.addNewAppointmentRequest(appointmentInfo);
       toast.success("Successfully requested appointment");
-      navigate("/appointments");
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
