@@ -24,6 +24,7 @@ export const teacherSlice = createSlice({
     error: null,
     success: null,
   },
+
   reducers: {
     setTeachers: (state, action) => {
       state.teachers = action.payload;
