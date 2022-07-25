@@ -46,18 +46,23 @@ export const addNewAppointmentRequest = (appointmentInfo) =>
 
 //@GET: get all appointments [teacher and admin]
 export const getAllAppointments = () => API.get("/api/appointment/all");
+
 export const getAllTeachers = () => API.get("/api/user/teachers");
 
-//@GET: get all requests [system admin can get all requests]
+//@GET: get all registration requests [system admin can get all requests]
 export const getAllUserRegistrationRequests = () =>
   API.get("/api/user/register/requests");
 
-//regitration approve route [system admin can approve registration request]
-export const approveUserRegistrationRequest = (id) =>
-  API.put(`/api/user/register/approve/${id}`);
+//@GET: get all appointments requests [system admin can get all requests]
+export const getAllAppointmentsForStudent = () =>
+  API.get("/api/appointment/student/requests");
 
-//reject registration request route [system admin can reject registration request]
-export const rejectUserRegistrationRequest = (id) =>
-  API.put(`/api/user/register/reject/${id}`);
+// //regitration approve route [system admin can approve registration request]
+// export const approveUserRegistrationRequest = (id) =>
+//   API.put(`/api/user/register/approve/${id}`);
 
-/* Appointment [appointment related work] */
+// //reject registration request route [system admin can reject registration request]
+// export const rejectUserRegistrationRequest = (id) =>
+//   API.put(`/api/user/register/reject/${id}`);
+
+// /* Appointment [appointment related work] */

@@ -1,35 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiCalendarPlus } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addNewAppointmentRequest } from "../redux/api";
 import { addNewAppointment } from "../redux/features/appointmentSlice";
-import { getAllTeachers } from "../redux/features/teacherSlice";
 
-const AddAppointment = () => {
-  const { user } = useSelector((state) => ({ ...state.user }));
-  const initialState = {
-    name: "",
-    course: "",
-    department: "",
-    agenda: "",
-    date: "",
-    time: "",
-  };
-  const [appointmentInfo, setAppointmentInfo] = useState(initialState);
-  const [toggleForm, setToggleForm] = useState(false);
+const initialState = {
+  name: "",
+  course: "",
+  department: "",
+  agenda: "",
+  date: "",
+  time: "",
+};
 
-  let { name, course, department, agenda, date, time, userId } =
-    appointmentInfo;
-
-  if (userId === undefined) {
-    userId = user?.result?._id;
-  }
-
+const AddAppointment = ({ teacher }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const teacher = user?.result?.role === "teacher";
+  const { teachers } = useSelector((state) => ({ ...state.teacher }));
+  const { user } = useSelector((state) => ({ ...state.user }));
+  const [appointmentInfo, setAppointmentInfo] = useState(initialState);
+  const [toggleForm, setToggleForm] = useState(false);
+  const { name, course, department, agenda, date, time } = appointmentInfo;
+
+  // if (userId === undefined) {
+  //   userId = user?.result?._id;
+  // }
+
+  const teacherRole = user?.result?.role === "teacher";
   const student = user?.result?.role === "student";
   const systemAdmin = user?.result?.role === "systemAdmin";
 
@@ -42,31 +41,30 @@ const AddAppointment = () => {
     setAppointmentInfo({ ...appointmentInfo, [name]: value });
   };
 
+  console.log("teacher", teacher.name);
+
   const handleAppointment = () => {
-    if (teacher || systemAdmin) {
+    if (teacherRole || systemAdmin) {
       dispatch(addNewAppointment({ appointmentInfo, navigate, toast }));
-    } else if (student && userId) {
+    } else if (student) {
       dispatch(addNewAppointmentRequest({ appointmentInfo, navigate, toast }));
     } else {
       toast.error(`${user?.result?.role} check your role and try again`);
     }
   };
 
-  useEffect(() => {
-    dispatch(getAllTeachers());
-  }, [dispatch]);
   return (
     <div>
       <button
         onClick={() => {
           setToggleForm(!toggleForm);
         }}
-        className={`bg-blue-400 text-white px-2 py-2 w-full text-left rounded-t-md
+        className={`bg-blue-400 text-dark px-2 py-2 w-full text-left rounded-t-md
                     ${toggleForm ? "rounded-t-md" : "rounded-md"}`}
       >
         <div>
           <BiCalendarPlus className="inline-block align-text-top mr-2" />
-          Add Appointment
+          {student ? "Request an Appointment" : "Add an Appointment"}
         </div>
       </button>
       {toggleForm && (
@@ -124,19 +122,19 @@ const AddAppointment = () => {
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <select
-                    name="teacher"
                     id="teacher"
+                    name="teacher"
                     required
                     value={teacher}
                     onChange={onInputChange}
                     className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   >
                     <option value="">Request for Teacher</option>
-                    <option value="teacher1">Teacher 1</option>
-                    <option value="teacher2">Teacher 2</option>
-                    <option value="teacher3">Teacher 3</option>
-                    <option value="teacher4">Teacher 4</option>
-                    <option value="teacher5">Teacher 5</option>
+                    {teachers.map((teacher) => (
+                      <option key={teacher._id} value={teacher._id}>
+                        {teacher.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

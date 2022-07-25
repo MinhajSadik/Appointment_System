@@ -7,7 +7,7 @@ export const addNewAppointment = createAsyncThunk(
     try {
       const response = await api.addNewAppointment(appointmentInfo);
       toast.success("Successfully added appointment");
-      navigate("/");
+      navigate("/appointments");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -23,7 +23,7 @@ export const addNewAppointmentRequest = createAsyncThunk(
     try {
       const response = await api.addNewAppointmentRequest(appointmentInfo);
       toast.success("Successfully requested appointment");
-      navigate("/");
+      navigate("/appointments");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -46,11 +46,25 @@ export const getAllAppointments = createAsyncThunk(
   }
 );
 
+export const studentAppointmentRequests = createAsyncThunk(
+  "appointment/student/requests",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.getAllAppointmentsForStudent();
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const appointmentSlice = createSlice({
   name: "appointment",
   initialState: {
     appointments: [],
     appointment: {},
+    appointmentRequests: [],
     loading: false,
     error: null,
     success: null,
@@ -66,7 +80,7 @@ const appointmentSlice = createSlice({
     },
     [addNewAppointment.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.appointments = payload;
+      state.appointment = payload;
       localStorage.setItem("appointments", JSON.stringify(payload));
     },
     [addNewAppointment.rejected]: (state, { payload }) => {
@@ -78,7 +92,7 @@ const appointmentSlice = createSlice({
     },
     [addNewAppointmentRequest.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.appointments = payload;
+      state.appointment = payload;
       localStorage.setItem("appointments", JSON.stringify(payload));
     },
     [addNewAppointmentRequest.rejected]: (state, { payload }) => {
@@ -94,6 +108,18 @@ const appointmentSlice = createSlice({
       localStorage.setItem("appointments", JSON.stringify(payload));
     },
     [getAllAppointments.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [studentAppointmentRequests.pending]: (state) => {
+      state.loading = true;
+    },
+    [studentAppointmentRequests.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appointmentRequests = payload;
+      localStorage.setItem("requests", JSON.stringify(payload));
+    },
+    [studentAppointmentRequests.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

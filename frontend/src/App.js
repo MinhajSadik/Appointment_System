@@ -31,8 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register/request" element={<Register />} />
         <Route path="/profile/:id" element={<Profile />} />
-        {/* <Route path="/appointments" element={<Appointments />} /> */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/requests" element={<Requests />} />
       </Routes>
     </BrowserRouter>

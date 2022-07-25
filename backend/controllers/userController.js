@@ -262,10 +262,7 @@ export const getAllUserRegistrationRequests = async (req, res) => {
         message: `No requests found`,
       });
     }
-    res.status(200).json({
-      message: `All user registration requests has been fetched successfully`,
-      result: requests,
-    });
+    res.status(200).json(requests);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

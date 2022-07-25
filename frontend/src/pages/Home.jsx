@@ -5,38 +5,40 @@ import AddAppointment from "../Components/AddAppointment";
 import AppointmentInfo from "../Components/AppointmentInfo";
 import SearchAppointment from "../Components/SearchAppointment";
 import { getAllAppointments } from "../redux/features/appointmentSlice";
+import { getAllTeachers } from "../redux/features/teacherSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { appointments } = useSelector((state) => ({ ...state.appointment }));
+  const { teachers } = useSelector((state) => ({ ...state.teacher }));
+
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [orderBy, setOrderBy] = useState("department");
 
   const filteredAppointment =
     appointments &&
-    appointments
+    Object.values(appointments)
       ?.filter((item) => {
         return (
-          item.name.toLowerCase().includes(query.toLowerCase()) ||
-          item.course.toLowerCase().includes(query.toLowerCase()) ||
-          item.department.toLowerCase().includes(query.toLowerCase()) ||
-          item.agenda.toLowerCase().includes(query.toLowerCase()) ||
-          item.date.toLowerCase().includes(query.toLowerCase()) ||
-          item.time.toLowerCase().includes(query.toLowerCase())
+          item.name?.toLowerCase().includes(query.toLowerCase()) ||
+          item.course?.toLowerCase().includes(query.toLowerCase()) ||
+          item.department?.toLowerCase().includes(query.toLowerCase()) ||
+          item.agenda?.toLowerCase().includes(query.toLowerCase()) ||
+          item.date?.toLowerCase().includes(query.toLowerCase()) ||
+          item.time?.toLowerCase().includes(query.toLowerCase())
         );
       })
       .sort((a, b) => {
         let order = orderBy === "time" ? 1 : -1;
-        return a[sortBy].toLowerCase() < b[sortBy].toLowerCase()
+        return a[sortBy]?.toLowerCase() < b[sortBy]?.toLowerCase()
           ? -1 * order
           : 1 * order;
       });
 
-  console.log(filteredAppointment);
-
   useEffect(() => {
     dispatch(getAllAppointments());
+    dispatch(getAllTeachers());
   }, [dispatch]);
 
   return (
@@ -45,7 +47,10 @@ const Home = () => {
         <BiCalendar className="inline-block text-red-400" />
         Your Appointments
       </h1>
-      <AddAppointment />
+      {teachers &&
+        teachers.map((teacher) => (
+          <AddAppointment key={teacher._id} teacher={teacher} />
+        ))}
       <SearchAppointment
         query={query}
         onQueryChange={(myQuery) => setQuery(myQuery)}
@@ -56,7 +61,6 @@ const Home = () => {
       />
 
       <ul className="divide-y divide-gray-200">
-        {/* table for appointments */}
         <table className="table align-center mb-0 bg-white">
           <thead className="bg-light">
             <tr>

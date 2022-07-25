@@ -55,10 +55,24 @@ export const updatedUserInfo = createAsyncThunk(
   }
 );
 
+export const userRegistrationRequests = createAsyncThunk(
+  "user/register/requests",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.getAllUserRegistrationRequests();
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
     user: null,
+    registrationRequests: [],
     isLoggedIn: false,
     isLoading: false,
     error: null,
@@ -109,6 +123,17 @@ const userSlice = createSlice({
       localStorage.setItem("token", JSON.stringify({ ...payload }));
     },
     [updatedUserInfo.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [userRegistrationRequests.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [userRegistrationRequests.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.registrationRequests = payload;
+    },
+    [userRegistrationRequests.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },

@@ -1,10 +1,24 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Requests from "../Components/Users/Requests";
+import { studentAppointmentRequests } from "../redux/features/appointmentSlice";
+import { userRegistrationRequests } from "../redux/features/userSlice";
 
 const Dashboard = () => {
-  const { user, isLoggedIn } = useSelector((state) => ({ ...state.user }));
+  const dispatch = useDispatch();
+  const { appointmentRequests, user, registrationRequests, isLoggedIn } =
+    useSelector((state) => ({
+      ...state.user,
+      ...state.appointment,
+    }));
+
+  console.log(registrationRequests, appointmentRequests);
+
+  useEffect(() => {
+    dispatch(studentAppointmentRequests());
+    dispatch(userRegistrationRequests());
+  }, [dispatch]);
   return (
     <div className="flex flex-row">
       <div className="flex flex-col w-84 h-screen px-4 py-8 bg-dark border-r dark:bg-gray-800 dark:border-gray-600">
@@ -61,14 +75,30 @@ const Dashboard = () => {
           <div></div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-screen px-4 py-8 bg-white white:bg-gray-800 dark:border-gray-600">
-        <div className="flex flex-col justify-between flex-1 mt-6">
-          <div className="flex flex-col justify-between flex-1 mt-6">
-            <div className="flex flex-col justify-between flex-1 mt-6">
-              <Requests />
-            </div>
-          </div>
-        </div>
+      <div className="container mx-auto mt-3 font-thin">
+        <ul className="divide-y divide-gray-200">
+          {/* table for appointments */}
+          <table className="table align-center bg-white">
+            <thead className="bg-light">
+              <tr>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Department</th>
+                <th>Agenda</th>
+                <th>Date</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appointmentRequests?.result?.map((appointmentRequest) => (
+                <Requests
+                  key={appointmentRequest._id}
+                  appointment={appointmentRequest}
+                />
+              ))}
+            </tbody>
+          </table>
+        </ul>
       </div>
     </div>
   );

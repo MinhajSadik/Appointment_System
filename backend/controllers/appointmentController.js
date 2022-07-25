@@ -34,7 +34,7 @@ export const addAppointment = async (req, res) => {
 export const getAppointments = async (req, res) => {
   try {
     const appointments = await AppointmentModel.find({})
-      .populate("userId")
+      .populate("userId", "name email")
       .sort({ date: -1, time: -1 });
 
     res.status(200).json(appointments);
@@ -127,11 +127,10 @@ export const deleteAppointment = async (req, res) => {
 export const getAppointmentsByTeacher = async (req, res) => {
   const { id } = req.params;
   try {
-    const appointments = await AppointmentModel.find({ teacher: id });
-    res.status(200).json({
-      message: `All appointments has been retrieved successfully`,
-      result: appointments,
-    });
+    const appointments = await AppointmentModel.find({ teacher: id })
+      .populate("userId", "name email")
+      .sort({ date: -1, time: -1 });
+    res.status(200).json(appointments);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({
@@ -141,7 +140,7 @@ export const getAppointmentsByTeacher = async (req, res) => {
 };
 
 //search appointments by name or department
-export const searchByNameOrDepartment = async (req, res) => {
+export const searchAppointmentFields = async (req, res) => {
   const searchName = req.params.searchValue
     .toLowerCase()
     .replace(/\s/g, " ")
@@ -211,7 +210,10 @@ export const studentAppointmentRequest = async (req, res) => {
   const { name, course, department, agenda, date, time, userId } = req.body;
   try {
     //check teacher by department and id
+    //there some issue i found below i commented it out
     //later i wanna implement get teacher using userId not _id, directly from the user.
+    //userId isn't tracked in client side, so i can't use it to get teacher
+    //agenda is sendable when student trying to make an appointment request
     const teacher = await UserModel.findOne({
       _id: userId,
     });
@@ -254,7 +256,7 @@ export const studentAppointmentRequest = async (req, res) => {
 export const getStudentAppointmentsRequests = async (req, res) => {
   try {
     const appointments = await RequestModel.find({})
-      .populate("userId")
+      .populate("userId", "name email")
       .sort({ date: -1, time: -1 });
 
     if (appointments.length === 0) {

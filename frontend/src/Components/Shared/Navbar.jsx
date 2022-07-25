@@ -39,9 +39,13 @@ const Navbar = () => {
                   Profile
                 </Link>
               </li>
+            </>
+          )}
+          {systemAdmin && (
+            <>
               <li className="w-full">
-                <Link to="/appointments" className={navLink}>
-                  Appointments
+                <Link className={navLink} to="/admin/dashboard">
+                  Dashboard
                 </Link>
               </li>
             </>

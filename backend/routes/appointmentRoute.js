@@ -8,7 +8,7 @@ import {
   getAppointmentsByTeacher,
   getStudentAppointmentsRequests,
   rejectStudentAppointmentRequest,
-  searchByNameOrDepartment,
+  searchAppointmentFields,
   studentAppointmentRequest,
   updateAppointment,
 } from "../controllers/appointmentController.js";
@@ -83,7 +83,7 @@ router.put(
 );
 
 //search by name or department route
-router.get("/search/:searchValue", searchByNameOrDepartment);
+router.get("/search/:searchValue", searchAppointmentFields);
 
 // router.get("/course", getAppointmentsByCourse);
 // router.get("/department", getAppointmentsByDepartment);

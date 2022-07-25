@@ -1,57 +1,46 @@
 import React from "react";
 
-const Requests = () => {
+const Requests = ({ appointmentRequest }) => {
+  console.log(appointmentRequest);
   return (
-    <div>
-      <table class="table align-middle mb-0 bg-white">
-        <thead class="bg-light">
-          <tr>
-            <th>Name</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Position</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="d-flex align-items-center">
-                <img
-                  src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-                  class="rounded-circle"
-                  alt=""
-                  style={{ width: "45px", height: "45px" }}
-                />
-                <div class="ms-3">
-                  <p class="fw-bold mb-1">Kate Hunington</p>
-                  <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                </div>
-              </div>
-            </td>
-            <td>
-              <p class="fw-normal mb-1">Designer</p>
-              <p class="text-muted mb-0">UI/UX</p>
-            </td>
-            <td>
-              <span class="badge badge-warning rounded-pill d-inline">
-                Awaiting
-              </span>
-            </td>
-            <td>Senior</td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-link btn-rounded btn-sm fw-bold"
-                data-mdb-ripple-color="dark"
-              >
-                Edit
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <tr>
+      <td>
+        <div className="d-flex align-items-center">
+          <div className="">
+            <p className="fw-bold mb-1">{appointmentRequest?.name}</p>
+            <p className="text-muted mb-0">kate.hunington@gmail.com</p>
+          </div>
+        </div>
+      </td>
+      <td>
+        <p className="fw-normal mb-1">Designer</p>
+        <p className="text-muted mb-0">UI/UX</p>
+      </td>
+      <td>
+        <span className="badge badge-warning rounded-pill d-inline">
+          Awaiting
+        </span>
+      </td>
+      <td>Senior</td>
+      <td>
+        <button
+          type="button"
+          className="btn btn-link btn-rounded btn-sm fw-bold"
+          data-mdb-ripple-color="dark"
+        >
+          Accept
+        </button>
+      </td>
+      <td>
+        <button
+          type="button"
+          className="btn btn-link badge-danger btn-rounded btn-sm fw-bold"
+          data-mdb-ripple-color="dark"
+        >
+          Reject
+        </button>
+      </td>
+    </tr>
   );
 };
 
