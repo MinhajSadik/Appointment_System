@@ -1,6 +1,7 @@
 import AppointmentModel from "../models/appointmentModel.js";
-import RequestModel from "../models/requestedModel.js";
+import AppointmentRequestModel from "../models/appointmentRequestModel.js";
 import UserModel from "../models/userModel.js";
+import UserRequestModel from "../models/userRequestModel.js";
 
 /*
 teacher and system admin appointment routes
@@ -207,43 +208,46 @@ student appointment request rejection
 
 //The admin will allow students to make an appointment request by providing teachers, departments etc.
 export const studentAppointmentRequest = async (req, res) => {
-  const { name, course, department, agenda, date, time, userId } = req.body;
+  const { name, course, teacher, department, agenda, date, time, userId } =
+    req.body;
   try {
     //check teacher by department and id
     //there some issue i found below i commented it out
     //later i wanna implement get teacher using userId not _id, directly from the user.
     //userId isn't tracked in client side, so i can't use it to get teacher
     //agenda is sendable when student trying to make an appointment request
-    const teacher = await UserModel.findOne({
+    let teacherId = await UserModel.findOne({
       _id: userId,
     });
 
-    if (!teacher)
+    teacherId = await UserRequestModel.findOne({
+      _id: userId,
+    });
+
+    if (!teacherId)
       return res.status(404).json({
-        message: `Teacher with name ${userId} does not exist`,
+        message: `Teacher with ${userId} does not exist`,
       });
 
     //check teacher is in the same department
-    if (teacher.department !== department)
+    if (teacherId.department !== department)
       return res.status(400).json({
         message: `Teacher with name ${name} is not in the same department`,
       });
 
     //send appointment to temporary appointment collection
-    const requestAppointment = await RequestModel.create({
+    const requestAppointment = await AppointmentRequestModel.create({
       name,
       course,
       department,
+      teacher,
       agenda,
       date,
       time,
       userId,
     });
 
-    return res.status(200).json({
-      message: `Appointment request has been sent successfully`,
-      result: requestAppointment,
-    });
+    return res.status(200).json(requestAppointment);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({
@@ -255,7 +259,7 @@ export const studentAppointmentRequest = async (req, res) => {
 //get all student appointments requests
 export const getStudentAppointmentsRequests = async (req, res) => {
   try {
-    const appointments = await RequestModel.find({})
+    const appointments = await AppointmentRequestModel.find({})
       .populate("userId", "name email")
       .sort({ date: -1, time: -1 });
 
@@ -279,7 +283,7 @@ export const getStudentAppointmentsRequests = async (req, res) => {
 export const approveStudentAppointmentRequest = async (req, res) => {
   const { id } = req.params;
   try {
-    const appointment = await RequestModel.findById(id);
+    const appointment = await AppointmentRequestModel.findById(id);
     if (!appointment)
       return res
         .status(404)
@@ -308,7 +312,7 @@ export const approveStudentAppointmentRequest = async (req, res) => {
     });
 
     //delete request
-    await RequestModel.findByIdAndDelete(id);
+    await AppointmentRequestModel.findByIdAndDelete(id);
 
     return res.status(200).json({
       message: `Appointment request has been approved successfully`,
@@ -326,14 +330,14 @@ export const approveStudentAppointmentRequest = async (req, res) => {
 export const rejectStudentAppointmentRequest = async (req, res) => {
   const { id } = req.params;
   try {
-    const appointment = await RequestModel.findById(id);
+    const appointment = await AppointmentRequestModel.findById(id);
     if (!appointment)
       return res
         .status(404)
         .json({ message: `Appointment with id ${id} does not exist` });
 
     //delete request
-    await RequestModel.findByIdAndDelete(id);
+    await AppointmentRequestModel.findByIdAndDelete(id);
 
     return res.status(200).json({
       message: `Appointment request has been rejected successfully`,

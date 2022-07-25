@@ -2,8 +2,8 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import RequestModel from "../models/requestedModel.js";
 import UserModel from "../models/userModel.js";
+import UserRequestModel from "../models/userRequestModel.js";
 
 //dotenv config
 dotenv.config({ path: "./backend/configs/config.env" });
@@ -192,7 +192,9 @@ export const sendRegistrationRequest = async (req, res) => {
   const { name, email, password, status, role } = req.body;
   try {
     //check if user already exists
-    const user = await UserModel.findOne({ email });
+    let user = await UserModel.findOne({ email });
+    user = await UserRequestModel.findOne({ email });
+
     if (user) {
       return res.status(400).json({
         message: `User with email ${email} already exists in the user list`,
@@ -211,7 +213,7 @@ export const sendRegistrationRequest = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //create new user and send registration request to admin
-    const requestUser = new RequestModel({
+    const requestUser = new UserRequestModel({
       name,
       email,
       password: hashedPassword,
@@ -229,7 +231,7 @@ export const sendRegistrationRequest = async (req, res) => {
     );
 
     //check if user already requested for registration
-    const request = await RequestModel.findOne({ email });
+    const request = await UserRequestModel.findOne({ email });
     if (request) {
       return res.status(400).json({
         message: `User with email ${email} already requested`,
@@ -253,7 +255,7 @@ export const sendRegistrationRequest = async (req, res) => {
 //get all user registration requests
 export const getAllUserRegistrationRequests = async (req, res) => {
   try {
-    const requests = await RequestModel.find({})
+    const requests = await UserRequestModel.find({})
       .populate("userId", "name email")
       .select("-password -__v");
 
@@ -275,7 +277,7 @@ export const getAllUserRegistrationRequests = async (req, res) => {
 export const approveUserRegistrationRequest = async (req, res) => {
   const { id } = req.params;
   try {
-    const request = await RequestModel.findById(id);
+    const request = await UserRequestModel.findById(id);
     if (!request) {
       return res.status(404).json({
         message: `User registration request with id ${id} does not exist`,
@@ -314,7 +316,7 @@ export const approveUserRegistrationRequest = async (req, res) => {
     const newUser = await user.save();
 
     //delete request
-    await RequestModel.findByIdAndDelete(id);
+    await UserRequestModel.findByIdAndDelete(id);
 
     return res.status(200).json({
       message: `User ${requestName} has been approved successfully`,
@@ -333,7 +335,7 @@ export const approveUserRegistrationRequest = async (req, res) => {
 export const rejectUserRegistrationRequest = async (req, res) => {
   const { id } = req.params;
   try {
-    const request = await RequestModel.findById(id);
+    const request = await UserRequestModel.findById(id);
     if (!request) {
       return res.status(404).json({
         message: `User registration request with id ${id} does not exist`,
@@ -348,7 +350,7 @@ export const rejectUserRegistrationRequest = async (req, res) => {
       });
     }
 
-    await RequestModel.findByIdAndDelete(id);
+    await UserRequestModel.findByIdAndDelete(id);
     res.status(200).json({
       message: `User ${id} has been rejected successfully`,
     });

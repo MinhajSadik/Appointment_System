@@ -10,10 +10,12 @@ const userRequestSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: false,
+    required: true,
   },
   password: {
     type: String,
     minlength: 6,
+    required: true,
   },
   course: {
     type: String,
