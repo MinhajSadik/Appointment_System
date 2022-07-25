@@ -99,7 +99,10 @@ export const updateUser = async (req, res) => {
 export const getAllTeachers = async (req, res) => {
   try {
     const teachers = await UserModel.find({ role: "teacher" });
-    res.status(200).json(teachers);
+    res.status(200).json({
+      message: `All teachers have been fetched successfully`,
+      result: teachers,
+    });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

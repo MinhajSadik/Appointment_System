@@ -2,10 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as api from "../api";
 
 export const getAllTeachers = createAsyncThunk(
-  "teacher/teachers",
+  "teacher/all",
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.getAllTeachers();
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error.message);

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiCalendarPlus } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addNewAppointmentRequest } from "../redux/api";
 import { addNewAppointment } from "../redux/features/appointmentSlice";
+import { getAllTeachers } from "../redux/features/teacherSlice";
 
 const AddAppointment = () => {
   const { user } = useSelector((state) => ({ ...state.user }));
@@ -50,6 +51,10 @@ const AddAppointment = () => {
       toast.error(`${user?.result?.role} check your role and try again`);
     }
   };
+
+  useEffect(() => {
+    dispatch(getAllTeachers());
+  }, [dispatch]);
   return (
     <div>
       <button
