@@ -82,11 +82,11 @@ const Dashboard = () => {
             <thead className="bg-light">
               <tr>
                 <th>Name</th>
-                <th>Course</th>
-                <th>Department</th>
-                <th>Agenda</th>
-                <th>Date</th>
-                <th>Time</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Request Date</th>
+                <th>Action</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>

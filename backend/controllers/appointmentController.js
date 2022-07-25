@@ -265,10 +265,7 @@ export const getStudentAppointmentsRequests = async (req, res) => {
       });
     }
 
-    return res.status(200).json({
-      message: `All appointments has been retrieved successfully`,
-      result: appointments,
-    });
+    return res.status(200).json(appointments);
   } catch (error) {
     console.error(error.message);
 

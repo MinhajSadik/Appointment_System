@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 
 const Requests = ({ appointmentRequest }) => {
@@ -8,20 +9,20 @@ const Requests = ({ appointmentRequest }) => {
         <div className="d-flex align-items-center">
           <div className="">
             <p className="fw-bold mb-1">{appointmentRequest?.name}</p>
-            <p className="text-muted mb-0">kate.hunington@gmail.com</p>
+            <p className="text-muted mb-0">{appointmentRequest?.email}</p>
           </div>
         </div>
       </td>
       <td>
-        <p className="fw-normal mb-1">Designer</p>
-        <p className="text-muted mb-0">UI/UX</p>
+        <p className="fw-normal mb-1">{appointmentRequest?.role}</p>
+        {/* <p className="text-muted mb-0">UI/UX</p> */}
       </td>
       <td>
         <span className="badge badge-warning rounded-pill d-inline">
-          Awaiting
+          {appointmentRequest?.status}
         </span>
       </td>
-      <td>Senior</td>
+      <td>{moment(appointmentRequest?.createdAt).format("MMM Do YYYY")}</td>
       <td>
         <button
           type="button"
