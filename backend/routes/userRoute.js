@@ -36,7 +36,7 @@ router.get(
 //regitration approve route
 router.put(
   "/register/approve/:id",
-  authorizeUserRoles(["systemAdmin"]),
+  authorizeUserRoles("systemAdmin"),
   approveUserRegistrationRequest
 );
 

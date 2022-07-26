@@ -67,7 +67,7 @@ const Home = () => {
             <th className="text-sm font-medium text-white px-6 py-4">Time</th>
           </tr>
         </thead>
-        <tbody className="table-auto">
+        <tbody>
           {filteredAppointment &&
             filteredAppointment.map((appointment) => (
               <AppointmentInfo

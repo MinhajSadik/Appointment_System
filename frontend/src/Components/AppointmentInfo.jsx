@@ -2,19 +2,34 @@ import moment from "moment";
 import React, { useState } from "react";
 import { BiEdit, BiSave, BiTrash } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { updateAppointment } from "../redux/features/appointmentSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import {
+  deleteAppointment,
+  updateAppointment,
+} from "../redux/features/appointmentSlice";
 
+const initialState = {
+  name: "",
+  course: "",
+  department: "",
+  agenda: "",
+  date: "",
+  time: "",
+};
 const AppointmentInfo = ({ appointment }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
   const [updatedAppointmentInfo, setUpdatedAppointmentInfo] =
-    useState(appointment);
+    useState(initialState);
+  const { name, course, department, agenda, date, time } =
+    updatedAppointmentInfo;
   //edit appointment when edit icon is clicked
   const handleEdit = (id) => {
     setEdit(!edit);
     setUpdatedAppointmentInfo({
-      ...updatedAppointmentInfo,
-      id: id,
+      ...appointment,
       name: appointment.name,
       course: appointment.course,
       department: appointment.department,
@@ -22,10 +37,6 @@ const AppointmentInfo = ({ appointment }) => {
       date: appointment.date,
       time: appointment.time,
     });
-    //check others edit button isn't clicked
-    if (edit) {
-      setEdit(false);
-    }
   };
 
   const onInputChange = (e) => {
@@ -36,13 +47,16 @@ const AppointmentInfo = ({ appointment }) => {
   //update appointment when save icon is clicked
   const handleSave = (id) => {
     setEdit(!edit);
-    dispatch(updateAppointment(updatedAppointmentInfo, id));
+    dispatch(
+      updateAppointment({ updatedAppointmentInfo, id, navigate, toast })
+    );
+    console.log(updatedAppointmentInfo, id);
   };
 
   //delete appointment when trash icon is clicked
-  // const handleDelete = (id) => {
-  //   setEdit(!edit);
-  // };
+  const handleDelete = (id) => {
+    dispatch(deleteAppointment({ id, navigate, toast }));
+  };
 
   return (
     <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
@@ -51,8 +65,7 @@ const AppointmentInfo = ({ appointment }) => {
           <input
             type="text"
             name="name"
-            id="name"
-            value={updatedAppointmentInfo.name}
+            value={name}
             onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
@@ -66,7 +79,7 @@ const AppointmentInfo = ({ appointment }) => {
             type="text"
             name="course"
             id="course"
-            value={updatedAppointmentInfo.course}
+            value={course}
             onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
@@ -80,7 +93,7 @@ const AppointmentInfo = ({ appointment }) => {
             type="text"
             name="department"
             id="department"
-            value={updatedAppointmentInfo.department}
+            value={department}
             onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
@@ -96,7 +109,7 @@ const AppointmentInfo = ({ appointment }) => {
             type="text"
             name="agenda"
             id="agenda"
-            value={updatedAppointmentInfo.agenda}
+            value={agenda}
             onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
@@ -110,7 +123,7 @@ const AppointmentInfo = ({ appointment }) => {
             type="date"
             name="date"
             id="date"
-            value={updatedAppointmentInfo.date}
+            value={date}
             onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
@@ -124,19 +137,20 @@ const AppointmentInfo = ({ appointment }) => {
             type="time"
             name="time"
             id="time"
-            value={updatedAppointmentInfo.time}
+            value={time}
             onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
-          <p className="">{appointment?.time}</p>
+          <p className="">
+            {moment(appointment.time, "HH:mm").format("hh:mm a")}
+          </p>
         )}
-        {/* {moment(appointment?.time).format("hh:mm A")} */}
       </td>
       <td>
         <div className="flex">
           <button
-            // onClick={() => onDeleteAppointment(appointment?._id)}
+            onClick={() => handleDelete(appointment?._id)}
             type="button"
             className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-500 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
