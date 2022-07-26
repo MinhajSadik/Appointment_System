@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Requests from "../Components/Users/Requests";
-import { studentAppointmentRequests } from "../redux/features/appointmentSlice";
+// import { studentAppointmentRequests } from "../redux/features/appointmentSlice";
+import RegisterRequests from "../Components/Users/RegisterRequests";
 import { userRegistrationRequests } from "../redux/features/userSlice";
 
 const Dashboard = () => {
@@ -13,10 +13,10 @@ const Dashboard = () => {
       ...state.appointment,
     }));
 
-  // console.log(registrationRequests, appointmentRequests);
+  console.log("appointmentRequests", appointmentRequests);
 
   useEffect(() => {
-    dispatch(studentAppointmentRequests());
+    // dispatch(studentAppointmentRequests());
     dispatch(userRegistrationRequests());
   }, [dispatch]);
   return (
@@ -75,30 +75,35 @@ const Dashboard = () => {
           <div></div>
         </div>
       </div>
-      <div className="container mx-auto mt-3 font-thin">
-        <ul className="divide-y divide-gray-200">
-          {/* table for appointments */}
-          <table className="table align-center bg-white">
-            <thead className="bg-light">
-              <tr>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Request Date</th>
-                <th>Action</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {registrationRequests?.map((registrationRequest) => (
-                <Requests
-                  key={registrationRequest._id}
-                  registrationRequest={registrationRequest}
-                />
-              ))}
-            </tbody>
-          </table>
-        </ul>
+      <div className="container mx-auto font-thin">
+        <table className="min-w-full">
+          <thead className="border-b bg-gray-800">
+            <tr>
+              <th className="text-sm font-medium text-white px-6 py-4">Name</th>
+              <th className="text-sm font-medium text-white px-6 py-4">Role</th>
+              <th className="text-sm font-medium text-white px-6 py-4">
+                Status
+              </th>
+              <th className="text-sm font-medium text-white px-6 py-4">
+                Request Date
+              </th>
+              <th className="text-sm font-medium text-white px-6 py-4">
+                Action
+              </th>
+              <th className="text-sm font-medium text-white px-6 py-4">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody className="table-auto">
+            {registrationRequests?.map((registrationRequest) => (
+              <RegisterRequests
+                key={registrationRequest._id}
+                registrationRequest={registrationRequest}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

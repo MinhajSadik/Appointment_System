@@ -19,7 +19,10 @@ const AddAppointment = ({ teacher }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { teachers } = useSelector((state) => ({ ...state.teacher }));
-  const { user } = useSelector((state) => ({ ...state.user }));
+  const { user, appointments } = useSelector((state) => ({
+    ...state.user,
+    ...state.appointment,
+  }));
   const [appointmentInfo, setAppointmentInfo] = useState(initialState);
   const [toggleForm, setToggleForm] = useState(false);
   const { name, course, department, agenda, date, time } = appointmentInfo;
@@ -39,9 +42,8 @@ const AddAppointment = ({ teacher }) => {
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setAppointmentInfo({ ...appointmentInfo, [name]: value });
+    // console.log("teacher", teacher._id);
   };
-
-  console.log("teacher", teacher.name);
 
   const handleAppointment = () => {
     if (teacherRole || systemAdmin) {
@@ -55,18 +57,20 @@ const AddAppointment = ({ teacher }) => {
 
   return (
     <div>
-      <button
-        onClick={() => {
-          setToggleForm(!toggleForm);
-        }}
-        className={`bg-blue-400 text-dark px-2 py-2 w-full text-left rounded-t-md
+      <div>
+        <button
+          onClick={() => {
+            setToggleForm(!toggleForm);
+          }}
+          className={`bg-blue-400 text-dark px-2 py-2 w-full text-left rounded-t-md
                     ${toggleForm ? "rounded-t-md" : "rounded-md"}`}
-      >
-        <div>
-          <BiCalendarPlus className="inline-block align-text-top mr-2" />
-          {student ? "Request an Appointment" : "Add an Appointment"}
-        </div>
-      </button>
+        >
+          <div>
+            <BiCalendarPlus className="inline-block align-text-top mr-2" />
+            {student ? "Request an Appointment" : "Add an Appointment"}
+          </div>
+        </button>
+      </div>
       {toggleForm && (
         <div className="border-r-2 border-b-2 border-l-2 border-light-blue-500 rounded-b-md pl-4 pr-4 pb-4">
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
@@ -84,7 +88,7 @@ const AddAppointment = ({ teacher }) => {
                 required
                 value={name}
                 onChange={onInputChange}
-                placeholder="write an appointment name"
+                placeholder="Write an appointment name"
                 className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
@@ -105,8 +109,8 @@ const AddAppointment = ({ teacher }) => {
                 required
                 value={course}
                 onChange={onInputChange}
-                placeholder="which course you wanna take?"
-                title="which course you wanna take? e.g. CS"
+                placeholder="Which course would you like to attend?"
+                title="Which course you wanna take? e.g. English, Math, etc."
                 className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               />
             </div>
@@ -155,12 +159,33 @@ const AddAppointment = ({ teacher }) => {
                     className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   >
                     <option value="">Request for Department</option>
-                    <option value="CS">CS</option>
-                    <option value="IS">IS</option>
-                    <option value="IT">IT</option>
-                    <option value="EC">EC</option>
-                    <option value="EE">EE</option>
+                    {appointments?.map((appoointment) => (
+                      <option key={appoointment._id} value={appoointment._id}>
+                        {appoointment.department}
+                      </option>
+                    ))}
                   </select>
+                </div>
+              </div>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+                <label
+                  htmlFor="Agenda"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  What is your agenda?
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="agenda"
+                    id="agenda"
+                    required
+                    value={agenda}
+                    onChange={onInputChange}
+                    placeholder="What's your agenda?"
+                    title="Write an course agenda!"
+                    className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                  />
                 </div>
               </div>
             </>
@@ -181,8 +206,8 @@ const AddAppointment = ({ teacher }) => {
                     required
                     value={department}
                     onChange={onInputChange}
-                    placeholder="which department you wanna choose? e.g. CS"
-                    title="choose a department"
+                    placeholder="Which department you wanna choose? e.g. CS"
+                    title="Choose a department"
                     className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>
@@ -202,8 +227,8 @@ const AddAppointment = ({ teacher }) => {
                     required
                     value={agenda}
                     onChange={onInputChange}
-                    placeholder="what's the agenda?"
-                    title="write an course agenda!"
+                    placeholder="What's your agenda?"
+                    title="Write an course agenda!"
                     className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
                 </div>

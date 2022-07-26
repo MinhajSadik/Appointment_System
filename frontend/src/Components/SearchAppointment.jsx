@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BiCaretDown, BiCheck, BiSearch } from "react-icons/bi";
+import { MdCancel } from "react-icons/md";
 
 const DropDown = ({
   toggle,
@@ -70,7 +71,7 @@ const SearchAppointment = ({
   orderBy,
   onOrderByChange,
 }) => {
-  let [toggleSort, setToggleSort] = useState(false);
+  const [toggleSort, setToggleSort] = useState(false);
   return (
     <div className="py-5">
       <div className="mt-1 relative rounded-md shadow-sm">
@@ -99,7 +100,12 @@ const SearchAppointment = ({
               aria-haspopup="true"
               aria-expanded="true"
             >
-              Sort By <BiCaretDown className="ml-2" />
+              <span className="text-sm">Sort by</span>
+              {toggleSort ? (
+                <MdCancel className="ml-2" />
+              ) : (
+                <BiCaretDown className="ml-2" />
+              )}
             </button>
             <DropDown
               toggle={toggleSort}

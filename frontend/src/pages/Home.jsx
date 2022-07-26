@@ -42,15 +42,14 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <div className="App container mx-auto mt-3 font-thin">
+    <div className="container mx-auto mt-3 font-thin">
       <h1 className="text-5xl mb-3">
         <BiCalendar className="inline-block text-red-400" />
         Your Appointments
       </h1>
-      {teachers &&
-        teachers.map((teacher) => (
-          <AddAppointment key={teacher._id} teacher={teacher} />
-        ))}
+      {teachers.map((teacher) => (
+        <AddAppointment key={teacher._id} teacher={teacher} />
+      ))}
       <SearchAppointment
         query={query}
         onQueryChange={(myQuery) => setQuery(myQuery)}
@@ -59,30 +58,29 @@ const Home = () => {
         sortBy={sortBy}
         onSortByChange={(mySort) => setSortBy(mySort)}
       />
-
-      <ul className="divide-y divide-gray-200">
-        <table className="table align-center mb-0 bg-white">
-          <thead className="bg-light">
-            <tr>
-              <th>Name</th>
-              <th>Course</th>
-              <th>Department</th>
-              <th>Agenda</th>
-              <th>Date</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredAppointment &&
-              filteredAppointment.map((appointment) => (
-                <AppointmentInfo
-                  appointment={appointment}
-                  key={appointment._id}
-                />
-              ))}
-          </tbody>
-        </table>
-      </ul>
+      <table className="min-w-full">
+        <thead className="border-b bg-gray-800">
+          <tr>
+            <th className="text-sm font-medium text-white px-6 py-4">Name</th>
+            <th className="text-sm font-medium text-white px-6 py-4">Course</th>
+            <th className="text-sm font-medium text-white px-6 py-4">
+              Department
+            </th>
+            <th className="text-sm font-medium text-white px-6 py-4">Agenda</th>
+            <th className="text-sm font-medium text-white px-6 py-4">Date</th>
+            <th className="text-sm font-medium text-white px-6 py-4">Time</th>
+          </tr>
+        </thead>
+        <tbody className="table-auto">
+          {filteredAppointment &&
+            filteredAppointment.map((appointment) => (
+              <AppointmentInfo
+                appointment={appointment}
+                key={appointment._id}
+              />
+            ))}
+        </tbody>
+      </table>
     </div>
   );
 };
