@@ -47,9 +47,11 @@ const AppointmentInfo = ({ appointment }) => {
   //update appointment when save icon is clicked
   const handleSave = (id) => {
     setEdit(!edit);
-    dispatch(
-      updateAppointment({ updatedAppointmentInfo, id, navigate, toast })
-    );
+    if (name || course || department || agenda || date || time) {
+      dispatch(
+        updateAppointment({ updatedAppointmentInfo, id, navigate, toast })
+      );
+    }
     console.log(updatedAppointmentInfo, id);
   };
 

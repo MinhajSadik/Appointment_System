@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import UserModel from "../models/userModel.js";
 dotenv.config({ path: "../../configs/config.env" });
 
 export const authorizeUserRoles = (roles = []) => {
@@ -13,11 +12,8 @@ export const authorizeUserRoles = (roles = []) => {
     async (req, res, next) => {
       try {
         const token = req.headers.authorization.split(" ")[1];
-        if (token) {
-          const decoded = jwt.verify(token, secret);
-          const user = await UserModel.findById(decoded.id);
-          req.user = user;
-        }
+        const decoded = jwt.verify(token, secret);
+        req.user = decoded;
         return next();
       } catch (error) {
         console.error(error.message);
