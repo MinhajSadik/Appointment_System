@@ -26,7 +26,6 @@ API.interceptors.request.use((req) => {
 
 /* USRER [student and teacher related work] */
 //#1
-
 //$POST: login user [any type of user can login]
 export const loginUser = (loginInfo) => API.post("/api/user/login", loginInfo);
 
