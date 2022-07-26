@@ -143,8 +143,8 @@ const userSlice = createSlice({
     },
     [userRegisterRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.user = payload;
-      localStorage.setItem("registerRequest", JSON.stringify({ ...payload }));
+      // state.user = payload;
+      // localStorage.setItem("registerRequest", JSON.stringify({ ...payload }));
     },
     [userRegisterRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;

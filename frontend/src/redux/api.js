@@ -14,15 +14,32 @@ const API = axios.create({
 
 console.log(REACT_APP_DEV_API, REACT_APP_PROD_API, devEnv);
 
-API.interceptors.request.use((req) => {
-  if (localStorage.getItem("token")) {
-    req.headers.Authorization = `Bearer ${
-      JSON.parse(localStorage.getItem("token")).token
-    }`;
-  }
+// API.interceptors.request.use((req) => {
+//   if (localStorage.getItem("token")) {
+//     req.headers.Authorization = `Bearer ${
+//       JSON.parse(localStorage.getItem("token")).token
+//     }`;
+//   }
 
-  return req;
-});
+//   return req;
+// });
+
+//get token from cookie
+API.interceptors.request.use(
+  (req) => {
+    if (localStorage.getItem("token")) {
+      req.headers.Authorization = `Bearer ${
+        JSON.parse(localStorage.getItem("token")).token
+      }`;
+    }
+    console.log(req.headers);
+    return req;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 /* USRER [student and teacher related work] */
 //#1

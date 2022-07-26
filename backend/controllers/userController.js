@@ -31,20 +31,23 @@ export const loginUser = async (req, res) => {
       }
     );
 
-    // const options = {
-    //   expires: new Date(
-    //     Date.now() + process.env.COOKIE_EXPIRATION_TIME * 24 * 60 * 60 * 1000
-    //   ),
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   sameSite: "strict",
-    // };
+    const options = {
+      expires: new Date(
+        Date.now() + process.env.COOKIE_EXPIRATION_TIME * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    };
 
-    res.status(200).json({
-      message: `User ${user.name} has been logged in successfully`,
-      result: user,
-      token,
-    });
+    res
+      .cookie("token", token, options)
+      .status(200)
+      .json({
+        message: `User with email ${email} successfully logged in`,
+        token,
+        user,
+      });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({
