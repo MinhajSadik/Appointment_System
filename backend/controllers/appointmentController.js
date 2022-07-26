@@ -90,10 +90,7 @@ export const updateAppointment = async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json({
-      message: `Appointment with id ${id} has been updated successfully`,
-      result: updatedAppointment,
-    });
+    res.status(200).json(updatedAppointment);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

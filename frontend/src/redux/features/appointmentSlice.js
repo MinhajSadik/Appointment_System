@@ -59,6 +59,41 @@ export const studentAppointmentRequests = createAsyncThunk(
   }
 );
 
+export const updateAppointment = createAsyncThunk(
+  "appointment/update",
+  async (
+    { updatedAppointmentInfo, id, navigate, toast },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.updateAppointment(updatedAppointmentInfo, id);
+      toast.success("Successfully updated appointment");
+      navigate("/appointments");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteAppointment = createAsyncThunk(
+  "appointment/delete",
+  async ({ id, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.deleteAppointment(id);
+      toast.success("Successfully deleted appointment");
+      navigate("/appointments");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const appointmentSlice = createSlice({
   name: "appointment",
   initialState: {
@@ -120,6 +155,30 @@ const appointmentSlice = createSlice({
       localStorage.setItem("requests", JSON.stringify(payload));
     },
     [studentAppointmentRequests.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [updateAppointment.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateAppointment.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appointment = payload;
+      localStorage.setItem("appointments", JSON.stringify(payload));
+    },
+    [updateAppointment.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [deleteAppointment.pending]: (state) => {
+      state.loading = true;
+    },
+    [deleteAppointment.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appointment = payload;
+      localStorage.removeItem("appointments");
+    },
+    [deleteAppointment.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

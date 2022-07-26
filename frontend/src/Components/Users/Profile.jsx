@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { updatedUserInfo } from "../../redux/features/userSlice";
 
 const initialState = {
   name: "",
@@ -18,22 +17,21 @@ const initialState = {
 
 const Profile = () => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
   const { user, isLoggedIn } = useSelector((state) => ({ ...state.user }));
   const id = useParams().id;
   // const userId = user?.result?._id;
 
   const [edit, setEdit] = useState(false);
-  const [updateInfo, setUpdateInfo] = useState(initialState);
+  const [updatedUserInfo, setUpdatedUserInfo] = useState(initialState);
   const { name, email, course, department, agenda, date, time, role } =
-    updateInfo;
+    updatedUserInfo;
 
   const systemAdmin = user?.result?.role === "systemAdmin";
 
   const handleEdit = () => {
     if (!systemAdmin) {
-      setUpdateInfo({
+      setUpdatedUserInfo({
         name: user?.result?.name,
         email: user?.result?.email,
         course: user?.result?.course,
@@ -49,14 +47,14 @@ const Profile = () => {
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    setUpdateInfo({ ...updateInfo, [name]: value });
+    updatedUserInfo({ ...updatedUserInfo, [name]: value });
   };
 
   const handleProfileUpdate = (e) => {
     e.preventDefault();
     if (name && email && course && department) {
-      dispatch(updatedUserInfo({ updateInfo, id, navigate, toast }));
-      setUpdateInfo(initialState);
+      dispatch(updatedUserInfo({ updatedUserInfo, id, navigate, toast }));
+      updatedUserInfo(initialState);
     }
   };
 
@@ -238,11 +236,7 @@ const Profile = () => {
                         </div>
                       </div>
                       <div className="px-4 text-right py-2">
-                        <button
-                          // type="submit"
-                          // onClick={handleProfileUpdate}
-                          className="h-10 w-32 rounded-sm shadow-md text-white text-[16px] hover:bg-green-700 bg-green-600"
-                        >
+                        <button className="h-10 w-32 rounded-sm shadow-md text-white text-[16px] hover:bg-green-700 bg-green-600">
                           Save
                         </button>
                       </div>

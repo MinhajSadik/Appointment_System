@@ -1,28 +1,43 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { BiEdit, BiSave, BiTrash } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { updateAppointment } from "../redux/features/appointmentSlice";
 
 const AppointmentInfo = ({ appointment }) => {
-  const { name, course, department, agenda, date, time } = appointment;
+  const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
-  const [editingInfo, setEditingInfo] = useState({
-    name,
-    course,
-    department,
-    agenda,
-    date,
-    time,
-  });
+  const [updatedAppointmentInfo, setUpdatedAppointmentInfo] =
+    useState(appointment);
   //edit appointment when edit icon is clicked
   const handleEdit = (id) => {
     setEdit(!edit);
-    console.log(id);
+    setUpdatedAppointmentInfo({
+      ...updatedAppointmentInfo,
+      id: id,
+      name: appointment.name,
+      course: appointment.course,
+      department: appointment.department,
+      agenda: appointment.agenda,
+      date: appointment.date,
+      time: appointment.time,
+    });
+    //check others edit button isn't clicked
+    if (edit) {
+      setEdit(false);
+    }
+  };
+
+  const onInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedAppointmentInfo({ ...updatedAppointmentInfo, [name]: value });
   };
 
   //update appointment when save icon is clicked
-  // const handleSave = (id) => {
-  //   setEdit(!edit);
-  // };
+  const handleSave = (id) => {
+    setEdit(!edit);
+    dispatch(updateAppointment(updatedAppointmentInfo, id));
+  };
 
   //delete appointment when trash icon is clicked
   // const handleDelete = (id) => {
@@ -37,10 +52,8 @@ const AppointmentInfo = ({ appointment }) => {
             type="text"
             name="name"
             id="name"
-            value={editingInfo.name}
-            onChange={(e) =>
-              setEditingInfo({ ...editingInfo, name: e.target.value })
-            }
+            value={updatedAppointmentInfo.name}
+            onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
@@ -53,10 +66,8 @@ const AppointmentInfo = ({ appointment }) => {
             type="text"
             name="course"
             id="course"
-            value={editingInfo.course}
-            onChange={(e) =>
-              setEditingInfo({ ...editingInfo, course: e.target.value })
-            }
+            value={updatedAppointmentInfo.course}
+            onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
@@ -69,10 +80,8 @@ const AppointmentInfo = ({ appointment }) => {
             type="text"
             name="department"
             id="department"
-            value={editingInfo.department}
-            onChange={(e) =>
-              setEditingInfo({ ...editingInfo, department: e.target.value })
-            }
+            value={updatedAppointmentInfo.department}
+            onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
@@ -87,10 +96,8 @@ const AppointmentInfo = ({ appointment }) => {
             type="text"
             name="agenda"
             id="agenda"
-            value={editingInfo.agenda}
-            onChange={(e) =>
-              setEditingInfo({ ...editingInfo, agenda: e.target.value })
-            }
+            value={updatedAppointmentInfo.agenda}
+            onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
@@ -100,13 +107,11 @@ const AppointmentInfo = ({ appointment }) => {
       <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
         {edit ? (
           <input
-            type="text"
+            type="date"
             name="date"
             id="date"
-            value={editingInfo.date}
-            onChange={(e) =>
-              setEditingInfo({ ...editingInfo, date: e.target.value })
-            }
+            value={updatedAppointmentInfo.date}
+            onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
@@ -116,13 +121,11 @@ const AppointmentInfo = ({ appointment }) => {
       <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
         {edit ? (
           <input
-            type="text"
+            type="time"
             name="time"
             id="time"
-            value={editingInfo.time}
-            onChange={(e) =>
-              setEditingInfo({ ...editingInfo, time: e.target.value })
-            }
+            value={updatedAppointmentInfo.time}
+            onChange={onInputChange}
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
@@ -141,7 +144,7 @@ const AppointmentInfo = ({ appointment }) => {
           </button>
           {edit ? (
             <button
-              onClick={() => handleEdit(appointment?._id)}
+              onClick={() => handleSave(appointment?._id)}
               type="button"
               className="p-1.5 mr-1.5 mt-1 rounded text-white bg-yellow-500 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >

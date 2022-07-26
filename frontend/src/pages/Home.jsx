@@ -10,8 +10,6 @@ import { getAllTeachers } from "../redux/features/teacherSlice";
 const Home = () => {
   const dispatch = useDispatch();
   const { appointments } = useSelector((state) => ({ ...state.appointment }));
-  const { teachers } = useSelector((state) => ({ ...state.teacher }));
-
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [orderBy, setOrderBy] = useState("department");
@@ -47,9 +45,7 @@ const Home = () => {
         <BiCalendar className="inline-block text-red-400" />
         Your Appointments
       </h1>
-      {teachers.map((teacher) => (
-        <AddAppointment key={teacher._id} teacher={teacher} />
-      ))}
+      <AddAppointment />
       <SearchAppointment
         query={query}
         onQueryChange={(myQuery) => setQuery(myQuery)}

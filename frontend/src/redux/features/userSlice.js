@@ -41,9 +41,9 @@ export const userRegisterRequest = createAsyncThunk(
 
 export const updatedUserInfo = createAsyncThunk(
   "user/update",
-  async ({ updateInfo, id, navigate, toast }, { rejectWithValue }) => {
+  async ({ updatedUserInfo, id, navigate, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.updateUser(updateInfo, id);
+      const response = await api.updateUser(updatedUserInfo, id);
       toast.success("Successfully updated profile");
       navigate("/");
       return response.data;
