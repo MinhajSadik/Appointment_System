@@ -12,7 +12,7 @@ import {
   sendRegistrationRequest,
   updateUser,
 } from "../controllers/userController.js";
-import { isAuthenticatedUser } from "../middlewares/isAuthenticatedUser";
+import { isAuthenticatedUser } from "../middlewares/isAuthenticatedUser.js";
 import { authorizeUserRoles } from "../utils/helpers/authorizeUserRoles.js";
 const router = express.Router();
 

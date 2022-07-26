@@ -10,12 +10,20 @@ export const authorizeUserRoles = (roles = []) => {
   return [
     // authenticate JWT token and attach user to request object (req.user)
     async (req, res, next) => {
-      if (req.headers.authorization) {
+      try {
         const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, secret);
-        req.user = decoded;
+        if (token) {
+          const decoded = jwt.verify(token, secret);
+          const user = await UserModel.findById(decoded.id);
+          req.user = user;
+        }
+        return next();
+      } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+          message: `Server Error: ${error.message}`,
+        });
       }
-      return next();
     },
     // authorize user roles
     async (req, res, next) => {

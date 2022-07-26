@@ -52,6 +52,6 @@ const userRequestSchema = new mongoose.Schema({
   },
 });
 
-const UserRequest = mongoose.model("Request", userRequestSchema);
+const UserRequest = mongoose.model("UserRequest", userRequestSchema);
 
 export default UserRequest;

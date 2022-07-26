@@ -1,7 +1,6 @@
 import AppointmentModel from "../models/appointmentModel.js";
 import AppointmentRequestModel from "../models/appointmentRequestModel.js";
 import UserModel from "../models/userModel.js";
-import UserRequestModel from "../models/userRequestModel.js";
 
 /*
 teacher and system admin appointment routes
@@ -213,11 +212,7 @@ export const studentAppointmentRequest = async (req, res) => {
     //later i wanna implement get teacher using userId not _id, directly from the user.
     //userId isn't tracked in client side, so i can't use it to get teacher
     //agenda is sendable when student trying to make an appointment request
-    let teacherId = await UserModel.findOne({
-      _id: userId,
-    });
-
-    teacherId = await UserRequestModel.findOne({
+    const teacherId = await UserModel.findOne({
       _id: userId,
     });
 
