@@ -21,3 +21,22 @@ export const isAuthenticatedUser = async (req, res, next) => {
     });
   }
 };
+
+// export const authorizeRoles = (roles = []) => {
+//   //check single and multiple roles
+//   if (typeof roles === "string") {
+//     roles = [roles];
+//   }
+//   return [
+//     isAuthenticatedUser,
+//     (req, res, next) => {
+//       if (roles.length && !roles.includes(req.user.role)) {
+//         return res.status(401).json({
+//           message: `${req.user.role} you are not authorized to perform this action`,
+//         });
+//       }
+//       console.log(req.user.role);
+//       next();
+//     },
+//   ];
+// };

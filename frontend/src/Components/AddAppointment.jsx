@@ -14,7 +14,6 @@ const initialState = {
   date: "",
   time: "",
 };
-
 const AddAppointment = ({ teacher }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,13 +22,11 @@ const AddAppointment = ({ teacher }) => {
     ...state.user,
     ...state.appointment,
   }));
+
   const [appointmentInfo, setAppointmentInfo] = useState(initialState);
   const [toggleForm, setToggleForm] = useState(false);
-  const { name, course, department, agenda, date, time } = appointmentInfo;
-
-  // if (userId === undefined) {
-  //   userId = user?.result?._id;
-  // }
+  const { name, course, department, agenda, date, time, userId } =
+    appointmentInfo;
 
   const teacherRole = user?.result?.role === "teacher";
   const student = user?.result?.role === "student";
@@ -51,7 +48,9 @@ const AddAppointment = ({ teacher }) => {
     } else if (student) {
       dispatch(addNewAppointmentRequest({ appointmentInfo, navigate, toast }));
     } else {
-      toast.error(`${user?.result?.role} check your role and try again`);
+      toast.error(
+        `hey! you are not authorized to add an appointment, please login as a teacher`
+      );
     }
   };
 

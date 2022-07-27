@@ -7,8 +7,9 @@ teacher and system admin appointment routes
 */
 //add new appointment
 export const addAppointment = async (req, res) => {
-  const { name, course, department, agenda, date, time, userId } = req.body;
+  const { name, course, department, agenda, date, time } = req.body;
   try {
+    //later i've to implement userId in both side of appointment and appointment request
     const appointment = await AppointmentModel.create({
       name,
       course,
@@ -16,7 +17,6 @@ export const addAppointment = async (req, res) => {
       agenda,
       date,
       time,
-      userId,
     });
     res.status(200).json({
       message: `Appointment has been added successfully`,
@@ -34,8 +34,8 @@ export const addAppointment = async (req, res) => {
 export const getAppointments = async (req, res) => {
   try {
     const appointments = await AppointmentModel.find({})
-      .populate("userId", "name email")
-      .sort({ date: -1, time: -1 });
+      .populate("userId", "name email role")
+      .sort({ date: -1 });
 
     res.status(200).json(appointments);
   } catch (error) {
@@ -236,7 +236,6 @@ export const studentAppointmentRequest = async (req, res) => {
       agenda,
       date,
       time,
-      userId,
     });
 
     return res.status(200).json(requestAppointment);
@@ -251,9 +250,10 @@ export const studentAppointmentRequest = async (req, res) => {
 //get all student appointments requests
 export const getStudentAppointmentsRequests = async (req, res) => {
   try {
-    const appointments = await AppointmentRequestModel.find({})
-      .populate("userId", "name email")
-      .sort({ date: -1, time: -1 });
+    const appointments = await AppointmentRequestModel.find({}).sort({
+      date: -1,
+      time: -1,
+    });
 
     if (appointments.length === 0) {
       return res.status(404).json({

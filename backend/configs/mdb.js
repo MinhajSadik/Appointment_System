@@ -11,7 +11,7 @@ const connectDB = async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   };
-  // console.log(Remote_Url);
+  console.log(Remote_Url);
 
   try {
     mongoose.connect(DB_URL, options);

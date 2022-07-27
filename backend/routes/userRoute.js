@@ -17,7 +17,13 @@ import { authorizeUserRoles } from "../utils/helpers/authorizeUserRoles.js";
 const router = express.Router();
 
 router.post("/login", loginUser);
-router.get("/teachers", isAuthenticatedUser, getAllTeachers);
+
+router.get(
+  "/teachers",
+  // isAuthenticatedUser,
+  authorizeUserRoles(["teacher", "systemAdmin"]),
+  getAllTeachers
+);
 router.get("/students", isAuthenticatedUser, getAllStudents);
 
 //registration request route

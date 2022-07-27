@@ -13,9 +13,9 @@ export const loginUser = async (req, res) => {
   try {
     const user = await UserModel.findOne({ email });
     if (!user) {
-      return res
-        .status(400)
-        .json({ message: `User with email ${email} does not exist` });
+      return res.status(400).json({
+        message: `User with email ${email} does not exist`,
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -31,20 +31,28 @@ export const loginUser = async (req, res) => {
       }
     );
 
-    // const options = {
-    //   expires: new Date(
-    //     Date.now() + process.env.COOKIE_EXPIRATION_TIME * 24 * 60 * 60 * 1000
-    //   ),
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   sameSite: "strict",
-    // };
+    const options = {
+      expires: new Date(
+        Date.now() + process.env.COOKIE_EXPIRATION_TIME * 24 * 60 * 60 * 1000
+      ),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    };
 
-    res.status(200).json({
-      message: `User ${user.name} has been logged in successfully`,
-      result: user,
-      token,
-    });
+    // res.status(200).json({
+    //   message: `User ${user.name} has been logged in successfully`,
+    //   result: user,
+    //   token,
+    // });
+    res
+      .cookie("token", token, options)
+      .status(200)
+      .json({
+        message: `User ${user.name} has been logged in successfully`,
+        result: user,
+        token,
+      });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({
@@ -256,7 +264,7 @@ export const sendRegistrationRequest = async (req, res) => {
 export const getAllUserRegistrationRequests = async (req, res) => {
   try {
     const requests = await UserRequestModel.find({})
-      .populate("userId", "name email")
+      .populate("userId", "name email role")
       .select("-password -__v");
 
     if (requests.length === 0) {

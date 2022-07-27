@@ -28,7 +28,7 @@ const appointmentSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Users",
+    ref: "User",
   },
   createdAt: {
     type: Date,
