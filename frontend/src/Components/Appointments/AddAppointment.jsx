@@ -34,12 +34,26 @@ const AddAppointment = () => {
 
   const handleAppointment = () => {
     if (teacherRole || systemAdmin) {
-      dispatch(addNewAppointment({ appointmentInfo, navigate, toast }));
+      if (
+        name === "" ||
+        course === "" ||
+        department === "" ||
+        agenda === "" ||
+        date === "" ||
+        time === ""
+      ) {
+        toast.error("Please fill all the fields");
+      } else {
+        dispatch(addNewAppointment({ appointmentInfo, navigate, toast }));
+        setAppointmentInfo(initialState);
+      }
     } else {
       toast.error(
         `hey! you are not authorized to add an appointment, please login as a teacher`
       );
     }
+    setAppointmentInfo(initialState);
+    setToggleForm(!toggleForm);
   };
 
   return (

@@ -55,9 +55,26 @@ const Profile = () => {
 
   const handleProfileUpdate = (e) => {
     e.preventDefault();
-    if (name && email && course && department) {
-      dispatch(updateUser({ updatedUserInfo, id, navigate, toast }));
+
+    if (name && email && course && department && agenda && date && time) {
+      toast.error("Please fill all the fields");
     }
+    //check if email is valid
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Please enter a valid email");
+    }
+    //check if date is valid
+    else if (!moment(date, "YYYY-MM-DD", true).isValid()) {
+      toast.error("Please enter a valid date");
+    }
+    //check if time is valid
+    else if (!moment(time, "HH:mm", true).isValid()) {
+      toast.error("Please enter a valid time");
+    } else {
+      dispatch(updateUser({ updatedUserInfo, id, navigate, toast }));
+      setUpdatedUserInfo(initialState);
+    }
+    setEdit(!edit);
   };
 
   return (
@@ -191,7 +208,7 @@ const Profile = () => {
                             value={agenda}
                             onChange={onInputChange}
                             placeholder="what's your agenda"
-                            className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
+                            className=" h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
                           />
                         </div>
 

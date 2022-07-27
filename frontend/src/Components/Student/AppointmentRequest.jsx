@@ -33,15 +33,28 @@ const AppointmentRequest = () => {
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setAppointmentRequestInfo({ ...appointmentRequestInfo, [name]: value });
-    console.log(teacherId);
-    console.log(department);
-    console.log(appointmentRequestInfo);
   };
 
   const handleAppointmentRequest = () => {
-    dispatch(
-      addNewAppointmentRequest({ appointmentRequestInfo, navigate, toast })
-    );
+    if (
+      name === "" ||
+      course === "" ||
+      department === "" ||
+      agenda === "" ||
+      date === "" ||
+      time === "" ||
+      teacherId === ""
+    ) {
+      toast.error("Please fill all the fields");
+    } else {
+      dispatch(
+        addNewAppointmentRequest({ appointmentRequestInfo, navigate, toast })
+      );
+
+      //set form to initial state
+      setAppointmentRequestInfo(initialState);
+    }
+    setToggleForm(!toggleForm);
   };
   return (
     <div>

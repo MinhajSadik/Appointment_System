@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BiCalendar } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllAppointments } from "../../redux/features/appointmentSlice";
-import { getAllTeachers } from "../../redux/features/teacherSlice";
-import AddAppointment from "../Appointments/AddAppointment";
-import SearchAppointment from "../Appointments/SearchAppointment";
-import AppointmentRequest from "../Student/AppointmentRequest";
-import AppointmentInfo from "./AppointmentInfo";
+import { getAllAppointments } from "../redux/features/appointmentSlice";
+import { getAllTeachers } from "../redux/features/teacherSlice";
+import AddAppointment from "../Components/Appointments/AddAppointment";
+import SearchAppointment from "../Components/Appointments/SearchAppointment";
+import AppointmentRequest from "../Components/Student/AppointmentRequest";
+import AppointmentInfo from "../Components/Appointments/AppointmentInfo";
 
 const Appointments = () => {
   const dispatch = useDispatch();

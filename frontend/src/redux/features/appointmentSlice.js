@@ -7,7 +7,7 @@ export const addNewAppointment = createAsyncThunk(
     try {
       const response = await api.addNewAppointment(appointmentInfo);
       toast.success("Successfully added appointment");
-      navigate("/appointments");
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -25,7 +25,7 @@ export const addNewAppointmentRequest = createAsyncThunk(
         appointmentRequestInfo
       );
       toast.success("Successfully requested appointment");
-      navigate("/appointments");
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -118,7 +118,7 @@ export const deleteAppointment = createAsyncThunk(
     try {
       const response = await api.deleteAppointment(id);
       toast.success("Successfully deleted appointment");
-      navigate("/appointments");
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);

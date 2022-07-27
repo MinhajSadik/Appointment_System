@@ -8,8 +8,8 @@ export const loginUser = createAsyncThunk(
       const response = await api.loginUser(loginInfo);
       toast.success("Successfully logged in");
 
-      if (response?.data?.user?.role === "systemAdmin") {
-        navigate("/dashboard");
+      if (response?.data?.result?.role === "systemAdmin") {
+        navigate("/admin/dashboard");
       } else {
         navigate("/");
       }
@@ -45,7 +45,7 @@ export const updateUser = createAsyncThunk(
     try {
       const response = await api.updateUser(updatedUserInfo, id);
       toast.success("Successfully updated profile");
-      navigate("/");
+      navigate(`/profile/${id}`);
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -74,11 +74,7 @@ export const approveRegistrationRequest = createAsyncThunk(
     try {
       const response = await api.approveRegistrationRequest(id);
       toast.success("Approved registration request");
-      if (response.data.user.role === "student") {
-        navigate("/students");
-      } else if (response.data.user.role === "teacher") {
-        navigate("/teachers");
-      }
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -94,7 +90,7 @@ export const rejectRegistrationRequest = createAsyncThunk(
     try {
       const response = await api.rejectRegistrationRequest(id);
       toast.success("Rejected registration request");
-      navigate("/admin/dashboard");
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);

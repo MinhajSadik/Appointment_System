@@ -49,27 +49,19 @@ const AppointmentInfo = ({ appointment }) => {
     setUpdatedAppointmentInfo({ ...updatedAppointmentInfo, [name]: value });
   };
 
-  //update appointment when save icon is clicked
   const handleSave = (id) => {
     setEdit(!edit);
-    //check if any of the fields are empty
-    if (
-      name === "" &&
-      course === "" &&
-      department === "" &&
-      agenda === "" &&
-      date === "" &&
-      time === ""
-    ) {
+    if (name && course && department && agenda && date && time) {
       toast.error("Please fill all the fields");
     } else {
       dispatch(
         updateAppointment({ updatedAppointmentInfo, id, navigate, toast })
       );
+      setUpdatedAppointmentInfo(initialState);
     }
+    setEdit(!edit);
   };
 
-  //delete appointment when trash icon is clicked
   const handleDelete = (id) => {
     dispatch(deleteAppointment({ id, navigate, toast }));
   };
