@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { BiCalendarPlus } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { addNewAppointmentRequest } from "../../redux/features/appointmentSlice";
 
 const initialState = {
-  //all the fields with teacher name and userId
   name: "",
   course: "",
   department: "",
@@ -18,10 +19,10 @@ const RequestAppointment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { teachers } = useSelector((state) => ({ ...state.teacher }));
-  const { user, appointments } = useSelector((state) => ({
-    ...state.user,
-    ...state.appointment,
-  }));
+  //   const { user, appointments } = useSelector((state) => ({
+  //     ...state.user,
+  //     ...state.appointment,
+  //   }));
 
   const [appointmentRequestInfo, setAppointmentRequestInfo] =
     useState(initialState);
@@ -33,9 +34,15 @@ const RequestAppointment = () => {
     const { name, value } = e.target;
     setAppointmentRequestInfo({ ...appointmentRequestInfo, [name]: value });
     console.log(teacherId);
+    console.log(department);
+    console.log(appointmentRequestInfo);
   };
 
-  const handleAppointmentRequest = () => {};
+  const handleAppointmentRequest = () => {
+    dispatch(
+      addNewAppointmentRequest({ appointmentRequestInfo, navigate, toast })
+    );
+  };
   return (
     <div>
       <button
@@ -99,7 +106,7 @@ const RequestAppointment = () => {
               htmlFor="Teacher"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Request for Teacher
+              Request for available teacher
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <select
@@ -110,13 +117,13 @@ const RequestAppointment = () => {
                 onChange={onInputChange}
                 className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               >
-                <option>Request for Teacher</option>
-                {teachers &&
-                  teachers.map((teacher) => (
-                    <option key={teacher._id} value={teacher._id}>
-                      {teacher.name}
-                    </option>
-                  ))}
+                <option value="select a teacher">Select a Teacher</option>
+                {/* get accurate teacher id */}
+                {teachers.map((teacher) => (
+                  <option key={teacher._id} value={teacher._id}>
+                    {teacher.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -125,7 +132,7 @@ const RequestAppointment = () => {
               htmlFor="Department"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Request for Department
+              Request for Teacher Department
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <select
@@ -134,9 +141,11 @@ const RequestAppointment = () => {
                 required
                 value={department}
                 onChange={onInputChange}
-                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                className=" pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               >
-                <option value="">Request for Department</option>
+                <option value="select an department">
+                  Select Teachers Department
+                </option>
                 {teachers.map((teacher) => (
                   <option key={teacher._id} value={teacher.department}>
                     {teacher.department}

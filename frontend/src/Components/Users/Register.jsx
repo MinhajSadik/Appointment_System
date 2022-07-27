@@ -21,6 +21,7 @@ const Register = () => {
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setRegisterInfo({ ...registerInfo, [name]: value });
+    console.log(role);
   };
 
   const handleSubmit = (e) => {
@@ -161,7 +162,7 @@ const Register = () => {
                   className="mb-6"
                   value={role}
                 >
-                  <option value="">Select a Role</option>
+                  <option value="select a role">Select a Role</option>
                   <option value="teacher">Teacher</option>
                   <option value="student">Student</option>
                 </select>

@@ -217,13 +217,13 @@ export const studentAppointmentRequest = async (req, res) => {
 
     if (!teacher)
       return res.status(404).json({
-        message: `Teacher with ${teacherId} does not exist`,
+        message: `Teacher ${teacherId} does not exist`,
       });
 
     //check teacher is in the same department
     if (teacher.department !== department)
       return res.status(400).json({
-        message: `Teacher with name ${name} is not in the same department`,
+        message: `Teacher ${name} is not in the same department`,
       });
 
     //send appointment to temporary appointment collection
@@ -234,6 +234,7 @@ export const studentAppointmentRequest = async (req, res) => {
       agenda,
       date,
       time,
+      teacherId,
     });
 
     return res.status(200).json(requestAppointment);
