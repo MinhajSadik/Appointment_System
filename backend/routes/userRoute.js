@@ -18,12 +18,7 @@ const router = express.Router();
 
 router.post("/login", loginUser);
 
-router.get(
-  "/teachers",
-  // isAuthenticatedUser,
-  authorizeUserRoles(["teacher", "systemAdmin"]),
-  getAllTeachers
-);
+router.get("/teachers", isAuthenticatedUser, getAllTeachers);
 router.get("/students", isAuthenticatedUser, getAllStudents);
 
 //registration request route

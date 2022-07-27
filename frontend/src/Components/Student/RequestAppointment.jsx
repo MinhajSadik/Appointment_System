@@ -1,47 +1,46 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { BiCalendarPlus } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { addNewAppointment } from "../redux/features/appointmentSlice";
 
 const initialState = {
+  //all the fields with teacher name and userId
   name: "",
   course: "",
   department: "",
   agenda: "",
   date: "",
   time: "",
+  teacher: "",
+  userId: "",
 };
-const AddAppointment = () => {
+
+const RequestAppointment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => ({
+  const { teachers } = useSelector((state) => ({ ...state.teacher }));
+  const { user, appointments } = useSelector((state) => ({
     ...state.user,
+    ...state.appointment,
   }));
 
-  const [appointmentInfo, setAppointmentInfo] = useState(initialState);
+  const [appointmentRequestInfo, setAppointmentRequestInfo] =
+    useState(initialState);
   const [toggleForm, setToggleForm] = useState(false);
-  const { name, course, department, agenda, date, time } = appointmentInfo;
+  const { name, course, department, agenda, date, time, teacher, userId } =
+    appointmentRequestInfo;
 
   const teacherRole = user?.result?.role === "teacher";
+  const student = user?.result?.role === "student";
   const systemAdmin = user?.result?.role === "systemAdmin";
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    setAppointmentInfo({ ...appointmentInfo, [name]: value });
+    setAppointmentRequestInfo({ ...appointmentRequestInfo, [name]: value });
+    // console.log("teacher", teacher._id);
   };
 
-  const handleAppointment = () => {
-    if (teacherRole || systemAdmin) {
-      dispatch(addNewAppointment({ appointmentInfo, navigate, toast }));
-    } else {
-      toast.error(
-        `hey! you are not authorized to add an appointment, please login as a teacher`
-      );
-    }
-  };
-
+  const handleAppointmentRequest = () => {};
   return (
     <div>
       <button
@@ -53,7 +52,7 @@ const AddAppointment = () => {
       >
         <div>
           <BiCalendarPlus className="inline-block align-text-top mr-2" />
-          Add an Appointment
+          Request an Appointment
         </div>
       </button>
       {toggleForm && (
@@ -100,26 +99,54 @@ const AddAppointment = () => {
               />
             </div>
           </div>
-
+          <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
+            <label
+              htmlFor="Teacher"
+              className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            >
+              Request for Teacher
+            </label>
+            <div className="mt-1 sm:mt-0 sm:col-span-2">
+              <select
+                id="teacher"
+                name="teacher"
+                required
+                value={teacher}
+                onChange={onInputChange}
+                className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+              >
+                <option value="">Request for Teacher</option>
+                {teachers.map((teacher) => (
+                  <option key={teacher._id} value={teacher._id}>
+                    {teacher.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
               htmlFor="Department"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Write Department Name
+              Request for Department
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
-              <input
-                type="text"
+              <select
                 name="department"
                 id="department"
                 required
                 value={department}
                 onChange={onInputChange}
-                placeholder="Which department you wanna choose? e.g. CS"
-                title="Choose a department"
                 className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-              />
+              >
+                <option value="">Request for Department</option>
+                {appointments?.map((appoointment) => (
+                  <option key={appoointment._id} value={appoointment._id}>
+                    {appoointment.department}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
@@ -143,6 +170,7 @@ const AddAppointment = () => {
               />
             </div>
           </div>
+
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label
               htmlFor="Date"
@@ -191,7 +219,7 @@ const AddAppointment = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                onClick={handleAppointment}
+                onClick={handleAppointmentRequest}
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
               >
                 Submit
@@ -204,4 +232,4 @@ const AddAppointment = () => {
   );
 };
 
-export default AddAppointment;
+export default RequestAppointment;

@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { BiEdit, BiSave, BiTrash } from "react-icons/bi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -18,15 +18,20 @@ const initialState = {
   time: "",
 };
 const AppointmentInfo = ({ appointment }) => {
+  const { user } = useSelector((state) => ({
+    ...state.user,
+  }));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [edit, setEdit] = useState(false);
+  //previous edit state
   const [updatedAppointmentInfo, setUpdatedAppointmentInfo] =
     useState(initialState);
   const { name, course, department, agenda, date, time } =
     updatedAppointmentInfo;
   //edit appointment when edit icon is clicked
   const handleEdit = (id) => {
+    //close other edit buttons when new button is clicked
     setEdit(!edit);
     setUpdatedAppointmentInfo({
       ...appointment,
@@ -68,7 +73,7 @@ const AppointmentInfo = ({ appointment }) => {
   const handleDelete = (id) => {
     dispatch(deleteAppointment({ id, navigate, toast }));
   };
-
+  const student = user?.result?.role === "student";
   return (
     <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
       <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -159,33 +164,35 @@ const AppointmentInfo = ({ appointment }) => {
         )}
       </td>
       <td>
-        <div className="flex">
-          <button
-            onClick={() => handleDelete(appointment?._id)}
-            type="button"
-            className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-500 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <BiTrash />
-          </button>
-          {edit ? (
+        {!student && (
+          <div className="flex">
             <button
-              onClick={() => handleSave(appointment?._id)}
+              onClick={() => handleDelete(appointment?._id)}
               type="button"
-              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-yellow-500 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-500 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <BiSave />
+              <BiTrash />
             </button>
-          ) : (
-            <button
-              // onClick={() => onDeleteAppointment(appointment?._id)}
-              type="button"
-              onClick={() => handleEdit(appointment?._id)}
-              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-blue-400 hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <BiEdit />
-            </button>
-          )}
-        </div>
+            {edit ? (
+              <button
+                onClick={() => handleSave(appointment?._id)}
+                type="button"
+                className="p-1.5 mr-1.5 mt-1 rounded text-white bg-yellow-500 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <BiSave />
+              </button>
+            ) : (
+              <button
+                type="button"
+                id="edit"
+                onClick={() => handleEdit(appointment?._id)}
+                className="p-1.5 mr-1.5 mt-1 rounded text-white bg-blue-400 hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <BiEdit />
+              </button>
+            )}
+          </div>
+        )}
       </td>
     </tr>
   );

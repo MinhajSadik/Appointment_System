@@ -4,12 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import AddAppointment from "../Components/AddAppointment";
 import AppointmentInfo from "../Components/AppointmentInfo";
 import SearchAppointment from "../Components/SearchAppointment";
+import RequestAppointment from "../Components/Student/RequestAppointment";
 import { getAllAppointments } from "../redux/features/appointmentSlice";
 import { getAllTeachers } from "../redux/features/teacherSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { appointments } = useSelector((state) => ({ ...state.appointment }));
+
+  const { appointments, user } = useSelector((state) => ({
+    ...state.appointment,
+    ...state.user,
+  }));
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [orderBy, setOrderBy] = useState("department");
@@ -45,7 +50,12 @@ const Home = () => {
         <BiCalendar className="inline-block text-red-400" />
         Your Appointments
       </h1>
-      <AddAppointment />
+      {user?.result?.role === "student" ? (
+        <RequestAppointment />
+      ) : (
+        <AddAppointment />
+      )}
+
       <SearchAppointment
         query={query}
         onQueryChange={(myQuery) => setQuery(myQuery)}
