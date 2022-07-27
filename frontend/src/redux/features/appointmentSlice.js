@@ -19,9 +19,11 @@ export const addNewAppointment = createAsyncThunk(
 
 export const addNewAppointmentRequest = createAsyncThunk(
   "appointment/student/request",
-  async ({ appointmentInfo, navigate, toast }, { rejectWithValue }) => {
+  async ({ appointmentRequestInfo, navigate, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.addNewAppointmentRequest(appointmentInfo);
+      const response = await api.addNewAppointmentRequest(
+        appointmentRequestInfo
+      );
       toast.success("Successfully requested appointment");
       navigate("/appointments");
       return response.data;
@@ -59,6 +61,38 @@ export const studentAppointmentRequests = createAsyncThunk(
   }
 );
 
+export const approveStudentRequest = createAsyncThunk(
+  "appointment/student/approve",
+  async ({ id, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.approveStudentAppointmentRequest(id);
+      toast.success("Successfully approved appointment");
+      navigate("/appointments");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const rejectStudentRequest = createAsyncThunk(
+  "appointment/student/reject",
+  async ({ id, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.rejectStudentAppointmentRequest(id);
+      toast.success("Successfully rejected appointment");
+      navigate("/appointments");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const updateAppointment = createAsyncThunk(
   "appointment/update",
   async (
@@ -85,6 +119,21 @@ export const deleteAppointment = createAsyncThunk(
       const response = await api.deleteAppointment(id);
       toast.success("Successfully deleted appointment");
       navigate("/appointments");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const searchAppointmentFields = createAsyncThunk(
+  "appointment/search",
+  async ({ searchInfo, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.searchAppointmentFields(searchInfo);
+      toast.success(`Found ${response.data.length} appointments`);
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -179,6 +228,41 @@ const appointmentSlice = createSlice({
       localStorage.removeItem("appointments");
     },
     [deleteAppointment.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [approveStudentRequest.pending]: (state) => {
+      state.loading = true;
+    },
+    [approveStudentRequest.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appointment = payload;
+      localStorage.setItem("appointments", JSON.stringify(payload));
+    },
+    [approveStudentRequest.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [rejectStudentRequest.pending]: (state) => {
+      state.loading = true;
+    },
+    [rejectStudentRequest.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appointment = payload;
+      localStorage.removeItem("appointments");
+    },
+    [rejectStudentRequest.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [searchAppointmentFields.pending]: (state) => {
+      state.loading = true;
+    },
+    [searchAppointmentFields.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.appointments = payload;
+    },
+    [searchAppointmentFields.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

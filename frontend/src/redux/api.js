@@ -70,6 +70,10 @@ export const updateAppointment = (updatedAppointmentInfo, id) =>
 export const deleteAppointment = (id) =>
   API.delete(`/api/appointment/delete/${id}`);
 
+//$GET: search all appointment fields
+export const searchAppointmentFields = (searchInfo) =>
+  API.get(`/api/appointment/search`, { params: searchInfo });
+
 /* student [student related work] */
 //#3
 //#3

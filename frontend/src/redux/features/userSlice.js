@@ -191,7 +191,7 @@ const userSlice = createSlice({
     [rejectRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user = payload;
-      localStorage.removeItem("requestedToken");
+      // localStorage.removeItem("requestedToken");
     },
     [rejectRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import {
   deleteAppointment,
   updateAppointment,
-} from "../redux/features/appointmentSlice";
+} from "../../redux/features/appointmentSlice";
 
 const initialState = {
   name: "",

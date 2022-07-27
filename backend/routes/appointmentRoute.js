@@ -28,6 +28,9 @@ router.post(
 //get all appointments route
 router.get("/all", isAuthenticatedUser, getAppointments);
 
+//search by name or department route
+router.get("/search/:searchValue", searchAppointmentFields);
+
 //get single appointment by id route
 router.get("/:id", isAuthenticatedUser, getAppointment);
 
@@ -81,9 +84,6 @@ router.put(
   authorizeUserRoles(["systemAdmin"]),
   rejectStudentAppointmentRequest
 );
-
-//search by name or department route
-router.get("/search/:searchValue", searchAppointmentFields);
 
 // router.get("/course", getAppointmentsByCourse);
 // router.get("/department", getAppointmentsByDepartment);

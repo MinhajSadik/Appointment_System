@@ -15,7 +15,7 @@ const initialState = {
   teacherId: "",
 };
 
-const RequestAppointment = () => {
+const AppointmentRequest = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { teachers } = useSelector((state) => ({ ...state.teacher }));
@@ -106,7 +106,7 @@ const RequestAppointment = () => {
               htmlFor="Teacher"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Request for available teacher
+              Request for available teachers
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <select
@@ -117,7 +117,7 @@ const RequestAppointment = () => {
                 onChange={onInputChange}
                 className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               >
-                <option value="select a teacher">Select a Teacher</option>
+                <option value="">Select a Teacher</option>
                 {/* get accurate teacher id */}
                 {teachers.map((teacher) => (
                   <option key={teacher._id} value={teacher._id}>
@@ -132,7 +132,7 @@ const RequestAppointment = () => {
               htmlFor="Department"
               className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
             >
-              Request for Teacher Department
+              Request for Teacher Departments
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <select
@@ -143,9 +143,7 @@ const RequestAppointment = () => {
                 onChange={onInputChange}
                 className=" pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               >
-                <option value="select an department">
-                  Select Teachers Department
-                </option>
+                <option value="">Select an Department</option>
                 {teachers.map((teacher) => (
                   <option key={teacher._id} value={teacher.department}>
                     {teacher.department}
@@ -237,4 +235,4 @@ const RequestAppointment = () => {
   );
 };
 
-export default RequestAppointment;
+export default AppointmentRequest;

@@ -19,7 +19,9 @@ const initialState = {
 const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, isLoggedIn } = useSelector((state) => ({ ...state.user }));
+  const { user, isLoggedIn } = useSelector((state) => ({
+    ...state.user,
+  }));
   const id = useParams().id;
   // const userId = user?.result?._id;
 
@@ -230,8 +232,9 @@ const Profile = () => {
                             type="text"
                             name="role"
                             value={role}
+                            disabled
                             onChange={onInputChange}
-                            placeholder="is that change mistakenly?"
+                            placeholder="role"
                             className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
                           />
                         </div>

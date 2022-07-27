@@ -3,7 +3,7 @@ import { BiCalendarPlus } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addNewAppointment } from "../redux/features/appointmentSlice";
+import { addNewAppointment } from "../../redux/features/appointmentSlice";
 
 const initialState = {
   name: "",
