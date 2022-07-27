@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { searchAppointmentFields } from "../../redux/features/appointmentSlice";
 import { logoutUser } from "../../redux/features/userSlice";
 
@@ -16,7 +17,8 @@ const Navbar = () => {
   const handleSearchFields = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    dispatch(searchAppointmentFields({ [name]: value }));
+    setSearch({ ...search, [name]: value });
+    dispatch(searchAppointmentFields({ search, navigate, toast }));
   };
   const handleLogout = () => {
     dispatch(logoutUser());

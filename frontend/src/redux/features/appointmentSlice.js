@@ -130,9 +130,9 @@ export const deleteAppointment = createAsyncThunk(
 
 export const searchAppointmentFields = createAsyncThunk(
   "appointment/search",
-  async ({ searchInfo, toast }, { rejectWithValue }) => {
+  async ({ searchValue, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.searchAppointmentFields(searchInfo);
+      const response = await api.searchAppointmentFields(searchValue);
       toast.success(`Found ${response.data.length} appointments`);
       return response.data;
     } catch (error) {

@@ -151,21 +151,15 @@ export const searchAppointmentFields = async (req, res) => {
         { course: { $regex: searchName, $options: "i" } },
         { agenda: { $regex: searchName, $options: "i" } },
       ],
-    })
-      .populate("userId", "-password -__v")
-      .sort({ date: -1, time: -1 });
+    }).sort({ date: -1, time: -1 });
 
-    //check if there is any appointment found
     if (searchedAppointment.length === 0) {
       return res.status(404).json({
-        message: `No appointment found with name or department ${searchName}`,
+        message: `No appointments found with the name ${searchName}`,
       });
     }
 
-    res.status(200).json({
-      message: `${searchedAppointment.length} appointments has been retrieved successfully`,
-      result: searchedAppointment,
-    });
+    return res.status(200).json(searchedAppointment);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({
