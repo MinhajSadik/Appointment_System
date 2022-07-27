@@ -1,4 +1,4 @@
-import { isAuthenticatedUser } from "../../middlewares/isAuthenticatedUser.js";
+// import { isAuthenticatedUser } from "../../middlewares/isAuthenticatedUser.js";
 
 export const authorizeUserRoles = (roles = []) => {
   if (typeof roles === "string") {
@@ -7,7 +7,7 @@ export const authorizeUserRoles = (roles = []) => {
   // const secret = process.env.JWT_SECRET;
   return [
     // authenticate JWT token and attach user to request object (req.user)
-    isAuthenticatedUser,
+    // isAuthenticatedUser,
     async (req, res, next) => {
       if (req.user) {
         if (roles.length && !roles.includes(req.user.role)) {
