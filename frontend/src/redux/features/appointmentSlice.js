@@ -140,7 +140,7 @@ const appointmentSlice = createSlice({
     [getAllAppointments.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.appointments = payload;
-      localStorage.setItem("appointments", JSON.stringify(payload));
+      // localStorage.setItem("appointments", JSON.stringify(payload));
     },
     [getAllAppointments.rejected]: (state, { payload }) => {
       state.loading = false;
