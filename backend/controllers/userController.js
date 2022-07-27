@@ -40,12 +40,12 @@ export const loginUser = async (req, res) => {
     //   sameSite: "strict",
     // };
 
-    res.status(200).json({
+    return res.status(200).json({
       message: `User ${user.name} has been logged in successfully`,
       result: user,
       token,
     });
-    // res
+    // return res
     //   .cookie("token", token, options)
     //   .status(200)
     //   .json({
