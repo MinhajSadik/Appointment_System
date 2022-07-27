@@ -72,7 +72,7 @@ export const deleteAppointment = (id) =>
 
 //$GET: search all appointment fields
 export const searchAppointmentFields = (searchInfo) =>
-  API.get(`/api/appointment/search`, { params: searchInfo });
+  API.get(`/api/appointment/search/${searchInfo}`);
 
 /* student [student related work] */
 //#3

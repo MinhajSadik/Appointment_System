@@ -150,8 +150,6 @@ export const searchAppointmentFields = async (req, res) => {
         { department: { $regex: searchName, $options: "i" } },
         { course: { $regex: searchName, $options: "i" } },
         { agenda: { $regex: searchName, $options: "i" } },
-        { date: { $regex: searchName, $options: "i" } },
-        { time: { $regex: searchName, $options: "i" } },
       ],
     })
       .populate("userId", "-password -__v")
