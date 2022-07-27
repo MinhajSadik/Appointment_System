@@ -39,7 +39,7 @@ export const userRegisterRequest = createAsyncThunk(
   }
 );
 
-export const updatedUserInfo = createAsyncThunk(
+export const updateUser = createAsyncThunk(
   "user/update",
   async ({ updatedUserInfo, id, navigate, toast }, { rejectWithValue }) => {
     try {
@@ -150,15 +150,15 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.error = payload;
     },
-    [updatedUserInfo.pending]: (state) => {
+    [updateUser.pending]: (state) => {
       state.isLoading = true;
     },
-    [updatedUserInfo.fulfilled]: (state, { payload }) => {
+    [updateUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user = payload;
       localStorage.setItem("token", JSON.stringify({ ...payload }));
     },
-    [updatedUserInfo.rejected]: (state, { payload }) => {
+    [updateUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },

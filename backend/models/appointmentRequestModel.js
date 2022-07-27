@@ -15,10 +15,6 @@ const appointmentRequest = new mongoose.Schema({
     type: String,
     required: true,
   },
-  teacher: {
-    type: String,
-    required: true,
-  },
   agenda: {
     type: String,
     required: true,

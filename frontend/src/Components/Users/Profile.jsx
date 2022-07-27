@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { updateUser } from "../../redux/features/userSlice";
 
 const initialState = {
   name: "",
@@ -47,14 +48,13 @@ const Profile = () => {
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    updatedUserInfo({ ...updatedUserInfo, [name]: value });
+    setUpdatedUserInfo({ ...updatedUserInfo, [name]: value });
   };
 
   const handleProfileUpdate = (e) => {
     e.preventDefault();
     if (name && email && course && department) {
-      dispatch(updatedUserInfo({ updatedUserInfo, id, navigate, toast }));
-      updatedUserInfo(initialState);
+      dispatch(updateUser({ updatedUserInfo, id, navigate, toast }));
     }
   };
 
@@ -95,7 +95,8 @@ const Profile = () => {
                     )}
                   </p>
                   <p className="mt-2 text-gray-500">
-                    Time: {moment(user?.result?.time).format("h:mm")}
+                    Time:{" "}
+                    {moment(user?.result?.time, "HH:mm").format("hh:mm a")}
                   </p>
                 </>
               )}
@@ -129,7 +130,7 @@ const Profile = () => {
                           <input
                             type="text"
                             name="name"
-                            value={name || ""}
+                            value={name}
                             onChange={onInputChange}
                             placeholder="what's your first part of email name"
                             className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
@@ -143,7 +144,7 @@ const Profile = () => {
                           <input
                             type="text"
                             name="email"
-                            value={email || ""}
+                            value={email}
                             onChange={onInputChange}
                             placeholder="do you wanna change your email?"
                             className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
@@ -157,7 +158,7 @@ const Profile = () => {
                           <input
                             type="text"
                             name="course"
-                            value={course || ""}
+                            value={course}
                             onChange={onInputChange}
                             placeholder="what course are you in"
                             className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
@@ -171,7 +172,7 @@ const Profile = () => {
                           <input
                             type="text"
                             name="department"
-                            value={department || ""}
+                            value={department}
                             onChange={onInputChange}
                             placeholder="which department you are in"
                             className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"
@@ -185,7 +186,7 @@ const Profile = () => {
                           <input
                             type="text"
                             name="agenda"
-                            value={agenda || ""}
+                            value={agenda}
                             onChange={onInputChange}
                             placeholder="what's your agenda"
                             className="text-[13px] h-12 text-gray-700 w-full border-2 px-2 rounded-sm"

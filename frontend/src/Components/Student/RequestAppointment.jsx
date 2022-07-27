@@ -30,14 +30,9 @@ const RequestAppointment = () => {
   const { name, course, department, agenda, date, time, teacher, userId } =
     appointmentRequestInfo;
 
-  const teacherRole = user?.result?.role === "teacher";
-  const student = user?.result?.role === "student";
-  const systemAdmin = user?.result?.role === "systemAdmin";
-
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setAppointmentRequestInfo({ ...appointmentRequestInfo, [name]: value });
-    // console.log("teacher", teacher._id);
   };
 
   const handleAppointmentRequest = () => {};
@@ -115,7 +110,7 @@ const RequestAppointment = () => {
                 onChange={onInputChange}
                 className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               >
-                <option value="">Request for Teacher</option>
+                <option>Request for Teacher</option>
                 {teachers.map((teacher) => (
                   <option key={teacher._id} value={teacher._id}>
                     {teacher.name}
@@ -141,9 +136,9 @@ const RequestAppointment = () => {
                 className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               >
                 <option value="">Request for Department</option>
-                {appointments?.map((appoointment) => (
-                  <option key={appoointment._id} value={appoointment._id}>
-                    {appoointment.department}
+                {teachers.map((teacher) => (
+                  <option key={teacher._id} value={teacher.department}>
+                    {teacher.department}
                   </option>
                 ))}
               </select>

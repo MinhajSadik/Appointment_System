@@ -33,8 +33,8 @@ export const userRegisterRequest = (registerInfo) =>
   API.post("/api/user/register/request", registerInfo);
 
 //@PUT: update user [student and teacher can update their profile]
-export const updateUser = (updateInfo, id) =>
-  API.put(`/api/user/update/${id}`, updateInfo);
+export const updateUser = (updatedUserInfo, id) =>
+  API.put(`/api/user/update/${id}`, updatedUserInfo);
 
 //#GET: get all registration requests [system admin can get all requests]
 export const getAllUserRegistrationRequests = () =>

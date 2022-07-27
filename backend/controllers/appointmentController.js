@@ -204,8 +204,7 @@ student appointment request rejection
 
 //The admin will allow students to make an appointment request by providing teachers, departments etc.
 export const studentAppointmentRequest = async (req, res) => {
-  const { name, course, teacher, department, agenda, date, time, userId } =
-    req.body;
+  const { name, course, department, agenda, date, time, userId } = req.body;
   try {
     //check teacher by department and id
     //there some issue i found below i commented it out
@@ -232,7 +231,6 @@ export const studentAppointmentRequest = async (req, res) => {
       name,
       course,
       department,
-      teacher,
       agenda,
       date,
       time,
