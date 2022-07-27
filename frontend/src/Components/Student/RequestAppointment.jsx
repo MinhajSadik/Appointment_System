@@ -11,8 +11,7 @@ const initialState = {
   agenda: "",
   date: "",
   time: "",
-  teacher: "",
-  userId: "",
+  teacherId: "",
 };
 
 const RequestAppointment = () => {
@@ -27,12 +26,13 @@ const RequestAppointment = () => {
   const [appointmentRequestInfo, setAppointmentRequestInfo] =
     useState(initialState);
   const [toggleForm, setToggleForm] = useState(false);
-  const { name, course, department, agenda, date, time, teacher, userId } =
+  const { name, course, department, agenda, date, time, teacherId } =
     appointmentRequestInfo;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setAppointmentRequestInfo({ ...appointmentRequestInfo, [name]: value });
+    console.log(teacherId);
   };
 
   const handleAppointmentRequest = () => {};
@@ -103,19 +103,20 @@ const RequestAppointment = () => {
             </label>
             <div className="mt-1 sm:mt-0 sm:col-span-2">
               <select
-                id="teacher"
-                name="teacher"
+                id="teacherId"
+                name="teacherId"
                 required
-                value={teacher}
+                value={teacherId}
                 onChange={onInputChange}
                 className="pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               >
                 <option>Request for Teacher</option>
-                {teachers.map((teacher) => (
-                  <option key={teacher._id} value={teacher._id}>
-                    {teacher.name}
-                  </option>
-                ))}
+                {teachers &&
+                  teachers.map((teacher) => (
+                    <option key={teacher._id} value={teacher._id}>
+                      {teacher.name}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>

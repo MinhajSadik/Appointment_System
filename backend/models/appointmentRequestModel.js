@@ -27,7 +27,11 @@ const appointmentRequest = new mongoose.Schema({
     type: String,
     default: new Date(),
   },
-  userId: {
+  // userId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  // },
+  teacherId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },

@@ -204,24 +204,24 @@ student appointment request rejection
 
 //The admin will allow students to make an appointment request by providing teachers, departments etc.
 export const studentAppointmentRequest = async (req, res) => {
-  const { name, course, department, agenda, date, time, userId } = req.body;
+  const { name, course, department, agenda, date, time, teacherId } = req.body;
   try {
     //check teacher by department and id
     //there some issue i found below i commented it out
     //later i wanna implement get teacher using userId not _id, directly from the user.
     //userId isn't tracked in client side, so i can't use it to get teacher
     //agenda is sendable when student trying to make an appointment request
-    const teacherId = await UserModel.findOne({
-      _id: userId,
+    const teacher = await UserModel.findOne({
+      _id: teacherId,
     });
 
-    if (!teacherId)
+    if (!teacher)
       return res.status(404).json({
-        message: `Teacher with ${userId} does not exist`,
+        message: `Teacher with ${teacherId} does not exist`,
       });
 
     //check teacher is in the same department
-    if (teacherId.department !== department)
+    if (teacher.department !== department)
       return res.status(400).json({
         message: `Teacher with name ${name} is not in the same department`,
       });
