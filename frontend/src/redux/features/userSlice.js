@@ -141,7 +141,7 @@ const userSlice = createSlice({
     [userRegisterRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       // state.user = payload;
-      // localStorage.setItem("registerRequest", JSON.stringify({ ...payload }));
+      localStorage.setItem("registerRequest", JSON.stringify({ ...payload }));
     },
     [userRegisterRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -176,7 +176,7 @@ const userSlice = createSlice({
     [approveRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user = payload;
-      localStorage.setItem("token", JSON.stringify({ ...payload }));
+      localStorage.setItem("registeredUser", JSON.stringify({ ...payload }));
     },
     [approveRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -188,7 +188,7 @@ const userSlice = createSlice({
     [rejectRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user = payload;
-      // localStorage.removeItem("requestedToken");
+      localStorage.removeItem("registerRequest");
     },
     [rejectRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;

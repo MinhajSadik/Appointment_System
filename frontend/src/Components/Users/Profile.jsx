@@ -93,114 +93,80 @@ const Profile = () => {
             <div className="grid grid-cols-1 md:grid-cols-3">
               <div className="relative"></div>
             </div>
-            {/* <div className="mt-10 text-center border-b pb-12">
-              <h4 className="text-4xl font-medium text-gray-700">
-                Hi, {user?.result?.name}
-                <small className="font-light text-gray-500 m-2">
-                  {user?.result?.role}
-                </small>
-              </h4>
-              <p className="font-light text-gray-600 mt-3">
-                Email: {user?.result?.email}
-              </p>
 
-              {!systemAdmin && (
-                <>
-                  <p className="mt-8 text-gray-500">
-                    Course: {user?.result?.course}
-                  </p>
-                  <p className="mt-2 text-gray-500">
-                    Department: {user?.result?.department}
-                  </p>
-                  <p className="mt-2 text-gray-500">
-                    Agenda: {user?.result?.agenda}
-                  </p>
-                  <p className="mt-2 text-gray-500">
-                    Date:{" "}
-                    {moment(new Date(user?.result?.date)).format(
-                      "dddd, DD, MMMM YYYY"
-                    )}
-                  </p>
-                  <p className="mt-2 text-gray-500">
-                    Time:{" "}
-                    {moment(user?.result?.time, "HH:mm").format("hh:mm a")}
-                  </p>
-                </>
-              )}
-            </div> */}
-            <div class="flex flex-col">
-              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                  <div class="overflow-hidden">
+            <div className="flex flex-col">
+              <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                  <div className="overflow-hidden">
                     <p className="text-center mx-2 my-2">
                       {user?.result?.role === "teacher" && (
                         <span>{`@${user?.result?.name} You have to Edit Your Profile Before Leave!`}</span>
                       )}
                     </p>
-                    <table class="min-w-full border text-center">
+                    <table className="min-w-full border text-center">
                       <tbody>
-                        <tr class="border-b">
-                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                        <tr className="border-b">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
                             Name:
                           </td>
-                          <td class="text-sm text-gray-900 font-blod px-6 py-4 whitespace-nowrap border-r">
+                          <td className="text-sm text-gray-900 font-blod px-6 py-4 whitespace-nowrap border-r">
                             {user?.result?.name}
                             <small>
-                              <span class="text-gray-500 ml-1">
+                              <span className="text-gray-500 ml-1">
                                 {user?.result?.role}
                               </span>
                             </small>
                           </td>
                         </tr>
-                        <tr class="bg-white border-b">
-                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                        <tr className="bg-white border-b">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
                             Email
                           </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
                             {user?.result?.email}
                           </td>
                         </tr>
                         {!systemAdmin && (
                           <>
-                            <tr class="bg-white border-b">
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                            <tr className="bg-white border-b">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
                                 Course
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
                                 {user?.result?.course}
                               </td>
                             </tr>
-                            <tr class="bg-white border-b">
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                            <tr className="bg-white border-b">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
                                 Department
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
                                 {user?.result?.department}
                               </td>
                             </tr>
-                            <tr class="bg-white border-b">
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                            <tr className="bg-white border-b">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
                                 Agenda
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
                                 {user?.result?.agenda}
                               </td>
                             </tr>
-                            <tr class="bg-white border-b">
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                            <tr className="bg-white border-b">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
                                 Date
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
                                 {moment(new Date(user?.result?.date)).format(
                                   "dddd, DD, MMMM YYYY"
                                 )}
                               </td>
                             </tr>
-                            <tr class="bg-white border-b">
-                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                            <tr className="bg-white border-b">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
                                 Time
                               </td>
-                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
                                 {moment(user?.result?.time, "HH:mm").format(
                                   "hh:mm a"
                                 )}

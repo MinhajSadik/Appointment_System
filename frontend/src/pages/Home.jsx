@@ -141,83 +141,83 @@ const Home = () => {
       {/* guest guideline section: */}
       {!user && (
         <div className="text-bottom mt-5 flex flex-col items-center">
-          <ol class="border-l border-gray-300">
+          <ol className="border-l border-gray-300">
             <li>
-              <div class="flex flex-start items-center pt-3">
-                <div class="bg-gray-300 w-2 h-2 rounded-full -ml-1 mr-3"></div>
-                <p class="text-gray-800 font-semibold text-xl mb-1.5">
+              <div className="flex flex-start items-center pt-3">
+                <div className="bg-gray-300 w-2 h-2 rounded-full -ml-1 mr-3"></div>
+                <p className="text-gray-800 font-semibold text-xl mb-1.5">
                   Admin Activity
                 </p>
               </div>
-              <div class="mt-0.5 ml-4 mb-6">
-                <p class="text-gray-500 mb-3">
+              <div className="mt-0.5 ml-4 mb-6">
+                <p className="text-gray-500 mb-3">
                   Admin can Login as a system admin but can not make any
                   registration request.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Admin can view all the appointment also can add, edit or
                   delete any appointment.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Admin can view teacher and student registration request also
                   can approve and reject.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Admin can view student appointment request also can approve
                   and reject.
                 </p>
               </div>
             </li>
             <li>
-              <div class="flex flex-start items-center pt-2">
-                <div class="bg-gray-300 w-2 h-2 rounded-full -ml-1 mr-3"></div>
-                <p class="text-gray-800 font-semibold text-xl mb-1.5">
+              <div className="flex flex-start items-center pt-2">
+                <div className="bg-gray-300 w-2 h-2 rounded-full -ml-1 mr-3"></div>
+                <p className="text-gray-800 font-semibold text-xl mb-1.5">
                   Teacher Activity
                 </p>
               </div>
-              <div class="mt-0.5 ml-4 mb-6">
-                <p class="text-gray-500 mb-3">
+              <div className="mt-0.5 ml-4 mb-6">
+                <p className="text-gray-500 mb-3">
                   Teacher must have to Register as a teacher before using the
                   Appointment System.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Teacher must have to complete their profile after Login for
                   student appointment request.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Teacher can create a new appointment for their available
                   schedule.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Teacher can view all the appointment also edit and delete
                   appointment.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Teacher can send registration request to system for approval.
                 </p>
               </div>
             </li>
             <li>
-              <div class="flex flex-start items-center pt-2">
-                <div class="bg-gray-300 w-2 h-2 rounded-full -ml-1 mr-3"></div>
-                <p class="text-gray-800 font-semibold text-xl mb-1.5">
+              <div className="flex flex-start items-center pt-2">
+                <div className="bg-gray-300 w-2 h-2 rounded-full -ml-1 mr-3"></div>
+                <p className="text-gray-800 font-semibold text-xl mb-1.5">
                   Student Activity
                 </p>
               </div>
-              <div class="mt-0.5 ml-4 pb-5">
-                <p class="text-gray-500 mb-3">
+              <div className="mt-0.5 ml-4 pb-5">
+                <p className="text-gray-500 mb-3">
                   Student must have to register as a student before using the
                   Appointment System.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Student can view their prifile and edit their profile, it's
                   not mandatory for student.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Student can view all the appointment but can not edit or
                   delete any appointment.
                 </p>
-                <p class="text-gray-500 mb-3">
+                <p className="text-gray-500 mb-3">
                   Student can send appointment request to system for desired
                   teacher and department.
                 </p>

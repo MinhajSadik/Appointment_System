@@ -19,8 +19,6 @@ const Appointments = () => {
     ...state.user,
   }));
 
-  const student = user?.result?.role;
-
   const filteredAppointment =
     appointments &&
     Object.values(appointments)
@@ -52,7 +50,11 @@ const Appointments = () => {
         <BiCalendar className="inline-block text-red-400" />
         Your Appointments
       </h1>
-      {student ? <AppointmentRequest /> : <AddAppointment />}
+      {user?.result?.role === "student" ? (
+        <AppointmentRequest />
+      ) : (
+        <AddAppointment />
+      )}
 
       <SearchAppointment
         query={query}
