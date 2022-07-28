@@ -18,20 +18,21 @@ const initialState = {
   time: "",
 };
 const AppointmentInfo = ({ appointment }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [edit, setEdit] = useState(false);
+  const [updatedAppointmentInfo, setUpdatedAppointmentInfo] =
+    useState(initialState);
+
   const { user } = useSelector((state) => ({
     ...state.user,
   }));
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [edit, setEdit] = useState(false);
-  //previous edit state
-  const [updatedAppointmentInfo, setUpdatedAppointmentInfo] =
-    useState(initialState);
+
   const { name, course, department, agenda, date, time } =
     updatedAppointmentInfo;
-  //edit appointment when edit icon is clicked
+  const student = user?.result?.role === "student";
+
   const handleEdit = (id) => {
-    //close other edit buttons when new button is clicked
     setEdit(!edit);
     setUpdatedAppointmentInfo({
       ...appointment,
@@ -72,7 +73,7 @@ const AppointmentInfo = ({ appointment }) => {
   const handleDelete = (id) => {
     dispatch(deleteAppointment({ id, navigate, toast }));
   };
-  const student = user?.result?.role === "student";
+
   return (
     <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
       <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

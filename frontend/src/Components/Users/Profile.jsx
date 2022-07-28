@@ -141,7 +141,7 @@ const Profile = () => {
                       <tbody>
                         <tr class="border-b">
                           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
-                            Name
+                            Name:
                           </td>
                           <td class="text-sm text-gray-900 font-blod px-6 py-4 whitespace-nowrap border-r">
                             {user?.result?.name}

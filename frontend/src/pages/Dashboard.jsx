@@ -44,7 +44,7 @@ const Dashboard = () => {
         </tbody>
       </table>
 
-      <h1 className="text-5xl mx-5 my-5 mt-20">Appointment Requests</h1>
+      <h1 className="text-5xl mx-5 my-5 mt-10">Student Appointment Requests</h1>
       <table className="min-w-full text-center">
         <thead className="border-b bg-gray-800">
           <tr>

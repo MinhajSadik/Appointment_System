@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BiCalendar } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import AddAppointment from "../Components/Appointments/AddAppointment";
 import AppointmentInfo from "../Components/Appointments/AppointmentInfo";
 import SearchAppointment from "../Components/Appointments/SearchAppointment";
@@ -10,14 +11,15 @@ import { getAllTeachers } from "../redux/features/teacherSlice";
 
 const Appointments = () => {
   const dispatch = useDispatch();
-
+  const [query, setQuery] = useState("");
+  const [sortBy, setSortBy] = useState("name");
+  const [orderBy, setOrderBy] = useState("department");
   const { appointments, user } = useSelector((state) => ({
     ...state.appointment,
     ...state.user,
   }));
-  const [query, setQuery] = useState("");
-  const [sortBy, setSortBy] = useState("name");
-  const [orderBy, setOrderBy] = useState("department");
+
+  const student = user?.result?.role;
 
   const filteredAppointment =
     appointments &&
@@ -40,20 +42,17 @@ const Appointments = () => {
       });
 
   useEffect(() => {
-    dispatch(getAllAppointments());
-    dispatch(getAllTeachers());
+    dispatch(getAllAppointments({ toast }));
+    dispatch(getAllTeachers({ toast }));
   }, [dispatch]);
+
   return (
     <div className="container mx-auto mt-3 font-thin">
       <h1 className="text-5xl mb-3">
         <BiCalendar className="inline-block text-red-400" />
         Your Appointments
       </h1>
-      {user?.result?.role === "student" ? (
-        <AppointmentRequest />
-      ) : (
-        <AddAppointment />
-      )}
+      {student ? <AppointmentRequest /> : <AddAppointment />}
 
       <SearchAppointment
         query={query}
