@@ -56,7 +56,15 @@ const Profile = () => {
   const handleProfileUpdate = (e) => {
     e.preventDefault();
 
-    if (name && email && course && department && agenda && date && time) {
+    if (
+      name === "" ||
+      email === "" ||
+      course === "" ||
+      department === "" ||
+      agenda === "" ||
+      date === "" ||
+      time === ""
+    ) {
       toast.error("Please fill all the fields");
     }
     //check if email is valid
@@ -85,7 +93,7 @@ const Profile = () => {
             <div className="grid grid-cols-1 md:grid-cols-3">
               <div className="relative"></div>
             </div>
-            <div className="mt-10 text-center border-b pb-12">
+            {/* <div className="mt-10 text-center border-b pb-12">
               <h4 className="text-4xl font-medium text-gray-700">
                 Hi, {user?.result?.name}
                 <small className="font-light text-gray-500 m-2">
@@ -119,6 +127,92 @@ const Profile = () => {
                   </p>
                 </>
               )}
+            </div> */}
+            <div class="flex flex-col">
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                  <div class="overflow-hidden">
+                    <p className="text-center mx-2 my-2">
+                      {user?.result?.role === "teacher" && (
+                        <span>{`@${user?.result?.name} You have to Edit Your Profile Before Leave!`}</span>
+                      )}
+                    </p>
+                    <table class="min-w-full border text-center">
+                      <tbody>
+                        <tr class="border-b">
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                            Name
+                          </td>
+                          <td class="text-sm text-gray-900 font-blod px-6 py-4 whitespace-nowrap border-r">
+                            {user?.result?.name}
+                            <small>
+                              <span class="text-gray-500 ml-1">
+                                {user?.result?.role}
+                              </span>
+                            </small>
+                          </td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                            Email
+                          </td>
+                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                            {user?.result?.email}
+                          </td>
+                        </tr>
+                        {!systemAdmin && (
+                          <>
+                            <tr class="bg-white border-b">
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                                Course
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                                {user?.result?.course}
+                              </td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                                Department
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                                {user?.result?.department}
+                              </td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                                Agenda
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                                {user?.result?.agenda}
+                              </td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                                Date
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                                {moment(new Date(user?.result?.date)).format(
+                                  "dddd, DD, MMMM YYYY"
+                                )}
+                              </td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
+                                Time
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
+                                {moment(user?.result?.time, "HH:mm").format(
+                                  "hh:mm a"
+                                )}
+                              </td>
+                            </tr>
+                          </>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* edit profile button */}

@@ -50,10 +50,9 @@ const AppointmentRequest = () => {
       dispatch(
         addNewAppointmentRequest({ appointmentRequestInfo, navigate, toast })
       );
-
-      //set form to initial state
       setAppointmentRequestInfo(initialState);
     }
+    setAppointmentRequestInfo(initialState);
     setToggleForm(!toggleForm);
   };
   return (

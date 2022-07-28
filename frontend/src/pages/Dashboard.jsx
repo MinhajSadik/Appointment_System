@@ -21,7 +21,7 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto font-thin">
       <h1 className="text-5xl mx-5 my-5">Registration Requests</h1>
-      <table className="min-w-full">
+      <table className="min-w-full text-center">
         <thead className="border-b bg-gray-800">
           <tr>
             <th className="text-sm font-medium text-white px-6 py-4">Name</th>
@@ -45,7 +45,7 @@ const Dashboard = () => {
       </table>
 
       <h1 className="text-5xl mx-5 my-5 mt-20">Appointment Requests</h1>
-      <table className="min-w-full">
+      <table className="min-w-full text-center">
         <thead className="border-b bg-gray-800">
           <tr>
             <th className="text-sm font-medium text-white px-6 py-4">Name</th>

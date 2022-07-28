@@ -1,6 +1,8 @@
 import moment from "moment";
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   approveRegistrationRequest,
   rejectRegistrationRequest,
@@ -8,23 +10,22 @@ import {
 
 const RegisterRequests = ({ registrationRequest }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleApprove = (id) => {
-    dispatch(approveRegistrationRequest({ id }));
+    dispatch(approveRegistrationRequest({ id, navigate, toast }));
   };
 
   const handleReject = (id) => {
-    dispatch(rejectRegistrationRequest({ id }));
+    dispatch(rejectRegistrationRequest({ id, navigate, toast }));
   };
 
   return (
     <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
       <td className="">
-        {/* <div className="flex items-center"> */}
         <p className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
           {registrationRequest?.name}
         </p>
-        {/* </div> */}
       </td>
       <td className="">
         <p className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

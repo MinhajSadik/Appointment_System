@@ -51,7 +51,14 @@ const AppointmentInfo = ({ appointment }) => {
 
   const handleSave = (id) => {
     setEdit(!edit);
-    if (name && course && department && agenda && date && time) {
+    if (
+      name === "" ||
+      course === "" ||
+      department === "" ||
+      agenda === "" ||
+      date === "" ||
+      time === ""
+    ) {
       toast.error("Please fill all the fields");
     } else {
       dispatch(

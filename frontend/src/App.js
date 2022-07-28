@@ -4,12 +4,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import Appointments from "./pages/Appointments";
+import AdminRoute from "./Components/Routes/AdminRoute";
+import PrivateRoute from "./Components/Routes/PrivateRoute";
 import Navbar from "./Components/Shared/Navbar";
 import Login from "./Components/Users/Login";
 import Profile from "./Components/Users/Profile";
 import Register from "./Components/Users/Register";
-import RegisterRequests from "./Components/Users/RegisterRequests";
+import Appointments from "./pages/Appointments";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import { setUser } from "./redux/features/userSlice";
@@ -30,10 +31,24 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register/request" element={<Register />} />
-        <Route path="/appointments" element={<Appointments />} />
+
+        <Route
+          path="/appointments"
+          element={
+            <PrivateRoute>
+              <Appointments />
+            </PrivateRoute>
+          }
+        />
         <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/requests" element={<RegisterRequests />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <Dashboard />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

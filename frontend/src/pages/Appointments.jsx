@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BiCalendar } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllAppointments } from "../redux/features/appointmentSlice";
-import { getAllTeachers } from "../redux/features/teacherSlice";
 import AddAppointment from "../Components/Appointments/AddAppointment";
+import AppointmentInfo from "../Components/Appointments/AppointmentInfo";
 import SearchAppointment from "../Components/Appointments/SearchAppointment";
 import AppointmentRequest from "../Components/Student/AppointmentRequest";
-import AppointmentInfo from "../Components/Appointments/AppointmentInfo";
+import { getAllAppointments } from "../redux/features/appointmentSlice";
+import { getAllTeachers } from "../redux/features/teacherSlice";
 
 const Appointments = () => {
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ const Appointments = () => {
         sortBy={sortBy}
         onSortByChange={(mySort) => setSortBy(mySort)}
       />
-      <table className="min-w-full">
+      <table className="min-w-full text-center">
         <thead className="border-b bg-gray-800">
           <tr>
             <th className="text-sm font-medium text-white px-6 py-4">Name</th>

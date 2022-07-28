@@ -11,7 +11,7 @@ export const loginUser = createAsyncThunk(
       if (response?.data?.result?.role === "systemAdmin") {
         navigate("/admin/dashboard");
       } else {
-        navigate("/");
+        navigate(`/profile/${response.data.result._id}`);
       }
       return response.data;
     } catch (error) {
@@ -45,7 +45,7 @@ export const updateUser = createAsyncThunk(
     try {
       const response = await api.updateUser(updatedUserInfo, id);
       toast.success("Successfully updated profile");
-      navigate(`/profile/${id}`);
+      navigate("/appointments");
       return response.data;
     } catch (error) {
       console.error(error.message);

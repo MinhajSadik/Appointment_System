@@ -102,7 +102,7 @@ export const updateAppointment = createAsyncThunk(
     try {
       const response = await api.updateAppointment(updatedAppointmentInfo, id);
       toast.success("Successfully updated appointment");
-      navigate("/appointments");
+      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
