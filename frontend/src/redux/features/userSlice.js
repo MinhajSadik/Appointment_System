@@ -57,7 +57,7 @@ export const updateUser = createAsyncThunk(
 
 export const userRegistrationRequests = createAsyncThunk(
   "user/register/requests",
-  async (toast, { rejectWithValue }) => {
+  async ({ toast }, { rejectWithValue }) => {
     try {
       const response = await api.getAllUserRegistrationRequests();
       return response.data;
