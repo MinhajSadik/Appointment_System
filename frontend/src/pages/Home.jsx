@@ -128,13 +128,14 @@ const Home = () => {
                   approve and reject.
                 </td>
               </tr>
+              <tr className="border-b bg-yellow-100 border-yellow-200">
+                <td className="text-gray-900">
+                  #5. Admin can see all registered user and can add new user
+                  also can edit and delete.
+                </td>
+              </tr>
             </tbody>
           </div>
-          {/* <p className="text-gray-900">#5. View all your students.</p>
-          <p className="text-gray-900">#6. View all your appointments.</p>
-          <p className="text-gray-900">#7. View all your teachers.</p>
-          <p className="text-gray-900">#8. View all your students.</p>
-          <p className="text-gray-900">#9. View all your appointments.</p> */}
         </div>
       )}
 
@@ -165,6 +166,10 @@ const Home = () => {
                 <p className="text-gray-500 mb-3">
                   Admin can view student appointment request also can approve
                   and reject.
+                </p>
+                <p className="text-gray-500 mb-3">
+                  Admin can see all registered user and can add new user also
+                  can edit and delete.
                 </p>
               </div>
             </li>

@@ -19,10 +19,6 @@ const AppointmentRequest = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { teachers } = useSelector((state) => ({ ...state.teacher }));
-  //   const { user, appointments } = useSelector((state) => ({
-  //     ...state.user,
-  //     ...state.appointment,
-  //   }));
 
   const [appointmentRequestInfo, setAppointmentRequestInfo] =
     useState(initialState);

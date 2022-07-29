@@ -3,14 +3,13 @@ import * as api from "../api";
 
 export const getAllTeachers = createAsyncThunk(
   "teacher/all",
-  async ({ toast }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await api.getAllTeachers();
       console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error.message);
-      toast.error(error.response.data.message);
       return rejectWithValue(error.response.data);
     }
   }

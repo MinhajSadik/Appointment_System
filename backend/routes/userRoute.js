@@ -1,10 +1,12 @@
 import express from "express";
 import {
+  addNewUser,
   approveUserRegistrationRequest,
   deleteUser,
   getAllStudents,
   getAllTeachers,
   getAllUserRegistrationRequests,
+  getAllUsers,
   getUserById,
   loginUser,
   logoutUser,
@@ -16,10 +18,30 @@ import { isAuthenticatedUser } from "../middlewares/isAuthenticatedUser.js";
 import { authorizeUserRoles } from "../utils/helpers/authorizeUserRoles.js";
 const router = express.Router();
 
+//login route
 router.post("/login", loginUser);
 
+//all teachers route
 router.get("/teachers", isAuthenticatedUser, getAllTeachers);
+
+//all students route
 router.get("/students", isAuthenticatedUser, getAllStudents);
+
+//add user route
+router.post(
+  "/addUser",
+  isAuthenticatedUser,
+  authorizeUserRoles(["systemAdmin"]),
+  addNewUser
+);
+
+//all users
+router.get(
+  "/allUsers",
+  isAuthenticatedUser,
+  authorizeUserRoles(["systemAdmin"]),
+  getAllUsers
+);
 
 //registration request route
 router.post(
@@ -52,14 +74,16 @@ router.put(
   rejectUserRegistrationRequest
 );
 
-router.get("/:id", getUserById);
-router.get("/logout/:id", logoutUser);
 router.put("/update/:id", isAuthenticatedUser, updateUser);
+
 router.delete(
   "/delete/:id",
   isAuthenticatedUser,
   authorizeUserRoles(["systemAdmin"]),
   deleteUser
 );
+
+router.get("/:id", getUserById);
+router.get("/logout/:id", logoutUser);
 
 export default router;

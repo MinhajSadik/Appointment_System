@@ -21,11 +21,9 @@ const RequestInfo = ({ appointmentRequests }) => {
   return (
     <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
       <td className="">
-        {/* <div className="flex items-center"> */}
         <p className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
           {appointmentRequests?.name}
         </p>
-        {/* </div> */}
       </td>
       <td className="">
         <p className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

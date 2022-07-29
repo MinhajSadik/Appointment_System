@@ -28,13 +28,22 @@ API.interceptors.request.use((req) => {
 //$POST: login user [any type of user can login]
 export const loginUser = (loginInfo) => API.post("/api/user/login", loginInfo);
 
+//$POST: add user [only admin can add user]
+export const addUser = (userInfo) => API.post("/api/user/addUser", userInfo);
+
+//$GET: get all users [only admin can get all users]
+export const getAllUsers = () => API.get("/api/user/allUsers");
+
+//@PUT: update user [student and teacher can update their profile]
+export const updateUser = (userInfo, id) =>
+  API.put(`/api/user/update/${id}`, userInfo);
+
+//$PUT: delete user [only admin can delete user]
+export const deleteUser = (id) => API.delete(`/api/user/delete/${id}`);
+
 //$POST: register request [student and teacher can request to register]
 export const userRegisterRequest = (registerInfo) =>
   API.post("/api/user/register/request", registerInfo);
-
-//@PUT: update user [student and teacher can update their profile]
-export const updateUser = (updatedUserInfo, id) =>
-  API.put(`/api/user/update/${id}`, updatedUserInfo);
 
 //#GET: get all registration requests [system admin can get all requests]
 export const getAllUserRegistrationRequests = () =>

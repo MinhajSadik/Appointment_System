@@ -10,7 +10,7 @@ const AdminRoute = ({ children }) => {
     <div className="container text-center relative top-60 left-10 font-bold">
       <h1>
         {`${
-          user?.result?.role ? user?.result?.role : "Guest"
+          user?.result?.role ? user?.result?.role : "Unknown User"
         } You are not authorized to access this page`}
       </h1>
       <span>

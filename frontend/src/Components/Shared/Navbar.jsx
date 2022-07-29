@@ -107,10 +107,15 @@ const Navbar = () => {
                   Appointments
                 </Link>
               </li>
+              <li className="w-full">
+                <Link className={navLink} to="/users">
+                  Users
+                </Link>
+              </li>
             </>
           )}
 
-          {user?.result._id ? (
+          {user?.result?._id ? (
             <li className="w-full">
               <button className={navLink} onClick={() => handleLogout()}>
                 Logout
@@ -123,17 +128,6 @@ const Navbar = () => {
               </button>
             </li>
           )}
-
-          {/* <form className="d-flex input-group w-auto" onSubmit={handleSearch}>
-            <input
-              type="text"
-              className="form-control bg-gray-700 transition-all rounded px-2 py-1 w-48 focus:outline-none text-gray-100"
-              placeholder="Search "
-
-              //   value={search}
-              //   onChange={(e) => setSearch(e.target.value)}
-            />
-          </form> */}
         </ul>
       </div>
     </nav>

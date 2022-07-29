@@ -37,9 +37,6 @@ const Register = () => {
     }
   }, [error, loading]);
 
-  //user roles name
-  //   const roleName = ["teacher", "student"];
-
   return (
     <div action="">
       <section className="h-screen">
@@ -62,7 +59,6 @@ const Register = () => {
                     data-mdb-ripple-color="light"
                     className="inline-block p-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1"
                   >
-                    {/* <!-- Facebook --> */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 320 512"
@@ -81,7 +77,6 @@ const Register = () => {
                     data-mdb-ripple-color="light"
                     className="inline-block p-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1"
                   >
-                    {/* <!-- Twitter --> */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 512 512"
@@ -117,7 +112,6 @@ const Register = () => {
                   <p className="text-center font-semibold mx-4 mb-0">Or</p>
                 </div>
 
-                {/* <!-- Name input --> */}
                 <div className="mb-6">
                   <input
                     type="name"
@@ -130,7 +124,6 @@ const Register = () => {
                   />
                 </div>
 
-                {/* <!-- Email input --> */}
                 <div className="mb-6">
                   <input
                     type="email"
@@ -143,7 +136,6 @@ const Register = () => {
                   />
                 </div>
 
-                {/* <!-- Password input --> */}
                 <div className="mb-6">
                   <input
                     type="password"
