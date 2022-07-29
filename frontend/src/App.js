@@ -34,7 +34,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register/request" element={<Register />} />
         <Route
-          path="/users"
+          path="/users/:id/*"
           element={
             <AdminRoute>
               <Users />

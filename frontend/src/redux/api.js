@@ -20,6 +20,7 @@ API.interceptors.request.use((req) => {
       JSON.parse(localStorage.getItem("token")).token
     }`;
   }
+  console.log("API token", localStorage.getItem("token"));
   return req;
 });
 

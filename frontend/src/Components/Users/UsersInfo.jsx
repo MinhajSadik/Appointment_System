@@ -1,11 +1,7 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { updateUser } from "../../redux/features/userSlice";
 
 const UsersInfo = ({
-  isOpen,
   userInfo,
   setUserInfo,
   setEdit,
@@ -13,32 +9,17 @@ const UsersInfo = ({
   user,
   handleDelete,
 }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleEdit = (e) => {
-    setIsOpen(!isOpen);
+    setIsOpen(true);
     setEdit(true);
     setUserInfo({
       ...userInfo,
       name: user.name,
       email: user.email,
+      role: user.role,
     });
-  };
-
-  const handleUpdateUser = (id) => {
-    if (userInfo.name === "" || userInfo.email === "") {
-      toast.error("Please fill all fields");
-    } else {
-      dispatch(updateUser({ userInfo, id, navigate, toast }));
-    }
-    setUserInfo({
-      ...userInfo,
-      name: "",
-      email: "",
-    });
-    setEdit(false);
-    setIsOpen(false);
-    console.log("update user");
+    navigate(`/users/${user._id}`);
   };
 
   return (
@@ -68,23 +49,13 @@ const UsersInfo = ({
         </span>
       </td>
       <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
-        {isOpen ? (
-          <button
-            type="button"
-            onClick={() => handleUpdateUser(user?._id)}
-            className="flex items-center justify-center px-3 py-1 text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline"
-          >
-            Save
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={handleEdit}
-            className="flex items-center justify-center px-3 py-1 text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline"
-          >
-            EDIT
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => handleEdit(user.id)}
+          className="flex items-center justify-center px-3 py-1 text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline"
+        >
+          EDIT
+        </button>
       </td>
       <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
         <button

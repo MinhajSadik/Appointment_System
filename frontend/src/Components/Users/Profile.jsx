@@ -110,8 +110,8 @@ const Profile = () => {
                             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                               {user?.result?.name}
                               {/* small for role */}
-                              <small className="px-2">
-                                {user?.result?.role}
+                              <small className="px-1">
+                                *{user?.result?.role}
                               </small>
                             </dd>
                           </div>

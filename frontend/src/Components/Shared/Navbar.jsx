@@ -19,7 +19,7 @@ const Navbar = () => {
 
   //auto logout if token is expired
   const token = user?.token;
-  console.log(token);
+  console.log("navbar token", token);
   if (token) {
     const decoded = decode(token);
     const expriredTime = decoded.exp * 1000 < new Date().getTime();
@@ -108,7 +108,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="w-full">
-                <Link className={navLink} to="/users">
+                <Link className={navLink} to={`/users/${user?.result?._id}`}>
                   Users
                 </Link>
               </li>
