@@ -13,6 +13,8 @@ import Register from "./Components/Users/Register";
 import Appointments from "./pages/Appointments";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Users from "./pages/Users";
 import { setUser } from "./redux/features/userSlice";
 
 function App() {
@@ -31,7 +33,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register/request" element={<Register />} />
-
+        <Route path="/users" element={<Users />} />
         <Route
           path="/appointments"
           element={
@@ -40,7 +42,15 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/profile/:id" element={<Profile />} />
+
+        <Route
+          path="/profile/:id"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/admin/dashboard"
           element={
@@ -49,6 +59,7 @@ function App() {
             </AdminRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

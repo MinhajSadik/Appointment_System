@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { BiCalendar } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import AddAppointment from "../Components/Appointments/AddAppointment";
 import AppointmentInfo from "../Components/Appointments/AppointmentInfo";
 import SearchAppointment from "../Components/Appointments/SearchAppointment";
-import AppointmentRequest from "../Components/Student/AppointmentRequest";
+import AppointmentRequest from "../Components/RequestsInfo/AppointmentRequest";
 import { getAllAppointments } from "../redux/features/appointmentSlice";
 import { getAllTeachers } from "../redux/features/teacherSlice";
 
@@ -40,8 +39,8 @@ const Appointments = () => {
       });
 
   useEffect(() => {
-    dispatch(getAllAppointments({ toast }));
-    dispatch(getAllTeachers({ toast }));
+    dispatch(getAllAppointments());
+    dispatch(getAllTeachers());
   }, [dispatch]);
 
   return (

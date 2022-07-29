@@ -61,6 +61,52 @@ export const loginUser = async (req, res) => {
   }
 };
 
+//add user [systemAdmin can add new user]
+export const addNewUser = async (req, res) => {
+  const { name, email, password, role } = req.body;
+  try {
+    const user = await UserModel.findOne({ email });
+    if (user) {
+      return res.status(400).json({
+        message: `User with email ${email} already exists`,
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const newUser = new UserModel({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    const savedUser = await newUser.save();
+    res.status(200).json({
+      message: `User ${savedUser.name} has been added successfully`,
+      result: savedUser,
+    });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+//get all users [systemAdmin can get all users]
+export const getAllUsers = async (req, res) => {
+  //get all users without systemAdmin
+  try {
+    const users = await UserModel.find({ role: { $ne: "systemAdmin" } });
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
 //update user by id
 export const updateUser = async (req, res) => {
   const { id } = req.params;
@@ -103,58 +149,12 @@ export const updateUser = async (req, res) => {
   }
 };
 
-//get all teachers
-export const getAllTeachers = async (req, res) => {
-  try {
-    const teachers = await UserModel.find({ role: "teacher" });
-    res.status(200).json(teachers);
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).json({
-      message: `Server Error: ${error.message}`,
-    });
-  }
-};
-
-//get all students
-export const getAllStudents = async (req, res) => {
-  try {
-    const students = await UserModel.find({ role: "student" });
-    res.status(200).json(students);
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).json({
-      message: `Server Error: ${error.message}`,
-    });
-  }
-};
-
-//get user by id
-export const getUserById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const user = await UserModel.findById(id).select("-password -__v");
-    if (!user) {
-      return res
-        .status(404)
-        .json({ message: `User with id ${id} does not exist` });
-    }
-    res.status(200).json({
-      message: `User ${user.name} has been fetched successfully`,
-      result: user,
-    });
-  } catch (error) {
-    console.error(error.message);
-    return res.status(500).json({
-      message: `Server Error: ${error.message}`,
-    });
-  }
-};
-
 //delete user by id
+// Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
+    if (!mongoose.Types.ObjectId.isValid(id)) return false;
     const user = await UserModel.findById(id);
     if (!user) {
       return res
@@ -187,6 +187,54 @@ export const logoutUser = async (req, res) => {
     res.status(200).json({
       message: `User ${user.name} has been logged out successfully`,
     });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+//get user by id
+export const getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await UserModel.findById(id).select("-password -__v");
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `User with id ${id} does not exist` });
+    }
+    res.status(200).json({
+      message: `User ${user.name} has been fetched successfully`,
+      result: user,
+    });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+//get all teachers
+export const getAllTeachers = async (req, res) => {
+  try {
+    const teachers = await UserModel.find({ role: "teacher" });
+    res.status(200).json(teachers);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+//get all students
+export const getAllStudents = async (req, res) => {
+  try {
+    const students = await UserModel.find({ role: "student" });
+    res.status(200).json(students);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

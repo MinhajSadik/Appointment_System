@@ -2,9 +2,6 @@ import AppointmentModel from "../models/appointmentModel.js";
 import AppointmentRequestModel from "../models/appointmentRequestModel.js";
 import UserModel from "../models/userModel.js";
 
-/*
-teacher and system admin appointment routes
-*/
 //add new appointment
 export const addAppointment = async (req, res) => {
   const { name, course, department, agenda, date, time } = req.body;
@@ -272,7 +269,6 @@ export const approveStudentAppointmentRequest = async (req, res) => {
         .status(404)
         .json({ message: `Appointment with id ${id} does not exist` });
 
-    //get all appointments from request
     const {
       name: requestName,
       course: requestCourse,
@@ -283,7 +279,6 @@ export const approveStudentAppointmentRequest = async (req, res) => {
       userId: requestUserId,
     } = appointment;
 
-    //create appointment from request
     const newAppointment = await AppointmentModel.create({
       name: requestName,
       course: requestCourse,

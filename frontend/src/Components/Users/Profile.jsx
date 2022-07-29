@@ -26,15 +26,15 @@ const Profile = () => {
   // const userId = user?.result?._id;
 
   const [edit, setEdit] = useState(false);
-  const [updatedUserInfo, setUpdatedUserInfo] = useState(initialState);
+  const [userInfo, setUserInfo] = useState(initialState);
   const { name, email, course, department, agenda, date, time, role } =
-    updatedUserInfo;
+    userInfo;
 
   const systemAdmin = user?.result?.role === "systemAdmin";
 
   const handleEdit = () => {
     if (!systemAdmin) {
-      setUpdatedUserInfo({
+      setUserInfo({
         name: user?.result?.name,
         email: user?.result?.email,
         course: user?.result?.course,
@@ -50,7 +50,7 @@ const Profile = () => {
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedUserInfo({ ...updatedUserInfo, [name]: value });
+    setUserInfo({ ...userInfo, [name]: value });
   };
 
   const handleProfileUpdate = (e) => {
@@ -79,8 +79,8 @@ const Profile = () => {
     else if (!moment(time, "HH:mm", true).isValid()) {
       toast.error("Please enter a valid time");
     } else {
-      dispatch(updateUser({ updatedUserInfo, id, navigate, toast }));
-      setUpdatedUserInfo(initialState);
+      dispatch(updateUser({ userInfo, id, navigate, toast }));
+      setUserInfo(initialState);
     }
     setEdit(!edit);
   };
@@ -89,93 +89,99 @@ const Profile = () => {
     <>
       {isLoggedIn && (
         <div className="p-8">
-          <div className="bg-white shadow">
+          <div className="bg-white">
             <div className="grid grid-cols-1 md:grid-cols-3">
               <div className="relative"></div>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col items-center">
               <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                   <div className="overflow-hidden">
+                    <h3 className="mx-2">
+                      {systemAdmin
+                        ? "Admin Profile don't need to edit"
+                        : "Complete your profile for better experience"}
+                    </h3>
                     <p className="text-center mx-2 my-2">
                       {user?.result?.role === "teacher" && (
                         <span>{`@${user?.result?.name} You have to Edit Your Profile Before Leave!`}</span>
                       )}
                     </p>
-                    <table className="min-w-full border text-center">
-                      <tbody>
-                        <tr className="border-b">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
-                            Name:
-                          </td>
-                          <td className="text-sm text-gray-900 font-blod px-6 py-4 whitespace-nowrap border-r">
-                            {user?.result?.name}
-                            <small>
-                              <span className="text-gray-500 ml-1">
+                    <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg w-full">
+                      <div className="border-t border-gray-200">
+                        <dl>
+                          <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt className="text-sm font-medium text-gray-900">
+                              Name:
+                            </dt>
+                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                              {user?.result?.name}
+                              {/* small for role */}
+                              <small className="px-2">
                                 {user?.result?.role}
-                              </span>
-                            </small>
-                          </td>
-                        </tr>
-                        <tr className="bg-white border-b">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
-                            Email
-                          </td>
-                          <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                            {user?.result?.email}
-                          </td>
-                        </tr>
-                        {!systemAdmin && (
-                          <>
-                            <tr className="bg-white border-b">
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
-                                Course
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                                {user?.result?.course}
-                              </td>
-                            </tr>
-                            <tr className="bg-white border-b">
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
-                                Department
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                                {user?.result?.department}
-                              </td>
-                            </tr>
-                            <tr className="bg-white border-b">
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
-                                Agenda
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                                {user?.result?.agenda}
-                              </td>
-                            </tr>
-                            <tr className="bg-white border-b">
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
-                                Date
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                                {moment(new Date(user?.result?.date)).format(
-                                  "dddd, DD, MMMM YYYY"
-                                )}
-                              </td>
-                            </tr>
-                            <tr className="bg-white border-b">
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r">
-                                Time
-                              </td>
-                              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap border-r">
-                                {moment(user?.result?.time, "HH:mm").format(
-                                  "hh:mm a"
-                                )}
-                              </td>
-                            </tr>
-                          </>
-                        )}
-                      </tbody>
-                    </table>
+                              </small>
+                            </dd>
+                          </div>
+                          <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt className="text-sm font-medium text-gray-900">
+                              Email:
+                            </dt>
+                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                              {user?.result?.email}
+                            </dd>
+                          </div>
+                          {!systemAdmin && (
+                            <>
+                              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-900">
+                                  Course:
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                  {user?.result?.course}
+                                </dd>
+                              </div>
+                              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-900">
+                                  Department:
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                  {user?.result?.department}
+                                </dd>
+                              </div>
+                              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-900">
+                                  Agenda:
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                  {user?.result?.agenda}
+                                </dd>
+                              </div>
+                              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-900">
+                                  Date:
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                  {moment(new Date(user?.result?.date)).format(
+                                    "dddd, DD, MMMM YYYY"
+                                  )}
+                                </dd>
+                              </div>
+                              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-900">
+                                  Time:
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                  {moment(user?.result?.time, "HH:mm").format(
+                                    "hh:mm a"
+                                  )}
+                                </dd>
+                              </div>
+                            </>
+                          )}
+                        </dl>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

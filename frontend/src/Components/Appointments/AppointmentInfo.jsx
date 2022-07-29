@@ -52,6 +52,7 @@ const AppointmentInfo = ({ appointment }) => {
 
   const handleSave = (id) => {
     setEdit(!edit);
+    // fill at least one filed
     if (
       name === "" ||
       course === "" ||
@@ -60,7 +61,7 @@ const AppointmentInfo = ({ appointment }) => {
       date === "" ||
       time === ""
     ) {
-      toast.error("Please fill all the fields");
+      toast.error("Please fill at least one field");
     } else {
       dispatch(
         updateAppointment({ updatedAppointmentInfo, id, navigate, toast })

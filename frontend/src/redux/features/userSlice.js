@@ -21,6 +21,67 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const addUser = createAsyncThunk(
+  "user/addUser",
+  async ({ userInfo, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.addUser(userInfo);
+      toast.success("Successfully added user");
+      navigate(`/profile/${response.data.result._id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getAllUsers = createAsyncThunk(
+  "user/getAllUsers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.getAllUsers();
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "user/update",
+  async ({ userInfo, id, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.updateUser(userInfo, id);
+      toast.success("Successfully updated profile");
+      navigate("/appointments");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "user/delete",
+  async ({ id, navigate, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.deleteUser(id);
+      toast.success("Successfully deleted user");
+      navigate("/admin/dashboard");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const userRegisterRequest = createAsyncThunk(
   "user/register/request",
   async ({ registerInfo, navigate, toast }, { rejectWithValue }) => {
@@ -39,31 +100,14 @@ export const userRegisterRequest = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
-  "user/update",
-  async ({ updatedUserInfo, id, navigate, toast }, { rejectWithValue }) => {
-    try {
-      const response = await api.updateUser(updatedUserInfo, id);
-      toast.success("Successfully updated profile");
-      navigate("/appointments");
-      return response.data;
-    } catch (error) {
-      console.error(error.message);
-      toast.error(error.response.data.message);
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
 export const userRegistrationRequests = createAsyncThunk(
   "user/register/requests",
-  async ({ toast }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await api.getAllUserRegistrationRequests();
       return response.data;
     } catch (error) {
       console.error(error.message);
-      toast.error(error.response.data.message);
       return rejectWithValue(error.response.data);
     }
   }
@@ -105,6 +149,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     user: null,
+    users: [],
     registrationRequests: [],
     isLoggedIn: false,
     isLoading: false,
@@ -135,15 +180,25 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.error = payload;
     },
-    [userRegisterRequest.pending]: (state) => {
+    [addUser.pending]: (state) => {
       state.isLoading = true;
     },
-    [userRegisterRequest.fulfilled]: (state, { payload }) => {
+    [addUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      // state.user = payload;
-      localStorage.setItem("registerRequest", JSON.stringify({ ...payload }));
+      state.user = payload;
     },
-    [userRegisterRequest.rejected]: (state, { payload }) => {
+    [addUser.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [getAllUsers.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getAllUsers.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.users = payload;
+    },
+    [getAllUsers.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },
@@ -156,6 +211,28 @@ const userSlice = createSlice({
       localStorage.setItem("token", JSON.stringify({ ...payload }));
     },
     [updateUser.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [deleteUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteUser.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      // state.user = payload;
+    },
+    [deleteUser.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
+    [userRegisterRequest.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [userRegisterRequest.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.user = payload;
+    },
+    [userRegisterRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.error = payload;
     },
@@ -176,7 +253,6 @@ const userSlice = createSlice({
     [approveRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user = payload;
-      localStorage.setItem("registeredUser", JSON.stringify({ ...payload }));
     },
     [approveRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -188,7 +264,6 @@ const userSlice = createSlice({
     [rejectRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.user = payload;
-      localStorage.removeItem("registerRequest");
     },
     [rejectRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;

@@ -37,13 +37,12 @@ export const addNewAppointmentRequest = createAsyncThunk(
 
 export const getAllAppointments = createAsyncThunk(
   "appointment/all",
-  async ({ toast }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await api.getAllAppointments();
       return response.data;
     } catch (error) {
       console.error(error.message);
-      toast.error(error.response.data.message);
       return rejectWithValue(error.response.data);
     }
   }
@@ -51,13 +50,12 @@ export const getAllAppointments = createAsyncThunk(
 
 export const studentAppointmentRequests = createAsyncThunk(
   "appointment/student/requests",
-  async ({ toast }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await api.studentAppointmentRequests();
       return response.data;
     } catch (error) {
       console.error(error.message);
-      toast.error(error.response.data.message);
       return rejectWithValue(error.response.data);
     }
   }

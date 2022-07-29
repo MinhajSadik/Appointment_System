@@ -37,9 +37,6 @@ const Register = () => {
     }
   }, [error, loading]);
 
-  //user roles name
-  //   const roleName = ["teacher", "student"];
-
   return (
     <div action="">
       <section className="h-screen">
