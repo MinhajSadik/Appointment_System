@@ -369,6 +369,14 @@ export const approveUserRegistrationRequest = async (req, res) => {
       }
     );
 
+    //check if user already exists
+    const oldUser = await UserModel.findOne({ email: request.email });
+    if (oldUser) {
+      return res.status(400).json({
+        message: `User with email ${request.email} already exists in the user list`,
+      });
+    }
+
     const newUser = await user.save();
 
     //delete request
@@ -395,14 +403,6 @@ export const rejectUserRegistrationRequest = async (req, res) => {
     if (!request) {
       return res.status(404).json({
         message: `User registration request with id ${id} does not exist`,
-      });
-    }
-
-    //check if user already exists
-    const user = await UserModel.findOne({ email: request.email });
-    if (user) {
-      return res.status(400).json({
-        message: `User with email ${request.email} already exists in the user list`,
       });
     }
 
