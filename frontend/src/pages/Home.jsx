@@ -12,9 +12,25 @@ const Home = () => {
         🎉 Welcome {`${user?.result?.name ? user.result.name : "Guest"}`} to
         Appointment System Home Page 🎉
       </h1>
+      <p className="font-bold text-gray-900 text-center mt-2">
+        Hereby, i have shared all types of user email and passwords for testing
+        purposes, there are three types of users that existed.
+      </p>
+      <p className="font-bold text-gray-900 text-center mt-2">
+        Email:
+        <span className="text-gray-900">
+          system@gmail.com | teacher@gmail.com | student@gmail.com
+          <br />
+          Password:
+          <span className="text-gray-900">
+            123456
+            <br />
+          </span>
+        </span>
+      </p>
       {/* teacher guideline section: */}
       {teacher && (
-        <div className="text-bottom mt-2 flex flex-col items-center">
+        <div className="text-bottom flex flex-col items-center">
           <h2 className="text-2xl font-bold text-gray-900 italic">
             Your Guidelines for using Appointment System
           </h2>
