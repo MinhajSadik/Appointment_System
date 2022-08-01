@@ -81,6 +81,7 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+//send user registration request
 export const userRegisterRequest = createAsyncThunk(
   "user/register/request",
   async ({ registerInfo, navigate, toast }, { rejectWithValue }) => {
@@ -99,6 +100,7 @@ export const userRegisterRequest = createAsyncThunk(
   }
 );
 
+//get all user requests
 export const userRegistrationRequests = createAsyncThunk(
   "user/register/requests",
   async (_, { rejectWithValue }) => {
@@ -118,7 +120,7 @@ export const approveRegistrationRequest = createAsyncThunk(
     try {
       const response = await api.approveRegistrationRequest(id);
       toast.success("Approved registration request");
-      navigate("/");
+      navigate(`/profile/${response.data.result._id}`);
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -262,7 +264,7 @@ const userSlice = createSlice({
     },
     [rejectRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.user = payload;
+      // state.user = payload;
     },
     [rejectRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;

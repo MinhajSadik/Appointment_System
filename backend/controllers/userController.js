@@ -248,8 +248,7 @@ export const sendRegistrationRequest = async (req, res) => {
   const { name, email, password, status, role } = req.body;
   try {
     //check if user already exists
-    let user = await UserModel.findOne({ email });
-    user = await UserRequestModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
     if (user) {
       return res.status(400).json({
@@ -290,7 +289,7 @@ export const sendRegistrationRequest = async (req, res) => {
     const request = await UserRequestModel.findOne({ email });
     if (request) {
       return res.status(400).json({
-        message: `User with email ${email} already requested`,
+        message: `User with email ${email} already requested, choose another email`,
       });
     }
     const savedUser = await requestUser.save();
