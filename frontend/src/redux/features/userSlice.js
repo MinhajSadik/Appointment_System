@@ -163,6 +163,11 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       localStorage.removeItem("token");
     },
+    // deleteOneUser: (state, action) => {
+    //   state.users = state.users.filter((user) => {
+    //     return user._id !== action.payload;
+    //   });
+    // },
   },
   extraReducers: {
     [loginUser.pending]: (state) => {
@@ -214,12 +219,9 @@ const userSlice = createSlice({
     [deleteUser.pending]: (state) => {
       state.isLoading = true;
     },
-    [deleteUser.fulfilled]: (state, { payload }) => {
+    [deleteUser.fulfilled]: (state) => {
       state.isLoading = false;
-      state.users.splice(
-        state.users.findIndex((user) => user.id === payload.id),
-        1
-      );
+      // state.users = state.users.filter((user) => user.id !== payload.id);
     },
     [deleteUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -228,9 +230,8 @@ const userSlice = createSlice({
     [userRegisterRequest.pending]: (state) => {
       state.isLoading = true;
     },
-    [userRegisterRequest.fulfilled]: (state, { payload }) => {
+    [userRegisterRequest.fulfilled]: (state) => {
       state.isLoading = false;
-      // state.user = payload;
     },
     [userRegisterRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -250,7 +251,7 @@ const userSlice = createSlice({
     [approveRegistrationRequest.pending]: (state) => {
       state.isLoading = true;
     },
-    [approveRegistrationRequest.fulfilled]: (state, { payload }) => {
+    [approveRegistrationRequest.fulfilled]: (state) => {
       state.isLoading = false;
     },
     [approveRegistrationRequest.rejected]: (state, { payload }) => {
@@ -260,7 +261,7 @@ const userSlice = createSlice({
     [rejectRegistrationRequest.pending]: (state) => {
       state.isLoading = true;
     },
-    [rejectRegistrationRequest.fulfilled]: (state, { payload }) => {
+    [rejectRegistrationRequest.fulfilled]: (state) => {
       state.isLoading = false;
     },
     [rejectRegistrationRequest.rejected]: (state, { payload }) => {
@@ -270,6 +271,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, logoutUser } = userSlice.actions;
+export const { setUser, logoutUser, deleteOneUser } = userSlice.actions;
 
 export default userSlice.reducer;

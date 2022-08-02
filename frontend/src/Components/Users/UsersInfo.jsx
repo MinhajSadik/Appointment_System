@@ -22,7 +22,6 @@ const UsersInfo = ({ userInfo, setUserInfo, setEdit, setIsOpen, user }) => {
 
   //delete user
   const handleDelete = (id) => {
-    console.log("delete", id);
     dispatch(deleteUser({ id, toast }));
   };
 
