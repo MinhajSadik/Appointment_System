@@ -183,6 +183,7 @@ const userSlice = createSlice({
     },
     [addUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
+      state.users = [...state.users, payload];
     },
     [addUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -193,7 +194,7 @@ const userSlice = createSlice({
     },
     [getAllUsers.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.users = payload;
+      state.users = [...payload];
     },
     [getAllUsers.rejected]: (state, { payload }) => {
       state.isLoading = false;

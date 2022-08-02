@@ -174,8 +174,7 @@ const appointmentSlice = createSlice({
     },
     [addNewAppointment.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.appointment = payload;
-      localStorage.setItem("appointments", JSON.stringify(payload));
+      state.appointments = [...state.appointments, payload];
     },
     [addNewAppointment.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -198,7 +197,7 @@ const appointmentSlice = createSlice({
     },
     [getAllAppointments.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.appointments = payload;
+      state.appointments = [...payload];
     },
     [getAllAppointments.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -220,8 +219,6 @@ const appointmentSlice = createSlice({
     },
     [updateAppointment.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.appointment = payload;
-      localStorage.setItem("appointments", JSON.stringify(payload));
     },
     [updateAppointment.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -232,8 +229,7 @@ const appointmentSlice = createSlice({
     },
     [deleteAppointment.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.appointment = payload;
-      localStorage.removeItem("appointments");
+      state.appointments.pop(payload);
     },
     [deleteAppointment.rejected]: (state, { payload }) => {
       state.loading = false;
