@@ -11,6 +11,7 @@ import {
 const RequestInfo = ({ appointmentRequests }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleApprove = (id) => {
     dispatch(approveStudentRequest({ id, navigate, toast }));
   };

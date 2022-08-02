@@ -2,7 +2,6 @@ import moment from "moment";
 import React, { useState } from "react";
 import { BiEdit, BiSave, BiTrash } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   deleteAppointment,
@@ -19,7 +18,6 @@ const initialState = {
 };
 const AppointmentInfo = ({ appointment }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [edit, setEdit] = useState(false);
   const [updatedAppointmentInfo, setUpdatedAppointmentInfo] =
     useState(initialState);
@@ -63,16 +61,14 @@ const AppointmentInfo = ({ appointment }) => {
     ) {
       toast.error("Please fill at least one field");
     } else {
-      dispatch(
-        updateAppointment({ updatedAppointmentInfo, id, navigate, toast })
-      );
+      dispatch(updateAppointment({ updatedAppointmentInfo, id, toast }));
       setUpdatedAppointmentInfo(initialState);
     }
     setEdit(!edit);
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteAppointment({ id, navigate, toast }));
+    dispatch(deleteAppointment({ id, toast }));
   };
 
   return (

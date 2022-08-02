@@ -117,7 +117,7 @@ export const approveRegistrationRequest = createAsyncThunk(
     try {
       const response = await api.approveRegistrationRequest(id);
       toast.success("Approved registration request");
-      navigate("/admin/dashboard");
+      navigate(`/users/${id}`);
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -133,7 +133,7 @@ export const rejectRegistrationRequest = createAsyncThunk(
     try {
       const response = await api.rejectRegistrationRequest(id);
       toast.success("Rejected registration request");
-      navigate("/admin/dashboard");
+      navigate(`/users/${id}`);
       return response.data;
     } catch (error) {
       console.error(error.message);

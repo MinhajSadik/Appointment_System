@@ -19,7 +19,7 @@ const Navbar = () => {
 
   //auto logout if token is expired
   const token = user?.token;
-  console.log("navbar token", token);
+  // console.log("navbar token", token);
   if (token) {
     const decoded = decode(token);
     const expriredTime = decoded.exp * 1000 < new Date().getTime();

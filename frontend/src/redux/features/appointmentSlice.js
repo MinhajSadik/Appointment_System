@@ -3,11 +3,10 @@ import * as api from "../api";
 
 export const addNewAppointment = createAsyncThunk(
   "appointment/addNew",
-  async ({ appointmentInfo, navigate, toast }, { rejectWithValue }) => {
+  async ({ appointmentInfo, toast }, { rejectWithValue }) => {
     try {
       const response = await api.addNewAppointment(appointmentInfo);
       toast.success("Successfully added appointment");
-      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -25,7 +24,7 @@ export const addNewAppointmentRequest = createAsyncThunk(
         appointmentRequestInfo
       );
       toast.success("Successfully requested appointment");
-      navigate("/");
+      navigate("/appointments");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -95,14 +94,10 @@ export const rejectStudentRequest = createAsyncThunk(
 
 export const updateAppointment = createAsyncThunk(
   "appointment/update",
-  async (
-    { updatedAppointmentInfo, id, navigate, toast },
-    { rejectWithValue }
-  ) => {
+  async ({ updatedAppointmentInfo, id, toast }, { rejectWithValue }) => {
     try {
       const response = await api.updateAppointment(updatedAppointmentInfo, id);
       toast.success("Successfully updated appointment");
-      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -114,11 +109,10 @@ export const updateAppointment = createAsyncThunk(
 
 export const deleteAppointment = createAsyncThunk(
   "appointment/delete",
-  async ({ id, navigate, toast }, { rejectWithValue }) => {
+  async ({ id, toast }, { rejectWithValue }) => {
     try {
       const response = await api.deleteAppointment(id);
       toast.success("Successfully deleted appointment");
-      navigate("/");
       return response.data;
     } catch (error) {
       console.error(error.message);
