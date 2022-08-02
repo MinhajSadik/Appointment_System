@@ -15,10 +15,7 @@ export const addAppointment = async (req, res) => {
       date,
       time,
     });
-    res.status(200).json({
-      message: `Appointment has been added successfully`,
-      result: appointment,
-    });
+    res.status(200).json(appointment);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

@@ -149,9 +149,24 @@ const appointmentSlice = createSlice({
     success: null,
   },
   reducers: {
-    setAppointments: (state, action) => {
-      state.appointments = action.payload;
+    addAppointment: (state, action) => {
+      // state.appointments.push(action.payload);
     },
+    // addAppointmentRequest: (state, action) => {
+    //   state.appointmentRequests.push(action.payload);
+    // },
+    // updateAppointment: (state, action) => {
+    //   const index = state.appointments.findIndex(
+    //     (appointment) => appointment.id === action.payload.id
+    //   );
+    //   state.appointments[index] = action.payload;
+    // },
+    // deleteAppointment: (state, action) => {
+    //   const index = state.appointments.findIndex(
+    //     (appointment) => appointment.id === action.payload.id
+    //   );
+    //   state.appointments.splice(index, 1);
+    // },
   },
   extraReducers: {
     [addNewAppointment.pending]: (state) => {
@@ -262,5 +277,5 @@ const appointmentSlice = createSlice({
   },
 });
 
-export const { setAppointments } = appointmentSlice.actions;
+export const { addAppointment } = appointmentSlice.actions;
 export default appointmentSlice.reducer;
