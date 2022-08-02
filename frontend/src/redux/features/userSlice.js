@@ -23,11 +23,10 @@ export const loginUser = createAsyncThunk(
 
 export const addUser = createAsyncThunk(
   "user/addUser",
-  async ({ userInfo, navigate, toast }, { rejectWithValue }) => {
+  async ({ userInfo, toast }, { rejectWithValue }) => {
     try {
       const response = await api.addUser(userInfo);
       toast.success("Successfully added user");
-      navigate(`/profile/${response.data.result._id}`);
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -52,11 +51,10 @@ export const getAllUsers = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   "user/update",
-  async ({ userInfo, id, navigate, toast }, { rejectWithValue }) => {
+  async ({ userInfo, id, toast }, { rejectWithValue }) => {
     try {
       const response = await api.updateUser(userInfo, id);
       toast.success("Successfully updated profile");
-      navigate("/appointments");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -68,11 +66,10 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   "user/delete",
-  async ({ id, navigate, toast }, { rejectWithValue }) => {
+  async ({ id, toast }, { rejectWithValue }) => {
     try {
       const response = await api.deleteUser(id);
       toast.success("Successfully deleted user");
-      navigate("/admin/dashboard");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -120,7 +117,7 @@ export const approveRegistrationRequest = createAsyncThunk(
     try {
       const response = await api.approveRegistrationRequest(id);
       toast.success("Approved registration request");
-      navigate(`/profile/${response.data.result._id}`);
+      navigate("/admin/dashboard");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -136,7 +133,7 @@ export const rejectRegistrationRequest = createAsyncThunk(
     try {
       const response = await api.rejectRegistrationRequest(id);
       toast.success("Rejected registration request");
-      navigate("/");
+      navigate("/admin/dashboard");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -186,7 +183,6 @@ const userSlice = createSlice({
     },
     [addUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.user = payload;
     },
     [addUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -208,8 +204,6 @@ const userSlice = createSlice({
     },
     [updateUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.user = payload;
-      localStorage.setItem("token", JSON.stringify({ ...payload }));
     },
     [updateUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -220,7 +214,6 @@ const userSlice = createSlice({
     },
     [deleteUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      // state.user = payload;
     },
     [deleteUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -231,7 +224,7 @@ const userSlice = createSlice({
     },
     [userRegisterRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.user = payload;
+      // state.user = payload;
     },
     [userRegisterRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -253,7 +246,6 @@ const userSlice = createSlice({
     },
     [approveRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.user = payload;
     },
     [approveRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -264,7 +256,6 @@ const userSlice = createSlice({
     },
     [rejectRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      // state.user = payload;
     },
     [rejectRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;

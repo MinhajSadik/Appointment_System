@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddUser from "../Components/Users/AddUser";
 import UsersInfo from "../Components/Users/UsersInfo";
@@ -20,7 +20,6 @@ const initialState = {
 
 const Users = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(initialState);
   const [isOpen, setIsOpen] = useState(false);
@@ -38,9 +37,9 @@ const Users = () => {
     e.preventDefault();
     //if all fields are filled
     if (!edit) {
-      dispatch(addUser({ userInfo, navigate, toast }));
+      dispatch(addUser({ userInfo, toast }));
     } else {
-      dispatch(updateUser({ userInfo, id, navigate, toast }));
+      dispatch(updateUser({ userInfo, id, toast }));
     }
     setUserInfo(initialState);
   };
@@ -62,7 +61,7 @@ const Users = () => {
 
   //delete user
   const handleDelete = (id) => {
-    dispatch(deleteUser({ id, navigate, toast }));
+    dispatch(deleteUser({ id, toast }));
   };
   useEffect(() => {
     dispatch(getAllUsers());
