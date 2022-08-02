@@ -194,7 +194,7 @@ const userSlice = createSlice({
     },
     [getAllUsers.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.users = [...payload];
+      state.users = payload;
     },
     [getAllUsers.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -215,6 +215,10 @@ const userSlice = createSlice({
     },
     [deleteUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
+      state.users.splice(
+        state.users.findIndex((user) => user.id === payload.id),
+        1
+      );
     },
     [deleteUser.rejected]: (state, { payload }) => {
       state.isLoading = false;

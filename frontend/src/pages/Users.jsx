@@ -4,12 +4,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AddUser from "../Components/Users/AddUser";
 import UsersInfo from "../Components/Users/UsersInfo";
-import {
-  addUser,
-  deleteUser,
-  getAllUsers,
-  updateUser,
-} from "../redux/features/userSlice";
+import { addUser, getAllUsers, updateUser } from "../redux/features/userSlice";
 
 const initialState = {
   name: "",
@@ -42,6 +37,7 @@ const Users = () => {
       dispatch(updateUser({ userInfo, id, toast }));
     }
     setUserInfo(initialState);
+    setIsOpen(false);
   };
 
   //open modal when click on add user
@@ -59,10 +55,6 @@ const Users = () => {
     setIsOpen(!isOpen);
   };
 
-  //delete user
-  const handleDelete = (id) => {
-    dispatch(deleteUser({ id, toast }));
-  };
   useEffect(() => {
     dispatch(getAllUsers());
   }, [dispatch]);
@@ -146,7 +138,6 @@ const Users = () => {
                     key={user._id}
                     user={user}
                     edit={edit}
-                    handleDelete={handleDelete}
                     setEdit={setEdit}
                     setIsOpen={setIsOpen}
                     userInfo={userInfo}

@@ -1,15 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { deleteUser } from "../../redux/features/userSlice";
 
-const UsersInfo = ({
-  userInfo,
-  setUserInfo,
-  setEdit,
-  setIsOpen,
-  user,
-  handleDelete,
-}) => {
+const UsersInfo = ({ userInfo, setUserInfo, setEdit, setIsOpen, user }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleEdit = (e) => {
     setIsOpen(true);
     setEdit(true);
@@ -20,6 +18,12 @@ const UsersInfo = ({
       role: user.role,
     });
     navigate(`/users/${user._id}`);
+  };
+
+  //delete user
+  const handleDelete = (id) => {
+    console.log("delete", id);
+    dispatch(deleteUser({ id, toast }));
   };
 
   return (
@@ -51,7 +55,7 @@ const UsersInfo = ({
       <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm">
         <button
           type="button"
-          onClick={() => handleEdit(user.id)}
+          onClick={() => handleEdit(user?._id)}
           className="flex items-center justify-center px-3 py-1 text-white bg-green-500 rounded-full hover:bg-green-700 focus:outline-none focus:shadow-outline"
         >
           EDIT

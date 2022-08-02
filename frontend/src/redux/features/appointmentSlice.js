@@ -219,6 +219,14 @@ const appointmentSlice = createSlice({
     },
     [updateAppointment.fulfilled]: (state, { payload }) => {
       state.loading = false;
+      //update appointment
+      // state.appointments = state.appointments.findIndex((appointment) => {
+      //   if (appointment.id === payload.id) {
+      //     return payload;
+      //   }
+      //   return appointment;
+      // });
+      state.appointment = payload;
     },
     [updateAppointment.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -229,7 +237,12 @@ const appointmentSlice = createSlice({
     },
     [deleteAppointment.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.appointments.pop(payload);
+      state.appointments.splice(
+        state.appointments.findIndex(
+          (appointment) => appointment.id === payload.id
+        ),
+        1
+      );
     },
     [deleteAppointment.rejected]: (state, { payload }) => {
       state.loading = false;
