@@ -57,8 +57,10 @@ function App() {
             </PrivateRoute>
           }
         />
+
         <Route
-          path="/admin/dashboard"
+          //optional paramater
+          path="/admin/dashboard/:id"
           element={
             <AdminRoute>
               <Dashboard />

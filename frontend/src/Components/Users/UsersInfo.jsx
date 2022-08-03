@@ -17,7 +17,7 @@ const UsersInfo = ({ userInfo, setUserInfo, setEdit, setIsOpen, user }) => {
       email: user.email,
       role: user.role,
     });
-    navigate(`/users/${user._id}`);
+    navigate(`/admin/dashboard/${user._id}`);
   };
 
   //delete user

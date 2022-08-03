@@ -98,7 +98,10 @@ const Navbar = () => {
           {systemAdmin && (
             <>
               <li className="w-full">
-                <Link className={navLink} to="/admin/dashboard">
+                <Link
+                  className={navLink}
+                  to={`/admin/dashboard/${user?.result?._id}`}
+                >
                   Dashboard
                 </Link>
               </li>
@@ -107,11 +110,11 @@ const Navbar = () => {
                   Appointments
                 </Link>
               </li>
-              <li className="w-full">
+              {/* <li className="w-full">
                 <Link className={navLink} to={`/users/${user?.result?._id}`}>
                   Users
                 </Link>
-              </li>
+              </li> */}
             </>
           )}
 
