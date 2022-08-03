@@ -14,7 +14,6 @@ import Appointments from "./pages/Appointments";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-import Users from "./pages/Users";
 import { setUser } from "./redux/features/userSlice";
 
 function App() {
@@ -33,14 +32,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register/request" element={<Register />} />
-        <Route
+        {/* <Route
           path="/users/:id/*"
           element={
             <AdminRoute>
               <Users />
             </AdminRoute>
           }
-        />
+        /> */}
         <Route
           path="/appointments"
           element={

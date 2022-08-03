@@ -378,11 +378,7 @@ export const approveUserRegistrationRequest = async (req, res) => {
     //delete request
     await UserRequestModel.findByIdAndDelete(id);
 
-    return res.status(200).json({
-      message: `User ${requestName} has been approved successfully`,
-      result: newUser,
-      token,
-    });
+    return res.status(200).json(newUser);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({

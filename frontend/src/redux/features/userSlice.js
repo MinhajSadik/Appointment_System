@@ -117,7 +117,8 @@ export const approveRegistrationRequest = createAsyncThunk(
     try {
       const response = await api.approveRegistrationRequest(id);
       toast.success("Approved registration request");
-      navigate(`/users/${id}`);
+      // navigate(`/users/${id}`);
+      navigate("/admin/dashboard");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -199,7 +200,7 @@ const userSlice = createSlice({
     },
     [getAllUsers.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.users = payload;
+      state.users = [...payload];
     },
     [getAllUsers.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -251,8 +252,9 @@ const userSlice = createSlice({
     [approveRegistrationRequest.pending]: (state) => {
       state.isLoading = true;
     },
-    [approveRegistrationRequest.fulfilled]: (state) => {
+    [approveRegistrationRequest.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
+      state.users = [...state.users, payload];
     },
     [approveRegistrationRequest.rejected]: (state, { payload }) => {
       state.isLoading = false;

@@ -60,7 +60,7 @@ const Users = () => {
   }, [dispatch]);
 
   return (
-    <div className="container mx-auto px-4 sm:px-8 max-w-3xl">
+    <div className="container sm:px-8 max-w-3xl">
       <AddUser
         isOpen={isOpen}
         handleClose={handleClose}
@@ -88,6 +88,7 @@ const Users = () => {
             )}
           </div>
         </div>
+
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
           <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
             <table className="min-w-full leading-normal">
@@ -132,19 +133,21 @@ const Users = () => {
                 </tr>
               </thead>
 
-              <tbody>
-                {users?.map((user) => (
-                  <UsersInfo
-                    key={user._id}
-                    user={user}
-                    edit={edit}
-                    setEdit={setEdit}
-                    setIsOpen={setIsOpen}
-                    userInfo={userInfo}
-                    setUserInfo={setUserInfo}
-                  />
-                ))}
-              </tbody>
+              {!isOpen && (
+                <tbody>
+                  {users?.map((user) => (
+                    <UsersInfo
+                      key={user._id}
+                      user={user}
+                      edit={edit}
+                      setEdit={setEdit}
+                      setIsOpen={setIsOpen}
+                      userInfo={userInfo}
+                      setUserInfo={setUserInfo}
+                    />
+                  ))}
+                </tbody>
+              )}
             </table>
           </div>
         </div>
