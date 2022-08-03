@@ -65,12 +65,12 @@ const RequestInfo = ({ appointmentRequest }) => {
         <div className="flex items-center justify-between">
           <p className="text-sm leading-none py-1 w-20">
             <span className="text-indigo-700 uppercase">
-              {appointmentRequest?.name}
+              @{appointmentRequest?.name}
             </span>
           </p>
           <p className="text-sm leading-none py-1 w-20">
             <span className="text-black">
-              {appointmentRequest?.role ? appointmentRequest?.role : "student"}
+              *{appointmentRequest?.role ? appointmentRequest?.role : "student"}
             </span>
           </p>
 

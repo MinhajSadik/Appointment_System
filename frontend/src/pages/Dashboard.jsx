@@ -168,12 +168,22 @@ const Dashboard = () => {
             </h2>
             <div className=" w-96 p-3 mt-2 bg-white rounded">
               <div className="pl-3">
-                {registrationRequests?.map((registrationRequest) => (
-                  <RegisterRequests
-                    key={registrationRequest._id}
-                    registrationRequest={registrationRequest}
-                  />
-                ))}
+                {registrationRequests.length > 0 ? (
+                  <>
+                    {registrationRequests?.map((registrationRequest) => (
+                      <RegisterRequests
+                        key={registrationRequest._id}
+                        registrationRequest={registrationRequest}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <p className="text-gray-500">
+                      There are no Registration Requests
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -182,12 +192,22 @@ const Dashboard = () => {
             </h2>
             <div className="w-96 p-3 mt-2 bg-white rounded">
               <div className="pl-3">
-                {appointmentRequests?.map((appointmentRequest) => (
-                  <RequestInfo
-                    key={appointmentRequest._id}
-                    appointmentRequest={appointmentRequest}
-                  />
-                ))}
+                {appointmentRequests.length > 0 ? (
+                  <>
+                    {appointmentRequests?.map((appointmentRequest) => (
+                      <RequestInfo
+                        key={appointmentRequest._id}
+                        appointmentRequest={appointmentRequest}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <p className="text-gray-500">
+                      There are no Registration Requests
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

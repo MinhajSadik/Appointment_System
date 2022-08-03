@@ -66,11 +66,12 @@ const RegisterRequests = ({ registrationRequest }) => {
         <div className="flex items-center justify-between">
           <p className="text-sm leading-none py-1 w-20">
             <span className="text-indigo-700 uppercase">
-              {registrationRequest?.name}
+              @{registrationRequest?.name}
             </span>
           </p>
           <p className="text-sm leading-none py-1 w-20">
             <span className="text-black">
+              *
               {registrationRequest?.role
                 ? registrationRequest?.role
                 : "student"}
