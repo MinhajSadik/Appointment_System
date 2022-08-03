@@ -25,10 +25,10 @@ const RegisterRequests = ({ registrationRequest }) => {
       <div className="flex-1 mb-5">
         <div className="flex items-center justify-between">
           <p className="text-sm leading-none py-1 w-72">
-            <span className="text-indigo-700 italic">
+            <span className="text-indigo-700 uppercase italic">
               {registrationRequest?.name}
             </span>{" "}
-            sent a registration request
+            <small>sent a registration request</small>
           </p>
           <p className="text-sm leading-none py-1">
             <span className="text-black">{registrationRequest?.email}</span>

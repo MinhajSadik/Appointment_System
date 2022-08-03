@@ -24,10 +24,10 @@ const RequestInfo = ({ appointmentRequest }) => {
       <div className="flex-1 mb-5">
         <div className="flex items-center justify-between">
           <p className="text-sm leading-none py-1 w-72">
-            <span className="text-indigo-700 italic">
+            <span className="text-indigo-700 uppercase italic">
               {appointmentRequest?.studentId?.name}
             </span>{" "}
-            sent an appointment request
+            <small>sent an appointment request</small>
           </p>
           <p className="text-sm leading-none py-1">
             <span className="text-black">
