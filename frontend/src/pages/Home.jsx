@@ -13,8 +13,8 @@ const Home = () => {
         Appointment System Home Page 🎉
       </h1>
       <p className="font-bold text-gray-900 text-center mt-2">
-        Hereby, i have shared all types of user email and passwords for testing
-        purposes, there are three types of users that existed.
+        Hereby, i have shared all types of user emails and passwords for testing
+        purposes, here have three types of users that exist.
       </p>
       <p className="font-bold text-gray-900 text-center mt-2">
         Email:

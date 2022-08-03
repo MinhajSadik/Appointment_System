@@ -23,7 +23,7 @@ const Users = () => {
     ...state.user,
   }));
 
-  console.log("id", id);
+  // console.log("id", id);
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });

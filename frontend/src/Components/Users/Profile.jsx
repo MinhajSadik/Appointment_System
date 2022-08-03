@@ -97,8 +97,16 @@ const Profile = () => {
                     </h3>
                     <p className="text-center mx-2 my-2">
                       {user?.result?.role === "teacher" && (
-                        <span>{`@${user?.result?.name} You have to Edit Your Profile Before Leave!`}</span>
+                        <span>{`${user?.result?.name} You have to Edit Your Profile Before Leave!`}</span>
                       )}
+                      <br />
+                      or
+                      <br />
+                      <span>
+                        {" "}
+                        you can edit just your department name for student
+                        request
+                      </span>
                     </p>
                     <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg w-full">
                       <div className="border-t border-gray-200">

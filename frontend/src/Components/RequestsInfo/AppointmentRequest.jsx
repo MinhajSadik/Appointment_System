@@ -5,17 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addNewAppointmentRequest } from "../../redux/features/appointmentSlice";
 
-const initialState = {
-  name: "",
-  course: "",
-  department: "",
-  agenda: "",
-  date: "",
-  time: "",
-  teacherId: "",
-};
-
-const AppointmentRequest = () => {
+const AppointmentRequest = ({ user }) => {
+  const initialState = {
+    name: "",
+    course: "",
+    department: "",
+    agenda: "",
+    date: "",
+    time: "",
+    teacherId: "",
+    studentId: user?.result?._id,
+  };
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { teachers } = useSelector((state) => ({ ...state.teacher }));
@@ -23,8 +23,10 @@ const AppointmentRequest = () => {
   const [appointmentRequestInfo, setAppointmentRequestInfo] =
     useState(initialState);
   const [toggleForm, setToggleForm] = useState(false);
-  const { name, course, department, agenda, date, time, teacherId } =
+  const { name, course, department, agenda, date, time, teacherId, studentId } =
     appointmentRequestInfo;
+
+  console.log(studentId);
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,6 +53,29 @@ const AppointmentRequest = () => {
     setAppointmentRequestInfo(initialState);
     setToggleForm(!toggleForm);
   };
+
+  const filteredDepartment = teachers.filter((teacher) => {
+    if (
+      teacher.department !== null &&
+      teacher.department !== undefined &&
+      teacher.department !== ""
+    ) {
+      return teacher;
+    }
+    return null;
+  });
+
+  const filteredTeacher = teachers.filter((teacher) => {
+    if (
+      teacher.department !== "" &&
+      teacher.department !== null &&
+      teacher.department !== undefined
+    ) {
+      return teacher;
+    }
+    return null;
+  });
+
   return (
     <div>
       <button
@@ -127,7 +152,7 @@ const AppointmentRequest = () => {
               >
                 <option value="">Select a Teacher</option>
                 {/* get accurate teacher id */}
-                {teachers.map((teacher) => (
+                {filteredTeacher.map((teacher) => (
                   <option key={teacher._id} value={teacher._id}>
                     {teacher.name}
                   </option>
@@ -152,7 +177,7 @@ const AppointmentRequest = () => {
                 className=" pl-2 max-w-lg block w-full h-10 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
               >
                 <option value="">Select an Department</option>
-                {teachers.map((teacher) => (
+                {filteredDepartment.map((teacher) => (
                   <option key={teacher._id} value={teacher.department}>
                     {teacher.department}
                   </option>

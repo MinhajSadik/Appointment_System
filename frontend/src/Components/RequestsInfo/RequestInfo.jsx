@@ -11,6 +11,7 @@ const RequestInfo = ({ appointmentRequest }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  console.log(appointmentRequest);
   const handleApprove = (id) => {
     dispatch(approveStudentRequest({ id, navigate, toast }));
   };
@@ -19,67 +20,26 @@ const RequestInfo = ({ appointmentRequest }) => {
     dispatch(rejectStudentRequest({ id, navigate, toast }));
   };
   return (
-    // <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 w-48">
-    //   <td className="">
-    //     <p className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-    //       {appointmentRequest?.name}
-    //     </p>
-    //   </td>
-    //   <td className="">
-    //     <p className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-    //       {appointmentRequest?.role ? appointmentRequest?.role : "student"}
-    //     </p>
-    //   </td>
-    //   <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-    //     <span className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded-full">
-    //       {appointmentRequest?.status}
-    //     </span>
-    //   </td>
-    //   <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-    //     <p className="">
-    //       {moment(appointmentRequest?.createdAt).format("MMM Do YYYY")}
-    //     </p>
-    //   </td>
-    //   <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-    //     <button
-    //       type="button"
-    //       onClick={() => handleApprove(appointmentRequest._id)}
-    //       className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-blue-600 text-white rounded-full hover:bg-red-700"
-    //     >
-    //       Approve
-    //     </button>
-    //   </td>
-    //   <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-    //     <button
-    //       type="button"
-    //       onClick={() => handleReject(appointmentRequest._id)}
-    //       className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-red-600 text-white rounded-full hover:bg-pink-700"
-    //     >
-    //       Reject
-    //     </button>
-    //   </td>
-    // </tr>
-
     <div className="pl-2 flex">
       <div className="flex-1 mb-5">
         <div className="flex items-center justify-between">
-          <p className="text-sm leading-none py-1 w-20">
-            <span className="text-indigo-700 uppercase">
-              @{appointmentRequest?.name}
-            </span>
+          <p className="text-sm leading-none py-1 w-72">
+            <span className="text-indigo-700 italic">
+              {appointmentRequest?.studentId?.name}
+            </span>{" "}
+            sent an appointment request
           </p>
-          <p className="text-sm leading-none py-1 w-20">
-            <span className="text-black">
-              *{appointmentRequest?.role ? appointmentRequest?.role : "student"}
-            </span>
-          </p>
-
           <p className="text-sm leading-none py-1">
-            <span className="text-xs inline-block py-1 px-1 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded-full">
-              {appointmentRequest?.status}
+            <span className="text-black">
+              {appointmentRequest?.studentId?.email}
             </span>
           </p>
         </div>
+        <p className="text-xs inline-block py-1 mr-3 leading-none text-center whitespace-nowrap font-bold text-white rounded-full ">
+          <span className="text-xs inline-block py-1 px-1 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded-full">
+            {appointmentRequest?.status}
+          </span>
+        </p>
         <button
           type="button"
           onClick={() => handleApprove(appointmentRequest._id)}
@@ -94,7 +54,7 @@ const RequestInfo = ({ appointmentRequest }) => {
         >
           Reject
         </button>
-        <p className="text-xs w-20 leading-3 mt-3 py-1 text-gray-500">
+        <p className="text-xs leading-3 mt-2 py-1 text-gray-500 w-48">
           {moment(appointmentRequest.createdAt).startOf().fromNow()}
         </p>
       </div>

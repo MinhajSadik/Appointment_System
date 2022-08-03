@@ -31,79 +31,11 @@ const Dashboard = () => {
 
   return (
     <>
-      {/* <div className="container mx-auto font-thin">
-        <h1 className="text-5xl mx-5 my-5">
-          {registrationRequests.length > 0
-            ? "Registration Requests"
-            : "There are no Registration Requests"}
-        </h1>
-        <table className="min-w-full text-center">
-          <thead className="border-b bg-gray-800">
-            <tr>
-              <th className="text-sm font-medium text-white px-6 py-4">Name</th>
-              <th className="text-sm font-medium text-white px-6 py-4">Role</th>
-              <th className="text-sm font-medium text-white px-6 py-4">
-                Status
-              </th>
-              <th className="text-sm font-medium text-white px-6 py-4">
-                Request Date
-              </th>
-              <th className="text-sm font-medium text-white px-6 py-4">
-                Action
-              </th>
-              <th className="text-sm font-medium text-white px-6 py-4">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {registrationRequests?.map((registrationRequest) => (
-              <RegisterRequests
-                key={registrationRequest._id}
-                registrationRequest={registrationRequest}
-              />
-            ))}
-          </tbody>
-        </table>
-        <h1 className="text-5xl mx-5 my-5 mt-10">
-          {appointmentRequests.length > 0
-            ? "Student Appointment Requests"
-            : "There are no Student Appointment Requests"}
-        </h1>
-        <table className="min-w-full text-center">
-          <thead className="border-b bg-gray-800">
-            <tr>
-              <th className="text-sm font-medium text-white px-6 py-4">Name</th>
-              <th className="text-sm font-medium text-white px-6 py-4">Role</th>
-              <th className="text-sm font-medium text-white px-6 py-4">
-                Status
-              </th>
-              <th className="text-sm font-medium text-white px-6 py-4">
-                Request Date
-              </th>
-              <th className="text-sm font-medium text-white px-6 py-4">
-                Action
-              </th>
-              <th className="text-sm font-medium text-white px-6 py-4">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {appointmentRequests?.map((appointmentRequests) => (
-              <RequestInfo
-                key={appointmentRequests._id}
-                appointmentRequests={appointmentRequests}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div> */}
-
       <div
         className="w-full flex absolute z-10 right-0 h-full overflow-x-hidden transform translate-x-0 transition ease-in-out duration-700"
         id="notification"
       >
+        {/* sidebar section here */}
         <Users />
         {!isOpen && (
           <div className="m-6 inline-flex 2xl:w-2/12 bg-gray-50  overflow-y-auto p-6 absolute right-0">
@@ -166,7 +98,7 @@ const Dashboard = () => {
             <h2 className="text-2xl text-gray-800 leading-normal pt-8 border-b pb-2 border-gray-300 ">
               Registration Request
             </h2>
-            <div className=" w-96 p-3 mt-2 bg-white rounded">
+            <div className=" w-auto p-3 mt-2 bg-white rounded">
               <div className="pl-3">
                 {registrationRequests.length > 0 ? (
                   <>
@@ -190,7 +122,7 @@ const Dashboard = () => {
             <h2 className="text-2xl text-gray-800 leading-normal pt-8 border-b pb-2 border-gray-300 ">
               Appointment Request
             </h2>
-            <div className="w-96 p-3 mt-2 bg-white rounded">
+            <div className="w-auto p-3 mt-2 bg-white rounded">
               <div className="pl-3">
                 {appointmentRequests.length > 0 ? (
                   <>

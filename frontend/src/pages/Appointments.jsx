@@ -18,6 +18,8 @@ const Appointments = () => {
     ...state.user,
   }));
 
+  // console.log(user);
+
   const filteredAppointment =
     appointments &&
     Object.values(appointments)
@@ -50,7 +52,7 @@ const Appointments = () => {
         Your Appointments
       </h1>
       {user?.result?.role === "student" ? (
-        <AppointmentRequest />
+        <AppointmentRequest user={user} key={user?.result?._id} />
       ) : (
         <AddAppointment />
       )}
