@@ -67,6 +67,7 @@ export const approveStudentRequest = createAsyncThunk(
       const response = await api.approveStudentAppointmentRequest(id);
       toast.success("Successfully approved appointment");
       navigate("/appointments");
+      // navigate(`/admin/dashboard/${id}`);
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -82,7 +83,7 @@ export const rejectStudentRequest = createAsyncThunk(
     try {
       const response = await api.rejectStudentAppointmentRequest(id);
       toast.success("Successfully rejected appointment");
-      navigate("/appointments");
+      navigate(`/admin/dashboard/${id}`);
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -150,23 +151,29 @@ const appointmentSlice = createSlice({
   },
   reducers: {
     addAppointment: (state, action) => {
-      // state.appointments.push(action.payload);
+      state.appointments.push(action.payload);
     },
-    // addAppointmentRequest: (state, action) => {
-    //   state.appointmentRequests.push(action.payload);
-    // },
-    // updateAppointment: (state, action) => {
-    //   const index = state.appointments.findIndex(
-    //     (appointment) => appointment.id === action.payload.id
-    //   );
-    //   state.appointments[index] = action.payload;
-    // },
-    // deleteAppointment: (state, action) => {
-    //   const index = state.appointments.findIndex(
-    //     (appointment) => appointment.id === action.payload.id
-    //   );
-    //   state.appointments.splice(index, 1);
-    // },
+    removeAppointment: (state, action) => {
+      const { id } = action.payload;
+      const newAppointments = state.appointments.filter(
+        (appointment) => appointment._id !== id
+      );
+      return { ...state, appointments: newAppointments };
+    },
+    approveStudentAppointment: (state, action) => {
+      const { id } = action.payload;
+      const newRequests = state.appointmentRequests.filter(
+        (request) => request._id !== id
+      );
+      return { ...state, appointmentRequests: newRequests };
+    },
+    rejectStudentAppointment: (state, action) => {
+      const { id } = action.payload;
+      const newRequests = state.appointmentRequests.filter(
+        (request) => request._id !== id
+      );
+      return { ...state, appointmentRequests: newRequests };
+    },
   },
   extraReducers: {
     [addNewAppointment.pending]: (state) => {
@@ -274,5 +281,10 @@ const appointmentSlice = createSlice({
   },
 });
 
-export const { addAppointment } = appointmentSlice.actions;
+export const {
+  addAppointment,
+  removeAppointment,
+  rejectStudentAppointment,
+  approveStudentAppointment,
+} = appointmentSlice.actions;
 export default appointmentSlice.reducer;

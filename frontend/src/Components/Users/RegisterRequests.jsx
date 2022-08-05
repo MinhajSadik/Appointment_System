@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   approveRegistrationRequest,
+  approveUserRequest,
   rejectRegistrationRequest,
+  rejectUserRequest,
 } from "../../redux/features/userSlice";
 
 const RegisterRequests = ({ registrationRequest }) => {
@@ -13,11 +15,25 @@ const RegisterRequests = ({ registrationRequest }) => {
   const navigate = useNavigate();
 
   const handleApprove = (id) => {
-    dispatch(approveRegistrationRequest({ id, navigate, toast }));
+    const confirm = window.confirm(
+      "Are you sure you want to approve this request?"
+    );
+    if (confirm) {
+      //approveUserRequest is an reducer for remove instently
+      dispatch(approveUserRequest({ id }));
+      dispatch(approveRegistrationRequest({ id, navigate, toast }));
+    }
   };
 
   const handleReject = (id) => {
-    dispatch(rejectRegistrationRequest({ id, navigate, toast }));
+    //prompt the user to confirm the action
+    const confirm = window.confirm(
+      "Are you sure you want to reject this request?"
+    );
+    if (confirm) {
+      dispatch(rejectUserRequest({ id }));
+      dispatch(rejectRegistrationRequest({ id, navigate, toast }));
+    }
   };
 
   return (
@@ -34,6 +50,12 @@ const RegisterRequests = ({ registrationRequest }) => {
             <span className="text-black">{registrationRequest?.email}</span>
           </p>
         </div>
+        <p className="text-sm leading-none py-1 w-72">
+          <small className="text-yellow-500">Role as a: </small>
+          <span className="text-indigo-700 italic">
+            {registrationRequest?.role}
+          </span>{" "}
+        </p>
         <p className="text-xs inline-block py-1 mr-3 leading-none text-center whitespace-nowrap font-bold text-white rounded-full">
           <span className="text-xs inline-block py-1 px-1 leading-none text-center whitespace-nowrap align-baseline font-bold bg-yellow-500 text-white rounded-full">
             {registrationRequest?.status}
@@ -53,7 +75,7 @@ const RegisterRequests = ({ registrationRequest }) => {
         >
           Reject
         </button>
-        <p className="text-xs w-48 leading-3 mt-2 py-1 text-gray-500">
+        <p className="text-xs w-48 leading-3 py-1 text-blue-600">
           {moment(registrationRequest.createdAt).startOf().fromNow()}
         </p>
       </div>

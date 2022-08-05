@@ -165,11 +165,27 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       localStorage.removeItem("token");
     },
-    // deleteOneUser: (state, action) => {
-    //   state.users = state.users.filter((user) => {
-    //     return user._id !== action.payload;
-    //   });
-    // },
+    deleteOneUser: (state, action) => {
+      const { id } = action.payload;
+      const newUser = state.users.filter((user) => user._id !== id);
+
+      // delete newUser[id];
+      return { ...state, users: newUser };
+    },
+    approveUserRequest: (state, action) => {
+      const { id } = action.payload;
+      const newRequests = state.registrationRequests.filter(
+        (request) => request._id !== id
+      );
+      return { ...state, registrationRequests: newRequests };
+    },
+    rejectUserRequest: (state, action) => {
+      const { id } = action.payload;
+      const newRequests = state.registrationRequests.filter(
+        (request) => request._id !== id
+      );
+      return { ...state, registrationRequests: newRequests };
+    },
   },
   extraReducers: {
     [loginUser.pending]: (state) => {
@@ -223,7 +239,6 @@ const userSlice = createSlice({
     },
     [deleteUser.fulfilled]: (state) => {
       state.isLoading = false;
-      // state.users = state.users.filter((user) => user.id !== payload.id);
     },
     [deleteUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
@@ -274,6 +289,12 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, logoutUser, deleteOneUser } = userSlice.actions;
+export const {
+  setUser,
+  logoutUser,
+  deleteOneUser,
+  approveUserRequest,
+  rejectUserRequest,
+} = userSlice.actions;
 
 export default userSlice.reducer;

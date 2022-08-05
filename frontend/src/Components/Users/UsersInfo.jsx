@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { deleteUser } from "../../redux/features/userSlice";
+import { deleteOneUser, deleteUser } from "../../redux/features/userSlice";
 
 const UsersInfo = ({ userInfo, setUserInfo, setEdit, setIsOpen, user }) => {
   const navigate = useNavigate();
@@ -22,7 +22,13 @@ const UsersInfo = ({ userInfo, setUserInfo, setEdit, setIsOpen, user }) => {
 
   //delete user
   const handleDelete = (id) => {
-    dispatch(deleteUser({ id, toast }));
+    const confirm = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (confirm) {
+      dispatch(deleteOneUser({ id }));
+      dispatch(deleteUser({ id, toast }));
+    }
   };
 
   return (

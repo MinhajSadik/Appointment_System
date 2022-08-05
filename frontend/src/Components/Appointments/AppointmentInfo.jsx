@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   deleteAppointment,
+  removeAppointment,
   updateAppointment,
 } from "../../redux/features/appointmentSlice";
 
@@ -30,7 +31,7 @@ const AppointmentInfo = ({ appointment }) => {
     updatedAppointmentInfo;
   const student = user?.result?.role === "student";
 
-  const handleEdit = (id) => {
+  const handleEdit = () => {
     setEdit(!edit);
     setUpdatedAppointmentInfo({
       ...appointment,
@@ -68,7 +69,11 @@ const AppointmentInfo = ({ appointment }) => {
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteAppointment({ id, toast }));
+    const confirm = window.confirm("Are you sure you want to delete this?");
+    if (confirm) {
+      dispatch(removeAppointment({ id }));
+      dispatch(deleteAppointment({ id, toast }));
+    }
   };
 
   return (

@@ -18,8 +18,6 @@ const Appointments = () => {
     ...state.user,
   }));
 
-  // console.log(user);
-
   const filteredAppointment =
     appointments &&
     Object.values(appointments)
