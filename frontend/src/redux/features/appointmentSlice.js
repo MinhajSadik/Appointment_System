@@ -153,6 +153,21 @@ const appointmentSlice = createSlice({
     addAppointment: (state, action) => {
       state.appointments.push(action.payload);
     },
+    updateOneAppointment: (state, action) => {
+      //it is not working
+      
+      // const { id, ...rest } = action.payload;
+      // const appointment = state.appointments.find(
+      //   (appointment) => appointment._id === id
+      // );
+      // return {
+      //   ...state,
+      //   appointments: state.appointments.map((appointment) =>
+      //     appointment._id === id ? { ...appointment, ...rest } : appointment
+      //   ),
+      //   appointment: { ...appointment, ...rest },
+      // };
+    },
     removeAppointment: (state, action) => {
       const { id } = action.payload;
       const newAppointments = state.appointments.filter(
@@ -226,7 +241,9 @@ const appointmentSlice = createSlice({
     },
     [updateAppointment.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.appointment = payload;
+      state.appointments = state.appointments.map((appointment) =>
+        appointment._id === payload._id ? payload : appointment
+      );
     },
     [updateAppointment.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -286,5 +303,6 @@ export const {
   removeAppointment,
   rejectStudentAppointment,
   approveStudentAppointment,
+  updateOneAppointment,
 } = appointmentSlice.actions;
 export default appointmentSlice.reducer;

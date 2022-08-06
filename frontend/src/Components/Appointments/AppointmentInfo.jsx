@@ -77,21 +77,23 @@ const AppointmentInfo = ({ appointment }) => {
   };
 
   return (
-    <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-      <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-        {edit ? (
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={onInputChange}
-            className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
-          />
-        ) : (
-          <p className="">{appointment?.name}</p>
-        )}
+    <tr>
+      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        <div class="flex items-center">
+          {edit ? (
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={onInputChange}
+              className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
+            />
+          ) : (
+            <p class="text-gray-900 whitespace-no-wrap">{appointment?.name}</p>
+          )}
+        </div>
       </td>
-      <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         {edit ? (
           <input
             type="text"
@@ -102,26 +104,33 @@ const AppointmentInfo = ({ appointment }) => {
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
-          <p className="">{appointment?.course}</p>
+          <p class="text-gray-900 whitespace-no-wrap">{appointment?.course}</p>
         )}
       </td>
-      <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-        {edit ? (
-          <input
-            type="text"
-            name="department"
-            id="department"
-            value={department}
-            onChange={onInputChange}
-            className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
-          />
-        ) : (
-          <span className="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-green-500 text-white rounded-full">
-            {appointment?.department}
-          </span>
-        )}
+
+      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+          {edit ? (
+            <input
+              type="text"
+              name="department"
+              id="department"
+              value={department}
+              onChange={onInputChange}
+              className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
+            />
+          ) : (
+            <>
+              <span
+                aria-hidden="true"
+                class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+              ></span>
+              <span class="relative">{appointment?.department}</span>
+            </>
+          )}
+        </span>
       </td>
-      <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         {edit ? (
           <input
             type="text"
@@ -132,10 +141,10 @@ const AppointmentInfo = ({ appointment }) => {
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
-          <p className="">{appointment?.agenda}</p>
+          <p class="text-gray-900 whitespace-no-wrap">{appointment?.agenda}</p>
         )}
       </td>
-      <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         {edit ? (
           <input
             type="date"
@@ -146,10 +155,12 @@ const AppointmentInfo = ({ appointment }) => {
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
-          <p className="">{moment(appointment?.date).format("MMM Do YYYY")}</p>
+          <p class="text-gray-900 whitespace-no-wrap">
+            {moment(appointment?.date).format("MMM Do YYYY")}
+          </p>
         )}
       </td>
-      <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         {edit ? (
           <input
             type="time"
@@ -160,41 +171,41 @@ const AppointmentInfo = ({ appointment }) => {
             className=" text-black max-w-lg block w-full h-5 pl-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md bg-cyan-300"
           />
         ) : (
-          <p className="">
+          <p class="text-gray-900 whitespace-no-wrap">
             {moment(appointment.time, "HH:mm").format("hh:mm a")}
           </p>
         )}
       </td>
-      <td>
-        {!student && (
-          <div className="flex">
+      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        {/* {!student && ( */}
+        <div className="flex">
+          <button
+            onClick={() => handleDelete(appointment?._id)}
+            type="button"
+            className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-500 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            <BiTrash />
+          </button>
+          {edit ? (
             <button
-              onClick={() => handleDelete(appointment?._id)}
+              onClick={() => handleSave(appointment?._id)}
               type="button"
-              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-500 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-yellow-500 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <BiTrash />
+              <BiSave />
             </button>
-            {edit ? (
-              <button
-                onClick={() => handleSave(appointment?._id)}
-                type="button"
-                className="p-1.5 mr-1.5 mt-1 rounded text-white bg-yellow-500 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                <BiSave />
-              </button>
-            ) : (
-              <button
-                type="button"
-                id="edit"
-                onClick={() => handleEdit(appointment?._id)}
-                className="p-1.5 mr-1.5 mt-1 rounded text-white bg-blue-400 hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                <BiEdit />
-              </button>
-            )}
-          </div>
-        )}
+          ) : (
+            <button
+              type="button"
+              id="edit"
+              onClick={() => handleEdit(appointment?._id)}
+              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-blue-400 hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <BiEdit />
+            </button>
+          )}
+        </div>
+        {/* )} */}
       </td>
     </tr>
   );

@@ -228,7 +228,10 @@ const userSlice = createSlice({
     },
     [updateUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.users = [...payload];
+      // state.users = [...payload];
+      state.users = state.users.map((user) =>
+        user._id === payload._id ? payload : user
+      );
     },
     [updateUser.rejected]: (state, { payload }) => {
       state.isLoading = false;
