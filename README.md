@@ -1,6 +1,8 @@
 # Appointment_System
 
-[Appointment_System](htpps://appointment-system.netlify.app)
+Live Link: [
+Appointment_System
+](https://appointment-system.netlify.app)
 
 NodeJS, ReactJS, MongoDB, Redux-Toolkit, etc
 
