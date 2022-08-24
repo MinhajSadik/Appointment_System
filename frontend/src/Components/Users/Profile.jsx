@@ -1,9 +1,9 @@
 import moment from "moment";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { updateUser } from "../../redux/features/userSlice";
+import { updateProfile } from "../../redux/features/userSlice";
 
 const initialState = {
   name: "",
@@ -17,7 +17,7 @@ const initialState = {
 };
 
 const Profile = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isLoggedIn } = useSelector((state) => ({
     ...state.user,
@@ -26,15 +26,15 @@ const Profile = () => {
   // const userId = user?.result?._id;
 
   const [edit, setEdit] = useState(false);
-  const [userInfo, setUserInfo] = useState(initialState);
+  const [profileInfo, setProfileInfo] = useState(initialState);
   const { name, email, course, department, agenda, date, time, role } =
-    userInfo;
+    profileInfo;
 
   const systemAdmin = user?.result?.role === "systemAdmin";
 
   const handleEdit = () => {
     if (!systemAdmin) {
-      setUserInfo({
+      setProfileInfo({
         name: user?.result?.name,
         email: user?.result?.email,
         course: user?.result?.course,
@@ -50,7 +50,7 @@ const Profile = () => {
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    setUserInfo({ ...userInfo, [name]: value });
+    setProfileInfo({ ...profileInfo, [name]: value });
   };
 
   const handleProfileUpdate = (e) => {
@@ -68,13 +68,12 @@ const Profile = () => {
       toast.error("Please fill all the fields");
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       toast.error("Please enter a valid email");
-    } else if (!moment(date, "YYYY-MM-DD", true).isValid()) {
-      toast.error("Please enter a valid date");
     } else if (!moment(time, "HH:mm", true).isValid()) {
       toast.error("Please enter a valid time");
     } else {
-      dispatch(updateUser({ userInfo, id, navigate, toast }));
-      setUserInfo(initialState);
+      // dispatch(updateOneUser({ userInfo, id, toast }));
+      dispatch(updateProfile({ profileInfo, id, toast }));
+      setProfileInfo(initialState);
     }
     setEdit(!edit);
   };
@@ -97,16 +96,10 @@ const Profile = () => {
                     </h3>
                     <p className="text-center mx-2 my-2">
                       {user?.result?.role === "teacher" && (
-                        <span>{`${user?.result?.name} You have to Edit Your Profile Before Leave!`}</span>
+                        <span>
+                          {`${user?.result?.name} You have to edit your profile before you leave!`}
+                        </span>
                       )}
-                      <br />
-                      or
-                      <br />
-                      <span>
-                        {" "}
-                        you can edit just your department name for student
-                        request
-                      </span>
                     </p>
                     <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg w-full">
                       <div className="border-t border-gray-200">

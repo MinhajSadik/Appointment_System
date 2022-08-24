@@ -12,6 +12,7 @@ import {
   logoutUser,
   rejectUserRegistrationRequest,
   sendRegistrationRequest,
+  updateProfile,
   updateUser,
 } from "../controllers/userController.js";
 import { isAuthenticatedUser } from "../middlewares/isAuthenticatedUser.js";
@@ -74,7 +75,18 @@ router.put(
   rejectUserRegistrationRequest
 );
 
-router.put("/update/:id", isAuthenticatedUser, updateUser);
+router.put(
+  "/update/profile/:id",
+  isAuthenticatedUser,
+  authorizeUserRoles(["student", "teacher"]),
+  updateProfile
+);
+router.put(
+  "/update/user/:id",
+  isAuthenticatedUser,
+  authorizeUserRoles(["systemAdmin"]),
+  updateUser
+);
 
 router.delete(
   "/delete/:id",

@@ -177,35 +177,39 @@ const AppointmentInfo = ({ appointment }) => {
         )}
       </td>
       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        {/* {!student && ( */}
-        <div className="flex">
-          <button
-            onClick={() => handleDelete(appointment?._id)}
-            type="button"
-            className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-500 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <BiTrash />
-          </button>
-          {edit ? (
+        {!student ? (
+          <div className="flex">
             <button
-              onClick={() => handleSave(appointment?._id)}
+              onClick={() => handleDelete(appointment?._id)}
               type="button"
-              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-yellow-500 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-500 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <BiSave />
+              <BiTrash />
             </button>
-          ) : (
-            <button
-              type="button"
-              id="edit"
-              onClick={() => handleEdit(appointment?._id)}
-              className="p-1.5 mr-1.5 mt-1 rounded text-white bg-blue-400 hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <BiEdit />
-            </button>
-          )}
-        </div>
-        {/* )} */}
+            {edit ? (
+              <button
+                onClick={() => handleSave(appointment?._id)}
+                type="button"
+                className="p-1.5 mr-1.5 mt-1 rounded text-white bg-yellow-500 hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <BiSave />
+              </button>
+            ) : (
+              <button
+                type="button"
+                id="edit"
+                onClick={() => handleEdit(appointment?._id)}
+                className="p-1.5 mr-1.5 mt-1 rounded text-white bg-blue-400 hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <BiEdit />
+              </button>
+            )}
+          </div>
+        ) : (
+          <>
+            <p>No Action</p>
+          </>
+        )}
       </td>
     </tr>
   );

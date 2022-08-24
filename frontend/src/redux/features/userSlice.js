@@ -49,12 +49,27 @@ export const getAllUsers = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  "user/update",
+  async ({ profileInfo, id, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.updateProfile(profileInfo, id);
+      toast.success("Successfully updated profile");
+      return response.data;
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const updateUser = createAsyncThunk(
   "user/update",
   async ({ userInfo, id, toast }, { rejectWithValue }) => {
     try {
       const response = await api.updateUser(userInfo, id);
-      toast.success("Successfully updated profile");
+      toast.success("Successfully updated User");
       return response.data;
     } catch (error) {
       console.error(error.message);
@@ -165,11 +180,14 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       localStorage.removeItem("token");
     },
+    updateOneUser: (state, action) => {
+      const { id } = action.payload;
+      const index = state.users.findIndex((u) => u._id === id);
+      state.users[index] = action.payload;
+    },
     deleteOneUser: (state, action) => {
       const { id } = action.payload;
       const newUser = state.users.filter((user) => user._id !== id);
-
-      // delete newUser[id];
       return { ...state, users: newUser };
     },
     approveUserRequest: (state, action) => {
@@ -223,12 +241,22 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.error = payload;
     },
+    [updateProfile.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [updateProfile.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.user = payload;
+    },
+    [updateProfile.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    },
     [updateUser.pending]: (state) => {
       state.isLoading = true;
     },
     [updateUser.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      // state.users = [...payload];
       state.users = state.users.map((user) =>
         user._id === payload._id ? payload : user
       );
@@ -295,6 +323,7 @@ const userSlice = createSlice({
 export const {
   setUser,
   logoutUser,
+  updateOneUser,
   deleteOneUser,
   approveUserRequest,
   rejectUserRequest,

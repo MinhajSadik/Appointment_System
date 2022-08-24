@@ -18,6 +18,8 @@ const Appointments = () => {
     ...state.user,
   }));
 
+  // const student = user?.result?.role === "student";
+
   const filteredAppointment =
     appointments &&
     Object.values(appointments)
@@ -130,11 +132,12 @@ const Appointments = () => {
                   Time
                 </th>
                 {/* edit and delete button */}
+
                 <th
                   scope="col"
                   class="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                 >
-                  Actions
+                  Action
                 </th>
               </tr>
             </thead>

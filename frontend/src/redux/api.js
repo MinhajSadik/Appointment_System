@@ -35,9 +35,13 @@ export const addUser = (userInfo) => API.post("/api/user/addUser", userInfo);
 //$GET: get all users [only admin can get all users]
 export const getAllUsers = () => API.get("/api/user/allUsers");
 
+//@PUT: update user profile [student and teacher can update their profile]
+export const updateProfile = (profileInfo, id) =>
+  API.put(`/api/user/update/profile/${id}`, profileInfo);
+
 //@PUT: update user [student and teacher can update their profile]
 export const updateUser = (userInfo, id) =>
-  API.put(`/api/user/update/${id}`, userInfo);
+  API.put(`/api/user/update/user/${id}`, userInfo);
 
 //$PUT: delete user [only admin can delete user]
 export const deleteUser = (id) => API.delete(`/api/user/delete/${id}`);

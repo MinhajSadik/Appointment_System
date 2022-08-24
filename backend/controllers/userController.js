@@ -105,7 +105,7 @@ export const getAllUsers = async (req, res) => {
 };
 
 //update user by id
-export const updateUser = async (req, res) => {
+export const updateProfile = async (req, res) => {
   const { id } = req.params;
   const { name, email, course, department, agenda, date, time, role } =
     req.body;
@@ -140,6 +140,38 @@ export const updateUser = async (req, res) => {
     });
   } catch (error) {
     console.error(error.message);
+    return res.status(500).json({
+      message: `Server Error: ${error.message}`,
+    });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, role } = req.body;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) return false;
+
+    const user = await UserModel.findById(id).select("-password -__v");
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `User with id ${id} does not exist` });
+    }
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        name,
+        email,
+        role,
+      },
+      { new: true }
+    );
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log(error.message);
     return res.status(500).json({
       message: `Server Error: ${error.message}`,
     });
