@@ -50,7 +50,7 @@ export const getAllUsers = createAsyncThunk(
 );
 
 export const updateProfile = createAsyncThunk(
-  "user/update",
+  "user/update/profile",
   async ({ profileInfo, id, toast }, { rejectWithValue }) => {
     try {
       const response = await api.updateProfile(profileInfo, id);
