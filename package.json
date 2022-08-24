@@ -8,8 +8,9 @@
   "author": "MinhajSadik",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "server": "nodemon backend/app",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
